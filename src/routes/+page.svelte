@@ -15,6 +15,7 @@
     let searchDFlexElement: HTMLDivElement;
     let searchRecommendationCollapseElement: HTMLDivElement;
     let searchRecommendationCollapse: Collapse;
+    let recommendationArrived: boolean = false;
 
     onMount((): void =>
     {
@@ -37,7 +38,12 @@
         }
         else
         {
+            recommendationArrived = false;
             searchRecommendationCollapse.show();
+            setTimeout((): void =>
+            {
+                recommendationArrived = true;
+            }, 1000);
         }
     }
 </script>
@@ -67,9 +73,19 @@
             </div>
         </div>
         <div class="collapse" id="search-recommendation-collapse" bind:this={searchRecommendationCollapseElement}>
-            <div class="card card-body">
-                Recommendations hehe
-            </div>
+            {#if recommendationArrived}
+                <div class="list-group">
+                    {#each [...Array(5).keys()] as i}
+                        <button type="button" class="list-group-item list-group-item-action placeholder-wave">{Math.random().toString(36).substring(5)}</button>
+                    {/each}
+                </div>
+            {:else}
+                <div class="list-group">
+                    {#each [...Array(5).keys()] as i}
+                        <button type="button" class="list-group-item list-group-item-action placeholder-wave"><span class="placeholder col-4"></span></button>
+                    {/each}
+                </div>
+            {/if}
         </div>
     </div>
     <div class="mt-1">
