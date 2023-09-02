@@ -8,6 +8,38 @@
     import painting from "$lib/assets/painting.webp"
     import cleaning from "$lib/assets/cleaning.webp"
     import shifting from "$lib/assets/shifting.webp"
+    import { onMount } from 'svelte';
+    import { Collapse } from 'bootstrap';
+
+    let searchTerm: string;
+    let searchDFlexElement: HTMLDivElement;
+    let searchRecommendationCollapseElement: HTMLDivElement;
+    let searchRecommendationCollapse: Collapse;
+
+    onMount((): void =>
+    {
+        searchRecommendationCollapse = new Collapse(searchRecommendationCollapseElement,
+        {
+            toggle: false
+        });
+    });
+
+    function StartSearch(): void
+    {
+        searchDFlexElement.scrollIntoView();
+    }
+
+    function SearchInputUpdate(event: Event): void
+    {
+        if(searchTerm.length == 0)
+        {
+            searchRecommendationCollapse.hide();
+        }
+        else
+        {
+            searchRecommendationCollapse.show();
+        }
+    }
 </script>
 
 <svelte:head>
@@ -27,7 +59,20 @@
             </div>
         </div>
     </div>
-    <div class="mt-5">
+    <div class="ps-3 pe-3 mt-5">
+        <div class="d-flex" bind:this={searchDFlexElement}>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Search Service" aria-label="Search Service" aria-describedby="search-service-button" bind:value={searchTerm} on:click={StartSearch} on:input={SearchInputUpdate}>
+                <button class="btn btn-secondary" type="button" id="search-service-button">Search</button>
+            </div>
+        </div>
+        <div class="collapse" id="search-recommendation-collapse" bind:this={searchRecommendationCollapseElement}>
+            <div class="card card-body">
+                Recommendations hehe
+            </div>
+        </div>
+    </div>
+    <div class="mt-1">
         <p class="fs-3 mb-1">For your home</p>
         <div class="home-services-list d-flex">
             <ServiceCard imageSrc={stove} serviceText={"Stove Services"}/>
