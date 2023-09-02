@@ -1,12 +1,15 @@
 <script lang="ts">
     import { goto } from "$app/navigation";
+    import { fade } from "svelte/transition";
     import PageHeader from "$lib/components/page-header.svelte";
     import { Modal } from "bootstrap";
     import { onMount } from "svelte";
+    import bg from "$lib/assets/login-bg.webp"
 
     let modalHtmlElement: HTMLElement;
     let pageLoaded: boolean = false;
     let redirect_path: string;
+    let showBg: boolean = false;
 
     onMount((): void => 
     {
@@ -23,6 +26,11 @@
 
             pageLoaded = true;
         }
+
+        setTimeout((): void =>
+        {
+            showBg = true;
+        }, 500);
     });
 
     function GotoHome(): void
@@ -41,6 +49,13 @@
 </svelte:head>
 
 <div class="login-root">
+    {#if showBg}
+        <div class="d-flex flex-row flex-fill" transition:fade={{duration: 500}}>
+            <div class="d-flex flex-column flex-fill">
+                <img src={bg} alt="background"/>
+            </div>
+        </div>
+    {/if}
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="false" bind:this={modalHtmlElement}>
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
