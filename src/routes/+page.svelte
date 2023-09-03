@@ -10,6 +10,8 @@
     import shifting from "$lib/assets/shifting.webp"
     import { onMount } from 'svelte';
     import { Collapse } from 'bootstrap';
+    import Footer from '$lib/components/footer.svelte';
+    import { fade } from 'svelte/transition';
 
     let searchTerm: string;
     let searchDFlexElement: HTMLDivElement;
@@ -56,7 +58,7 @@
 
 <div class="home-root">
     <div class="home-image-container mt-5">
-        <img src={handyman} class="home-image rounded" alt="Handyman">
+        <img src={handyman} class="home-image rounded" alt="handyman" in:fade={{duration: 500}}>
         <div class="home-image-content">
             <p class="home-image-heading fw-semibold fs-1">One-stop solution to all your services</p>
             <div class="d-flex align-items-center">
@@ -100,6 +102,8 @@
     </div>
 </div>
 
+<Footer />
+
 <style lang="scss">
     .home-root
     {
@@ -133,7 +137,6 @@
 
     .home-services-list
     {
-        // max-width: 100%;
         overflow-x: auto;
     }
 </style>
