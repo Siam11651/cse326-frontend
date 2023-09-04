@@ -3,6 +3,8 @@
 
     export let userNameValue: string;
     export let emailValue: string;
+    export let nameInvalid: boolean;
+    export let emailInvalid: boolean;
 </script>
 
 <div class="signup-name-root" in:fade={{duration: 500}}>
@@ -11,12 +13,12 @@
     </h5>
     
     <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="signup-username-input" placeholder="Username" bind:value={userNameValue}>
+        <input type="text" class="form-control {nameInvalid ? "is-invalid" : ""}" id="signup-username-input" placeholder="Username" bind:value={userNameValue}>
         <label for="signup-username-input">Username</label>
     </div>
     
     <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="signup-email-input" placeholder="Email" bind:value={emailValue}>
+        <input type="text" class="form-control {emailInvalid ? "is-invalid" : ""}" id="signup-email-input" placeholder="Email" bind:value={emailValue}>
         <label for="signup-email-input">Email</label>
     </div>
     

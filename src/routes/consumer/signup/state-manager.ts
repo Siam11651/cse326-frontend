@@ -1,4 +1,5 @@
 import type { SignupArgs } from "./signup-args";
+import { InvalidEmailError, InvalidUserNameError, InvalidUsernameEmailError } from "./signup-errors";
 
 export class StateManager
 {
@@ -19,8 +20,21 @@ export class StateManager
     {
         if(currentState == 0)
         {
-            StateManager.SetUsername(args.username);
-            StateManager.SetEmail(args.email);
+            let usernameValid = StateManager.SetUsername(args.username);
+            let emailValid = StateManager.SetEmail(args.email);
+
+            if(!usernameValid && !emailValid)
+            {
+                throw new InvalidUsernameEmailError();
+            }
+            else if(!usernameValid)
+            {
+                throw new InvalidUserNameError();
+            }
+            else if(!emailValid)
+            {
+                throw new InvalidEmailError();
+            }
         }
         else if(currentState == 1)
         {
@@ -43,6 +57,21 @@ export class StateManager
 
     private static SetUsername(username: string | null): boolean
     {
+        if(username == null)
+        {
+            return false;
+        }
+
+        if(username.length == 0)
+        {
+            return false;
+        }
+
+        if(username.includes(" "))
+        {
+            return false;
+        }
+
         StateManager.username = username;
 
         return true;
@@ -50,6 +79,16 @@ export class StateManager
 
     private static SetEmail(email: string | null): boolean
     {
+        if(email == null)
+        {
+            return false;
+        }
+
+        if(email.length == 0)
+        {
+            return false;
+        }
+
         StateManager.email = email;
 
         return true;

@@ -6,29 +6,51 @@
     import bg from "$lib/assets/home-delivery-man.webp"
     import Contact from "$lib/components/signup/contact.svelte";
     import { StateManager } from "./state-manager";
+    import { Toast } from "bootstrap";
+    import { onMount } from "svelte";
+    import { SignupErrorHandler } from "./signup-error-handler";
+    import { InputValidityStatus } from "./input-validity-status";
 
     let stateContainer: HTMLDivElement;
+    let invalidUsernameToastElement: HTMLDivElement;
+    let invalidEmailToastElement: HTMLDivElement;
     let userNameValue: string;
     let emailValue: string;
     let passwordValue: string;
     let pfpValues: FileList;
     let contactValue: string;
     let nidValue: string;
+    let state: number = 0;
+    let inputValidityStatus: InputValidityStatus = new InputValidityStatus();
 
     $: stateContainerHeight = stateContainer?.offsetHeight ?? 0;
-    let state: number = 0;
+
+    onMount(() =>
+    {
+        SignupErrorHandler.SetInvalidUsernameToast(new Toast(invalidUsernameToastElement));
+        SignupErrorHandler.SetInvalidEmailToast(new Toast(invalidEmailToastElement));
+    });
 
     async function GoNext(): Promise<void>
     {
-        state = await StateManager.GoNext(state,
+        inputValidityStatus.Reset();
+
+        try
         {
-            username: userNameValue,
-            email: emailValue,
-            password: passwordValue,
-            pfp: pfpValues?.item(0) ?? null,
-            contact: contactValue,
-            nid: nidValue
-        });
+            state = await StateManager.GoNext(state,
+            {
+                username: userNameValue,
+                email: emailValue,
+                password: passwordValue,
+                pfp: pfpValues?.item(0) ?? null,
+                contact: contactValue,
+                nid: nidValue
+            });
+        }
+        catch(err: any)
+        {
+            inputValidityStatus = SignupErrorHandler.HandleError(err);
+        }
 
         if(state == StateManager.GetStateCount())
         {
@@ -68,7 +90,7 @@
                 <div class="p-1" style="height: {stateContainerHeight}px; overflow: hidden; transition: height 300ms ease">
                     {#if state == 0}
                         <div bind:this={stateContainer}>
-                            <Names bind:userNameValue={userNameValue} bind:emailValue={emailValue} />
+                            <Names nameInvalid={inputValidityStatus.nameInvalid} emailInvalid={inputValidityStatus.emailInvalid} bind:userNameValue={userNameValue} bind:emailValue={emailValue} />
                         </div>
                     {:else if state == 1}
                         <div bind:this={stateContainer}>
@@ -92,6 +114,28 @@
                     <button type="button" class="btn btn-primary" on:click={GoNext}>Next</button>
                 {/if}
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="toast-container bottom-0 end-0 p-3">
+    <div class="toast text-bg-danger" role="alert" aria-live="assertive" aria-atomic="true" bind:this={invalidUsernameToastElement}>
+        <div class="toast-header">
+          <strong class="me-auto">Invalid Username</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            Username must be non-empty and should have no spaces
+        </div>
+    </div>
+
+    <div class="toast text-bg-danger" role="alert" aria-live="assertive" aria-atomic="true" bind:this={invalidEmailToastElement}>
+        <div class="toast-header">
+          <strong class="me-auto">Invalid Email</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            Input valid email
         </div>
     </div>
 </div>

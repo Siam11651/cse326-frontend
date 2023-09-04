@@ -7,3 +7,8 @@ export class InvalidEmailError extends Error
 {
     
 }
+
+export class InvalidUsernameEmailError extends Error
+{
+    
+}
