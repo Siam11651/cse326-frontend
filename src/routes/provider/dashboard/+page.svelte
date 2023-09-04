@@ -55,9 +55,7 @@
 </svelte:head>
 
 <div class="dashboard-root d-flex flex-column">
-    <div class="nav-partition">
-        <Navbar />
-    </div>
+    <Navbar />
     <div class="main-partition d-flex flex-column align-item-center justify-content-center">
         <div class="dashboard-container d-flex align-items-center shadow-lg rounded" in:fly={{duration: 500}}>
             <div class="side-menu d-flex flex-column align-items-center border-end">
@@ -99,14 +97,10 @@
         right: 0;
     }
 
-    .nav-partition
-    {
-        height: 5%;
-    }
-
     .main-partition
     {
         height: 95%;
+        max-height: 95%;
     }
 
     .dashboard-container
