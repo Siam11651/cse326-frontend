@@ -20,6 +20,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@supabase/supabase-js": "^2.33.1",
 		"@types/bootstrap": "^5.2.6",
 		"@types/pg": "^8.10.2",
 		"bootstrap": "^5.3.1",

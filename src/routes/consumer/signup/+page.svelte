@@ -49,7 +49,6 @@
             body: requestBodyString
         }).then((response: Response): void =>
         {
-
         });
     }
 </script>
