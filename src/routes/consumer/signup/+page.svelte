@@ -16,7 +16,8 @@
     let invalidEmailToastElement: HTMLDivElement;
     let userNameValue: string;
     let emailValue: string;
-    let passwordValue: string;
+    let passwordValue0: string;
+    let passwordValue1: string;
     let pfpValues: FileList;
     let contactValue: string;
     let nidValue: string;
@@ -41,7 +42,8 @@
             {
                 username: userNameValue,
                 email: emailValue,
-                password: passwordValue,
+                password0: passwordValue0,
+                password1: passwordValue1,
                 pfp: pfpValues?.item(0) ?? null,
                 contact: contactValue,
                 nid: nidValue
@@ -64,7 +66,7 @@
         {
             username: userNameValue,
             email: emailValue,
-            password: passwordValue,
+            password: passwordValue0,
             pfp: pfpValues?.item(0) ?? null,
             contact: contactValue,
             nid: nidValue
@@ -94,7 +96,7 @@
                         </div>
                     {:else if state == 1}
                         <div bind:this={stateContainer}>
-                            <Password bind:passwordValue={passwordValue} />
+                            <Password bind:passwordValue0={passwordValue0} bind:passwordValue1={passwordValue1} />
                         </div>
                     {:else if state == 2}
                         <div bind:this={stateContainer}>

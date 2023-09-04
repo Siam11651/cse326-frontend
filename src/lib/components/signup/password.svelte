@@ -1,7 +1,8 @@
 <script lang="ts">
     import { fade } from "svelte/transition";
 
-    export let passwordValue: string;
+    export let passwordValue0: string;
+    export let passwordValue1: string;
 </script>
 
 <div class="signup-password-root" in:fade={{duration: 500}}>
@@ -10,12 +11,12 @@
     </h5>
     
     <div class="form-floating mb-3">
-        <input type="password" class="form-control" id="signup-password-input" placeholder="Password" bind:value={passwordValue}>
+        <input type="password" class="form-control" id="signup-password-input" placeholder="Password" bind:value={passwordValue0}>
         <label for="signup-password-input">Password</label>
     </div>
     
     <div class="form-floating mb-3">
-        <input type="password" class="form-control" id="signup-password-confirm-input" placeholder="Confirm Password">
+        <input type="password" class="form-control" id="signup-password-confirm-input" placeholder="Confirm Password" bind:value={passwordValue1}>
         <label for="signup-password-confirm-input">Confirm Password</label>
     </div>
     

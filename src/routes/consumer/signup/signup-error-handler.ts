@@ -1,5 +1,5 @@
 import type { Toast } from "bootstrap";
-import { InvalidEmailError, InvalidUserNameError, InvalidUsernameEmailError } from "./signup-errors";
+import { EmptyPasswordField0, EmptyPasswordField1, EmptyPasswordFieldBoth, InvalidEmailError, InvalidUserNameError, InvalidUsernameEmailError, PasswordsDontMatch } from "./signup-errors";
 import { InputValidityStatus } from "./input-validity-status";
 
 export class SignupErrorHandler
@@ -40,6 +40,23 @@ export class SignupErrorHandler
 
             SignupErrorHandler.invalidUsernameToast.show();
             SignupErrorHandler.invalidEmailToast.show();
+        }
+        else if(err instanceof EmptyPasswordField0)
+        {
+            inputValidityStatus.password0Invalid = true;
+        }
+        else if(err instanceof EmptyPasswordField1)
+        {
+            inputValidityStatus.password1Invalid = true;
+        }
+        else if(err instanceof EmptyPasswordFieldBoth)
+        {
+            inputValidityStatus.password0Invalid = true;
+            inputValidityStatus.password1Invalid = true;
+        }
+        else if(err instanceof PasswordsDontMatch)
+        {
+
         }
 
         return inputValidityStatus;

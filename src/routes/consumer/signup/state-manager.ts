@@ -1,5 +1,5 @@
 import type { SignupArgs } from "./signup-args";
-import { InvalidEmailError, InvalidUserNameError, InvalidUsernameEmailError } from "./signup-errors";
+import { EmptyPasswordField0, EmptyPasswordField1, EmptyPasswordFieldBoth, InvalidEmailError, InvalidUserNameError, InvalidUsernameEmailError, PasswordsDontMatch } from "./signup-errors";
 
 export class StateManager
 {
@@ -38,7 +38,24 @@ export class StateManager
         }
         else if(currentState == 1)
         {
-            StateManager.SetPasswordHash(args.password);
+            let returnValue: number = StateManager.SetPasswordHash(args.password0, args.password1);
+
+            if(returnValue == -1)
+            {
+                throw new EmptyPasswordFieldBoth();
+            }
+            else if(returnValue == -2)
+            {
+                throw new EmptyPasswordField0();
+            }
+            else if(returnValue == -3)
+            {
+                throw new EmptyPasswordField1();
+            }
+            else if(returnValue == -4)
+            {
+                throw new PasswordsDontMatch();
+            }
         }
         else if(currentState == 2)
         {
@@ -94,11 +111,46 @@ export class StateManager
         return true;
     }
 
-    private static SetPasswordHash(password: string | null): boolean
+    private static SetPasswordHash(password0: string | null, password1: string | null): number
     {
-        StateManager.passwordHash = password;
+        if(password0 == null && password1 == null)
+        {
+            return -1;  // both of the fields empty
+        }
 
-        return true;
+        if(password0 == null)
+        {
+            return -2; // first field empty
+        }
+
+        if(password1 == null)
+        {
+            return -3; // second field empty
+        }
+
+        if(password0.length == 0 && password1.length == 0)
+        {
+            return -1;
+        }
+
+        if(password0.length == 0)
+        {
+            return -2;
+        }
+
+        if(password1.length == 0)
+        {
+            return -3;
+        }
+
+        if(!password0.match(password1))
+        {
+            return -4;  // passwords don't match
+        }
+
+        StateManager.passwordHash = password0;
+
+        return 0; // success
     }
 
     private static async SetPfp(pfp: File | null): Promise<boolean>
