@@ -3,10 +3,10 @@
 </script>
 
 <div class="services-root flex-fill d-flex flex-column justify-content-between" in:fade={{duration: 200}}>
-    <div class="services-list flex-wrap">
-        <h4 class="header">Services:</h4>
+    <h4 class="header">Services:</h4>
+    <div class="services-list">
         <div class="list-group">
-            {#each [...Array(5).keys()] as i}
+            {#each [...Array(15).keys()] as i}
                 <div class="d-flex align-items-center list-group-item">
                     <div class="flex-grow-1 d-flex justify-content-between align-items-center">
                         <div class="m-1">

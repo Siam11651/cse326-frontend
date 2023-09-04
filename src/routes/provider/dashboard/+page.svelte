@@ -55,8 +55,10 @@
 </svelte:head>
 
 <div class="dashboard-root d-flex flex-column">
-    <Navbar />
-    <div class="d-flex flex-column align-item-center justify-content-center flex-fill">
+    <div class="nav-partition">
+        <Navbar />
+    </div>
+    <div class="main-partition d-flex flex-column align-item-center justify-content-center">
         <div class="dashboard-container d-flex align-items-center shadow-lg rounded" in:fly={{duration: 500}}>
             <div class="side-menu d-flex flex-column align-items-center border-end">
                 <img class="profile-picture rounded mb-1" src={mikasa} alt="pp"/>
@@ -95,6 +97,16 @@
         bottom: 0;
         left: 0;
         right: 0;
+    }
+
+    .nav-partition
+    {
+        height: 5%;
+    }
+
+    .main-partition
+    {
+        height: 95%;
     }
 
     .dashboard-container
