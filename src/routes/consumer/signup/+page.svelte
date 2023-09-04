@@ -4,10 +4,16 @@
     import Password from "$lib/components/signup/password.svelte";
     import { fade } from "svelte/transition";
     import bg from "$lib/assets/home-delivery-man.webp"
+    import Contact from "$lib/components/signup/contact.svelte";
 
     let state: number = 0;
-    const MAX_STATES: number = 2;
+    const MAX_STATES: number = 3;
     let stateContainer: HTMLDivElement;
+    let userNameValue: string;
+    let emailValue: string;
+    let passwordValue: string;
+    let contactValue: string;
+    let nidValue: string;
 
     $: stateContainerHeight = stateContainer?.offsetHeight ?? 0;
 
@@ -23,7 +29,28 @@
 
     function SignUp(): void
     {
+        let requestBodyObject =
+        {
+            name: userNameValue,
+            password_hash: passwordValue,
+            contact: contactValue,
+            nid: nidValue
+        };
 
+        let requestBodyString = JSON.stringify(requestBodyObject);
+
+        fetch("/api/consumer/signup", 
+        {
+            method: "POST",
+            headers:
+            {
+                "Content-Type": "application/json"
+            },
+            body: requestBodyString
+        }).then((response: Response): void =>
+        {
+
+        });
     }
 </script>
 
@@ -45,11 +72,15 @@
                 <div class="p-1" style="height: {stateContainerHeight}px; overflow: hidden; transition: height 300ms ease">
                     {#if state == 0}
                         <div bind:this={stateContainer}>
-                            <Names />
+                            <Names bind:userNameValue={userNameValue} bind:emailValue={emailValue} />
                         </div>
                     {:else if state == 1}
                         <div bind:this={stateContainer}>
-                            <Password />
+                            <Password bind:passwordValue={passwordValue} />
+                        </div>
+                    {:else if state == 2}
+                        <div bind:this={stateContainer}>
+                            <Contact bind:contactValue={contactValue} bind:nidValue={nidValue} />
                         </div>
                     {/if}
                 </div>
@@ -60,7 +91,7 @@
                 {/if}
 
                 {#if state == MAX_STATES - 1}
-                <button type="button" class="btn btn-primary" on:click={GoNext}>Sign Up</button>
+                <button type="button" class="btn btn-primary" on:click={SignUp}>Sign Up</button>
                 {:else}
                     <button type="button" class="btn btn-primary" on:click={GoNext}>Next</button>
                 {/if}
