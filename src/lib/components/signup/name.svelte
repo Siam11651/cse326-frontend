@@ -6,9 +6,9 @@
 </script>
 
 <div class="signup-name-root" in:fade={{duration: 500}}>
-    <p>
+    <h5 class="card-subtitle mb-2">
         Enter name:
-    </p>
+    </h5>
     
     <div class="form-floating mb-3">
         <input type="text" class="form-control" id="signup-username-input" placeholder="Username" bind:value={userNameValue}>

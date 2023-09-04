@@ -5,50 +5,47 @@
     import { fade } from "svelte/transition";
     import bg from "$lib/assets/home-delivery-man.webp"
     import Contact from "$lib/components/signup/contact.svelte";
+    import { StateManager } from "./state-manager";
 
-    let state: number = 0;
-    const MAX_STATES: number = 3;
     let stateContainer: HTMLDivElement;
     let userNameValue: string;
     let emailValue: string;
     let passwordValue: string;
+    let pfpValues: FileList;
     let contactValue: string;
     let nidValue: string;
 
     $: stateContainerHeight = stateContainer?.offsetHeight ?? 0;
+    let state: number = 0;
 
-    function GoNext(): void
+    async function GoNext(): Promise<void>
     {
-        ++state;
+        state = await StateManager.GoNext(state,
+        {
+            username: userNameValue,
+            email: emailValue,
+            password: passwordValue,
+            pfp: pfpValues?.item(0) ?? null,
+            contact: contactValue,
+            nid: nidValue
+        });
+
+        if(state == StateManager.GetStateCount())
+        {
+            StateManager.SignUp();
+        }
     }
 
     function GoBack(): void
     {
-        --state;
-    }
-
-    function SignUp(): void
-    {
-        let requestBodyObject =
+        state = StateManager.GoBack(state,
         {
-            name: userNameValue,
-            password_hash: passwordValue,
+            username: userNameValue,
+            email: emailValue,
+            password: passwordValue,
+            pfp: pfpValues?.item(0) ?? null,
             contact: contactValue,
             nid: nidValue
-        };
-
-        let requestBodyString = JSON.stringify(requestBodyObject);
-
-        fetch("/api/consumer/signup", 
-        {
-            method: "POST",
-            headers:
-            {
-                "Content-Type": "application/json"
-            },
-            body: requestBodyString
-        }).then((response: Response): void =>
-        {
         });
     }
 </script>
@@ -64,8 +61,8 @@
     <div class="d-flex flex-column justify-content-center align-items-center" style="height: 100%;">
         <div class="card" style="width: 50ex;">
             <div class="card-body">
-                <div class="d-flex align-item-center justify-content-between">
-                    <h4 class="card-title">Sign Up</h4>
+                <div class="d-flex align-item-center justify-content-between p-1">
+                    <h4 class="card-title mb-3">Sign Up</h4>
                     <a type="button" class="btn-close" href="/"><span /></a>
                 </div>
                 <div class="p-1" style="height: {stateContainerHeight}px; overflow: hidden; transition: height 300ms ease">
@@ -79,7 +76,7 @@
                         </div>
                     {:else if state == 2}
                         <div bind:this={stateContainer}>
-                            <Contact bind:contactValue={contactValue} bind:nidValue={nidValue} />
+                            <Contact bind:pfpValues={pfpValues} bind:contactValue={contactValue} bind:nidValue={nidValue} />
                         </div>
                     {/if}
                 </div>
@@ -89,8 +86,8 @@
                     <button type="button" class="btn btn-secondary me-1" on:click={GoBack}>Back</button>
                 {/if}
 
-                {#if state == MAX_STATES - 1}
-                <button type="button" class="btn btn-primary" on:click={SignUp}>Sign Up</button>
+                {#if state == StateManager.GetStateCount() - 1}
+                    <button type="button" class="btn btn-primary" on:click={GoNext}>Sign Up</button>
                 {:else}
                     <button type="button" class="btn btn-primary" on:click={GoNext}>Next</button>
                 {/if}

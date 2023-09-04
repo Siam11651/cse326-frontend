@@ -5,17 +5,17 @@
 </script>
 
 <div class="signup-password-root" in:fade={{duration: 500}}>
-    <p>
+    <h5 class="card-subtitle mb-2">
         Enter password:
-    </p>
+    </h5>
     
     <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="signup-password-input" placeholder="Password" bind:value={passwordValue}>
+        <input type="password" class="form-control" id="signup-password-input" placeholder="Password" bind:value={passwordValue}>
         <label for="signup-password-input">Password</label>
     </div>
     
     <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="signup-password-confirm-input" placeholder="Confirm Password">
+        <input type="password" class="form-control" id="signup-password-confirm-input" placeholder="Confirm Password">
         <label for="signup-password-confirm-input">Confirm Password</label>
     </div>
     

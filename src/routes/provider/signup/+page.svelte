@@ -38,8 +38,8 @@
     <div class="d-flex flex-column justify-content-center align-items-center" style="height: 100%;">
         <div class="card" style="width: 50ex;">
             <div class="card-body">
-                <div class="d-flex align-item-center justify-content-between">
-                    <h4 class="card-title">Sign Up</h4>
+                <div class="d-flex align-item-center justify-content-between p-1">
+                    <h4 class="card-title mb-3">Sign Up</h4>
                     <a type="button" class="btn-close" href="/"><span /></a>
                 </div>
                 <div class="p-1" style="height: {stateContainerHeight}px; overflow: hidden; transition: height 300ms ease">
