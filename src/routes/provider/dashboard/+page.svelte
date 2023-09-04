@@ -6,7 +6,7 @@
     import Overview from "$lib/components/dashboard/overview.svelte";
     import Services from "$lib/components/dashboard/services.svelte";
 
-    let menuButtons: HTMLButtonElement[] = new Array<HTMLButtonElement>(4);
+    let menuButtons: HTMLButtonElement[] = new Array<HTMLButtonElement>(5);
     let menuSelection: number = 0;
 
     function ResetSelection(): void
@@ -41,12 +41,20 @@
         menuSelection = 2;
     }
 
-    function OnReviewsClick(): void
+    function OnHistoryClick(): void
     {
         ResetSelection();
 
         menuButtons[3].classList.add("active");
         menuSelection = 3;
+    }
+
+    function OnReviewsClick(): void
+    {
+        ResetSelection();
+
+        menuButtons[4].classList.add("active");
+        menuSelection = 4;
     }
 </script>
 
@@ -72,7 +80,8 @@
                         <button type="button" class="menu-button list-group-item list-group-item-action active" bind:this={menuButtons[0]} on:click={OnOverviewMenuClick}>Overview</button>
                         <button type="button" class="menu-button list-group-item list-group-item-action" bind:this={menuButtons[1]} on:click={OnServicesMenuClick}>Services</button>
                         <button type="button" class="menu-button list-group-item list-group-item-action" bind:this={menuButtons[2]} on:click={OnTasksMenuClick}>Tasks</button>
-                        <button type="button" class="menu-button list-group-item list-group-item-action" bind:this={menuButtons[3]} on:click={OnReviewsClick}>Reviews</button>
+                        <button type="button" class="menu-button list-group-item list-group-item-action" bind:this={menuButtons[3]} on:click={OnHistoryClick}>History</button>
+                        <button type="button" class="menu-button list-group-item list-group-item-action" bind:this={menuButtons[4]} on:click={OnReviewsClick}>Reviews</button>
                     </div>
                 </div>
             </div>
@@ -99,8 +108,7 @@
 
     .main-partition
     {
-        height: 95%;
-        max-height: 95%;
+        height: 90%;
     }
 
     .dashboard-container
@@ -129,7 +137,7 @@
 
     .menu-button
     {
-        height: 8ex;;
+        height: 8ex;
     }
 
     .menu-details
