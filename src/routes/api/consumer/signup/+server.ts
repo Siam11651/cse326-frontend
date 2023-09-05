@@ -1,5 +1,7 @@
 import { supabase } from "$lib/server/supabaseclient.server";
 import type { RequestEvent } from "./$types";
+
+import jwt from 'jsonwebtoken';
 let user =
 {
     name:'',
@@ -7,6 +9,7 @@ let user =
     password_hash:'',
     contact:'',
     pfp:null,
+    id:0
 }
 export async function POST({request, cookies}: RequestEvent): Promise<Response>
 { 
@@ -70,11 +73,15 @@ if (error)
 }
 else 
 {
+    user.id=result;
+    const token = jwt.sign(user, import.meta.env.VITE_JWT_KEY, { expiresIn: `${15 * 60 * 1000}` });
+    //console.log(token);
+    //console.log(user);
     ret_text={
         success:true,
         errorcode:0,
+        jwt_token:token
     }
-    console.log(result);
 }
 
     }
