@@ -13,6 +13,7 @@
     import Footer from '$lib/components/footer.svelte';
     import { fade } from 'svelte/transition';
     import type { Recommendation } from './Recommendation';
+    import { json } from '@sveltejs/kit';
 
     let searchTerm: string;
     let searchDFlexElement: HTMLDivElement;
@@ -63,9 +64,17 @@
                 body: requestBodyString
             }).then(async (response: Response): Promise<void> =>
             {
-                if(!recommendationArrived)
+                recommendationArrived = true;
+                let responseObject = await response.json();
+                recommendations = new Array<Recommendation>(5);
+
+                for(let i: number = 0; i < 5; ++i)
                 {
-                    let responseObject = JSON.parse(await response.json());
+                    recommendations[i] =
+                    {
+                        title: responseObject[i].title,
+                        href: "/service/" + responseObject[i].serviceid
+                    }
                 }
             });
         }
@@ -101,8 +110,8 @@
         <div class="collapse" id="search-recommendation-collapse" bind:this={searchRecommendationCollapseElement}>
             {#if recommendationArrived}
                 <div class="list-group">
-                    {#each [...Array(5).keys()] as i}
-                        <a type="button" class="list-group-item list-group-item-action placeholder-wave" href="#">{Math.random().toString(36).substring(5)}</a>
+                    {#each recommendations as {title, href}}
+                        <a type="button" class="list-group-item list-group-item-action placeholder-wave" href={href}>{title}</a>
                     {/each}
                 </div>
             {:else}
