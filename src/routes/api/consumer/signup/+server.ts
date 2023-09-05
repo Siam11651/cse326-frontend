@@ -44,10 +44,10 @@ export async function POST({request, cookies}: RequestEvent): Promise<Response>
   let given_cname=user.name; 
   let given_contactnumber=user.contact; 
   let given_imagefile=null;
-  if(user.pfp)
-  {
-    given_imagefile=user.pfp;
-  } 
+//   if(user.pfp)
+//   {
+//     given_imagefile=user.pfp;
+//   } 
   let given_mail=user.email; 
   let given_security_key=user.password_hash;
         
@@ -72,8 +72,9 @@ else
 {
     ret_text={
         success:true,
-        errorcode:0
+        errorcode:0,
     }
+    console.log(result);
 }
 
     }
