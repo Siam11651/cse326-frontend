@@ -47,10 +47,10 @@ export async function POST({request, cookies}: RequestEvent): Promise<Response>
   let given_cname=user.name; 
   let given_contactnumber=user.contact; 
   let given_imagefile=null;
-//   if(user.pfp)
-//   {
-//     given_imagefile=user.pfp;
-//   } 
+  if(user.pfp)
+  {
+    given_imagefile=user.pfp;
+  } 
   let given_mail=user.email; 
   let given_security_key=user.password_hash;
         
@@ -73,10 +73,12 @@ if (error)
 }
 else 
 {
-    user.id=result;
-    const token = jwt.sign(user, import.meta.env.VITE_JWT_KEY, { expiresIn: `${15 * 60 * 1000}` });
-    //console.log(token);
-    //console.log(user);
+    let ret_user=
+    {
+        id:result,
+        is_consumer:true
+    }
+    const token = jwt.sign(ret_user, import.meta.env.VITE_JWT_KEY, { expiresIn: `${15 * 60 * 1000}` });
     ret_text={
         success:true,
         errorcode:0,
