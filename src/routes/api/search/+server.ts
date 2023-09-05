@@ -14,7 +14,7 @@ let { data:result, error } = await supabase
 if (error) console.error(error)
 
 
-    return new Response(result, {
+    return new Response(JSON.stringify(result), {
 		headers: {
 			'Content-Type': 'application/json'
 		}
