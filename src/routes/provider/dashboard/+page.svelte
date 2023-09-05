@@ -1,6 +1,5 @@
 <script lang="ts">
     import Navbar from "$lib/components/navbar.svelte";
-    import PageHeader from "$lib/components/page-header.svelte";
     import mikasa from "$lib/assets/mikasa.webp"
     import { fly } from "svelte/transition";
     import Overview from "$lib/components/dashboard/overview.svelte";
@@ -57,10 +56,6 @@
         menuSelection = 4;
     }
 </script>
-
-<svelte:head>
-    <PageHeader/>
-</svelte:head>
 
 <div class="dashboard-root d-flex flex-column">
     <Navbar />

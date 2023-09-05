@@ -1,18 +1,11 @@
 <script lang="ts">
-    import PageHeader from "$lib/components/page-header.svelte";
     import bg from "$lib/assets/home-delivery-man.webp"
     import { fade } from "svelte/transition";
-    import Navbar from "$lib/components/navbar.svelte";
-    import Footer from "$lib/components/footer.svelte";
 
     let infoContainer: HTMLDivElement;
 
     $: infoContainerHeight = infoContainer?.offsetHeight ?? 0;
 </script>
-
-<svelte:head>
-    <PageHeader/>
-</svelte:head>
 
 <div class="login-root">
     <div class="bg-image-container" in:fade={{delay: 200, duration: 500}}>

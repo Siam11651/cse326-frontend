@@ -1,5 +1,4 @@
 <script lang="ts">
-    import PageHeader from "$lib/components/page-header.svelte";
     import Names from "$lib/components/signup/name.svelte";
     import Password from "$lib/components/signup/password.svelte";
     import { fade } from "svelte/transition";
@@ -73,10 +72,6 @@
         });
     }
 </script>
-
-<svelte:head>
-    <PageHeader/>
-</svelte:head>
 
 <div class="signup-root">
     <div class="bg-image-container" in:fade={{delay: 200, duration: 500}}>

@@ -1,5 +1,4 @@
 <script lang="ts">
-    import PageHeader from '$lib/components/page-header.svelte'
     import Navbar from "$lib/components/navbar.svelte";
     import ServiceCard from "$lib/components/service-card.svelte";
     import handyman from "$lib/assets/handyman.webp";
@@ -11,7 +10,7 @@
     import { onMount } from 'svelte';
     import { Collapse } from 'bootstrap';
     import Footer from '$lib/components/footer.svelte';
-    import { fade, fly } from 'svelte/transition';
+    import { fade } from 'svelte/transition';
     import { Recommendation } from './Recommendation';
 
     let searchTerm: string;
@@ -96,10 +95,6 @@
         ShowRecommendations();
     }
 </script>
-
-<svelte:head>
-    <PageHeader/>
-</svelte:head>
 
 <Navbar/>
 
