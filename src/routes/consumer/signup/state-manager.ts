@@ -204,8 +204,10 @@ export class StateManager
                 "Content-Type": "application/json"
             },
             body: requestBodyString
-        }).then((response: Response): void =>
+        }).then(async(response: Response): Promise<void> =>
         {
+            
+            
         });
     }
 };
