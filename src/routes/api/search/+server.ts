@@ -7,12 +7,11 @@ export async function POST({request, cookies}: RequestEvent): Promise<Response>
     console.log(req);
 let term='clean'
 let { data:result, error } = await supabase
-.rpc('search_service', {
+.rpc('preempt_search_service', {
   term
 })
 
 if (error) console.error(error)
-
 
     return new Response(JSON.stringify(result), {
 		headers: {
