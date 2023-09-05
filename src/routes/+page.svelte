@@ -64,16 +64,20 @@
                 body: requestBodyString
             }).then(async (response: Response): Promise<void> =>
             {
-                recommendationArrived = true;
                 let responseObject = await response.json();
-                recommendations = new Array<Recommendation>(5);
 
-                for(let i: number = 0; i < 5; ++i)
+                if(responseObject.length > 0)
                 {
-                    recommendations[i] =
+                    recommendationArrived = true;
+                    recommendations = new Array<Recommendation>(5);
+
+                    for(let i: number = 0; i < 5; ++i)
                     {
-                        title: responseObject[i].title,
-                        href: "/service/" + responseObject[i].serviceid
+                        recommendations[i] =
+                        {
+                            title: responseObject[i].title,
+                            href: "/service/" + responseObject[i].serviceid
+                        }
                     }
                 }
             });
