@@ -12,12 +12,14 @@
     import { Collapse } from 'bootstrap';
     import Footer from '$lib/components/footer.svelte';
     import { fade } from 'svelte/transition';
+    import type { Recommendation } from './Recommendation';
 
     let searchTerm: string;
     let searchDFlexElement: HTMLDivElement;
     let searchRecommendationCollapseElement: HTMLDivElement;
     let searchRecommendationCollapse: Collapse;
     let recommendationArrived: boolean = false;
+    let recommendations: Recommendation[] = [];
 
     onMount((): void =>
     {
@@ -42,10 +44,30 @@
         {
             recommendationArrived = false;
             searchRecommendationCollapse.show();
-            setTimeout((): void =>
+
+            let requestObject = 
             {
-                recommendationArrived = true;
-            }, 1000);
+                recommendation: true,
+                search_term: searchTerm
+            };
+
+            let requestBodyString = JSON.stringify(requestObject);
+
+            fetch("/api/search",
+            {
+                method: "POST",
+                headers:
+                {
+                    "Content-Type": "application/json"
+                },
+                body: requestBodyString
+            }).then(async (response: Response): Promise<void> =>
+            {
+                if(!recommendationArrived)
+                {
+                    let responseObject = JSON.parse(await response.json());
+                }
+            });
         }
     }
 </script>
@@ -73,20 +95,21 @@
         <div class="d-flex" bind:this={searchDFlexElement}>
             <div class="input-group mb-3">
                 <input type="text" class="form-control" placeholder="Search Service" aria-label="Search Service" aria-describedby="search-service-button" bind:value={searchTerm} on:click={StartSearch} on:input={SearchInputUpdate}>
-                <button class="btn btn-secondary" type="button" id="search-service-button">Search</button>
+                <a class="btn btn-secondary" type="button" id="search-service-button">Search</a>
             </div>
         </div>
         <div class="collapse" id="search-recommendation-collapse" bind:this={searchRecommendationCollapseElement}>
             {#if recommendationArrived}
                 <div class="list-group">
                     {#each [...Array(5).keys()] as i}
-                        <button type="button" class="list-group-item list-group-item-action placeholder-wave">{Math.random().toString(36).substring(5)}</button>
+                        <a type="button" class="list-group-item list-group-item-action placeholder-wave" href="#">{Math.random().toString(36).substring(5)}</a>
                     {/each}
                 </div>
             {:else}
                 <div class="list-group">
                     {#each [...Array(5).keys()] as i}
-                        <button type="button" class="list-group-item list-group-item-action placeholder-wave"><span class="placeholder col-4"></span></button>
+                        <!-- svelte-ignore a11y-missing-attribute -->
+                        <a type="button" class="list-group-item list-group-item-action placeholder-wave"><span class="placeholder col-4"></span></a>
                     {/each}
                 </div>
             {/if}
