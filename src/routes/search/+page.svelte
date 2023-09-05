@@ -1,16 +1,17 @@
 <script lang="ts">
     import Navbar from "$lib/components/navbar.svelte";
+    import { fade, scale } from "svelte/transition";
 </script>
 
 <div class="search-root">
     <Navbar />
     <div class="d-flex flex-row-reverse">
         <div class="all-services-container">
-            <div class="all-services shadow-lg m-4 p-3 rounded">
+            <div class="all-services shadow-lg m-4 p-3 rounded" in:fade={{duration: 250}}>
                 <h5>All Services:</h5>
                 <div class="all-services-accordion-container">
                     <div class="accordion accordion-flush p-1" id="all-services-accordion">
-                        {#each [...Array(15).keys()] as i}
+                        {#each [...Array(5).keys()] as i}
                             <div class="accordion-item">
                                 <h2 class="accordion-header">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#service-{i}" aria-expanded="false" aria-controls="service-{i}">
@@ -47,7 +48,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="all-results-padder shadow-lg p-3 me-5 rounded">
+                <div class="all-results-padder shadow-lg p-3 me-5 rounded" in:scale={{duration: 500, start: 0.95}}>
                     <div class="all-results-container">
                         <ul class="list-group list-group-flush">
                             {#each [...Array(10).keys()] as i}
