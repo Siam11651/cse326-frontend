@@ -6,7 +6,7 @@ let user =
     email:"",
     password_hash:"",
     contact:"",
-    nid:"",
+    pfp:"",
 }
 export async function POST({request, cookies}: RequestEvent): Promise<Response>
 { 
