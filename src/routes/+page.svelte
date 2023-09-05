@@ -11,16 +11,19 @@
     import { onMount } from 'svelte';
     import { Collapse } from 'bootstrap';
     import Footer from '$lib/components/footer.svelte';
-    import { fade } from 'svelte/transition';
-    import type { Recommendation } from './Recommendation';
-    import { json } from '@sveltejs/kit';
+    import { fade, fly } from 'svelte/transition';
+    import { Recommendation } from './Recommendation';
 
     let searchTerm: string;
     let searchDFlexElement: HTMLDivElement;
     let searchRecommendationCollapseElement: HTMLDivElement;
     let searchRecommendationCollapse: Collapse;
-    let recommendationArrived: boolean = false;
-    let recommendations: Recommendation[] = [];
+    let recommendations: Recommendation[] = new Array<Recommendation>(5);
+
+    for(let i: number = 0; i < 5; ++i)
+    {
+        recommendations[i] = new Recommendation();
+    }
 
     onMount((): void =>
     {
@@ -35,17 +38,14 @@
         searchDFlexElement.scrollIntoView();
     }
 
-    function SearchInputUpdate(event: Event): void
+    function ShowRecommendations(): void
     {
-        if(searchTerm.length == 0)
+        if(searchTerm == null || searchTerm.length == 0)
         {
             searchRecommendationCollapse.hide();
         }
         else
         {
-            recommendationArrived = false;
-            searchRecommendationCollapse.show();
-
             let requestObject = 
             {
                 recommendation: true,
@@ -65,23 +65,35 @@
             }).then(async (response: Response): Promise<void> =>
             {
                 let responseObject = await response.json();
+                recommendations = new Array<Recommendation>(responseObject.length);
 
-                if(responseObject.length > 0)
+                for(let i: number = 0; i < recommendations.length && i < 5; ++i)
                 {
-                    recommendationArrived = true;
-                    recommendations = new Array<Recommendation>(5);
-
-                    for(let i: number = 0; i < 5; ++i)
+                    recommendations[i] =
                     {
-                        recommendations[i] =
-                        {
-                            title: responseObject[i].title,
-                            href: "/service/" + responseObject[i].serviceid
-                        }
+                        title: responseObject[i].title,
+                        href: "/service/" + responseObject[i].serviceid
                     }
                 }
+
+                searchRecommendationCollapse.show();
             });
         }
+    }
+
+    function OnSearchFocus()
+    {
+        ShowRecommendations();
+    }
+
+    function OnSearchBlur(): void
+    {
+        searchRecommendationCollapse.hide();
+    }
+
+    function SearchInputUpdate(): void
+    {   
+        ShowRecommendations();
     }
 </script>
 
@@ -107,25 +119,16 @@
     <div class="ps-3 pe-3 mt-5">
         <div class="d-flex" bind:this={searchDFlexElement}>
             <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Search Service" aria-label="Search Service" aria-describedby="search-service-button" bind:value={searchTerm} on:click={StartSearch} on:input={SearchInputUpdate}>
+                <input type="text" class="form-control" placeholder="Search Service" aria-label="Search Service" aria-describedby="search-service-button" bind:value={searchTerm} on:click={StartSearch} on:input={SearchInputUpdate} on:focus={OnSearchFocus} on:blur={OnSearchBlur}>
                 <a class="btn btn-secondary" type="button" id="search-service-button">Search</a>
             </div>
         </div>
         <div class="collapse" id="search-recommendation-collapse" bind:this={searchRecommendationCollapseElement}>
-            {#if recommendationArrived}
-                <div class="list-group">
-                    {#each recommendations as {title, href}}
-                        <a type="button" class="list-group-item list-group-item-action placeholder-wave" href={href}>{title}</a>
-                    {/each}
-                </div>
-            {:else}
-                <div class="list-group">
-                    {#each [...Array(5).keys()] as i}
-                        <!-- svelte-ignore a11y-missing-attribute -->
-                        <a type="button" class="list-group-item list-group-item-action placeholder-wave"><span class="placeholder col-4"></span></a>
-                    {/each}
-                </div>
-            {/if}
+            <div class="list-group">
+                {#each recommendations as {title, href}}
+                    <a type="button" class="list-group-item list-group-item-action" href={href}>{title}</a>
+                {/each}
+            </div>
         </div>
     </div>
     <div class="mt-1">

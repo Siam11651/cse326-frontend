@@ -12,7 +12,7 @@ export async function POST({request, cookies}: RequestEvent): Promise<Response>
     //console.log(req);
     let term=req.search_term
     let { data:result, error } = await supabase
-    .rpc('preempt_search_service', {
+    .rpc('preempt_search_service2', {
     term
     })
 
