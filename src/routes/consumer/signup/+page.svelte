@@ -18,6 +18,8 @@
     let invalidEmailToast: Toast;
     let invalidPasswordToast: Toast;
     let passwordsDontMatchToast: Toast;
+    let invalidPfpToast: Toast;
+    let invalidContactToast: Toast;
     let userNameValue: string;
     let emailValue: string;
     let passwordValue0: string;
@@ -35,6 +37,8 @@
         SignupErrorHandler.SetInvalidEmailToast(invalidEmailToast);
         SignupErrorHandler.SetInvalidPasswordToast(invalidPasswordToast);
         SignupErrorHandler.SetPasswordsDontMatchToast(passwordsDontMatchToast);
+        SignupErrorHandler.SetInvalidPfpToast(invalidPfpToast);
+        SignupErrorHandler.SetInvalidContactToast(invalidContactToast);
     });
 
     async function GoNext(): Promise<void>
@@ -90,11 +94,11 @@
                         </div>
                     {:else if state == 1}
                         <div bind:this={stateContainerElement}>
-                            <Password bind:passwordValue0={passwordValue0} bind:passwordValue1={passwordValue1} />
+                            <Password password0Invalid={inputValidityStatus.password0Invalid} password1Invalid={inputValidityStatus.password1Invalid} bind:passwordValue0={passwordValue0} bind:passwordValue1={passwordValue1} />
                         </div>
                     {:else if state == 2}
                         <div bind:this={stateContainerElement}>
-                            <Contact bind:pfpValues={pfpValues} bind:contactValue={contactValue} />
+                            <Contact pfpInvalid={inputValidityStatus.pfpInvalid} contactInvalid={inputValidityStatus.contactInvalid} bind:pfpValues={pfpValues} bind:contactValue={contactValue} />
                         </div>
                     {:else if state == 3}
                         <div bind:this={stateContainerElement}>
@@ -123,6 +127,8 @@
     <ErrorToast header="Invalid Email" messege="Input a valid email" bind:toast={invalidEmailToast} />
     <ErrorToast header="Invalid Password" messege="Input a valid password of minimum length 8" bind:toast={invalidPasswordToast} />
     <ErrorToast header="Passwords don't Match" messege="Input the same password" bind:toast={passwordsDontMatchToast} />
+    <ErrorToast header="Invalid Profile Picture" messege="Input a valid file" bind:toast={invalidPfpToast} />
+    <ErrorToast header="Invalid Contant" messege="Input a valid Bangladeshi contact" bind:toast={invalidContactToast} />
 </div>
 
 <style lang="scss">
@@ -134,6 +140,7 @@
         left: 0;
         right: 0;
     }
+
     .bg-image-container
     {
         position: absolute;
@@ -143,6 +150,7 @@
         left: 0;
         right: 0;
     }
+
     .bg-image
     {
         width: 100%;

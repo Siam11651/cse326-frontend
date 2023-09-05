@@ -22,3 +22,18 @@ export class PasswordsDontMatchError extends Error
 {
 
 }
+
+export class InvalidPfpError extends Error
+{
+
+}
+
+export class InvalidContactError extends Error
+{
+
+}
+
+export class InvalidPfpContactError extends Error
+{
+    
+}

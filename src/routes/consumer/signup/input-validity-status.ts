@@ -4,4 +4,6 @@ export class InputValidityStatus
     public emailInvalid: boolean = false;
     public password0Invalid: boolean = false;
     public password1Invalid: boolean = false;
+    public pfpInvalid: boolean = false;
+    public contactInvalid: boolean = false;
 }

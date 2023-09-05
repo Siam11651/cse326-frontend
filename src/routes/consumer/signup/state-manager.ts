@@ -1,5 +1,6 @@
+import phone, { type PhoneResult } from "phone";
 import type { SignupArgs } from "./signup-args";
-import { InvalidEmailError, InvalidUserNameError, InvalidUsernameEmailError, PasswordTooSmallError, PasswordsDontMatchError } from "./signup-errors";
+import { InvalidContactError, InvalidEmailError, InvalidPfpContactError, InvalidPfpError, InvalidUserNameError, InvalidUsernameEmailError, PasswordTooSmallError, PasswordsDontMatchError } from "./signup-errors";
 
 export class StateManager
 {
@@ -50,8 +51,23 @@ export class StateManager
         }
         else if(currentState == 2)
         {
-            await StateManager.SetPfp(args.pfp);
-            StateManager.SetContact(args.contact);
+            let pfpValid = await StateManager.SetPfp(args.pfp);
+            let contactValid = StateManager.SetContact(args.contact);
+
+            if(!pfpValid && !contactValid)
+            {
+                throw new InvalidPfpContactError();
+            }
+
+            if(!pfpValid)
+            {
+                throw new InvalidPfpError();
+            }
+
+            if(!contactValid)
+            {
+                throw new InvalidContactError();
+            }
         }
         
         return currentState + 1;
@@ -122,7 +138,7 @@ export class StateManager
     {
         if(pfp == null)
         {
-            return false;
+            return true;
         }
 
         let arrayBuffer: ArrayBuffer = await pfp.arrayBuffer();
@@ -133,7 +149,22 @@ export class StateManager
 
     private static SetContact(contact: string | null): boolean
     {
-        StateManager.contact = contact;
+        if(contact == null)
+        {
+            return false;
+        }
+
+        let phoneResult: PhoneResult = phone(contact, 
+        {
+            country: "BD"
+        });
+
+        if(!phoneResult.isValid)
+        {
+            return false;
+        }
+
+        StateManager.contact = phoneResult.phoneNumber;
 
         return true;
     }

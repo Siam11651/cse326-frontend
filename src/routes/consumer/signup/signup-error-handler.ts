@@ -1,5 +1,5 @@
 import type { Toast } from "bootstrap";
-import { InvalidEmailError, InvalidUserNameError, InvalidUsernameEmailError, PasswordTooSmallError, PasswordsDontMatchError } from "./signup-errors";
+import { InvalidContactError, InvalidEmailError, InvalidPfpContactError, InvalidPfpError, InvalidUserNameError, InvalidUsernameEmailError, PasswordTooSmallError, PasswordsDontMatchError } from "./signup-errors";
 import { InputValidityStatus } from "./input-validity-status";
 
 export class SignupErrorHandler
@@ -8,6 +8,8 @@ export class SignupErrorHandler
     private static invalidEmailToast: Toast;
     private static invalidPasswordToast: Toast;
     private static passwordsDontMatchToast: Toast;
+    private static invalidPfpToast: Toast;
+    private static invalidContactToast: Toast;
 
     public static SetInvalidUsernameToast(invalidUsernameToast: Toast): void
     {
@@ -27,6 +29,16 @@ export class SignupErrorHandler
     public static SetPasswordsDontMatchToast(passwordsDontMatchToast: Toast): void
     {
         SignupErrorHandler.passwordsDontMatchToast = passwordsDontMatchToast;
+    }
+
+    public static SetInvalidPfpToast(invalidPfpToast: Toast): void
+    {
+        SignupErrorHandler.invalidPfpToast = invalidPfpToast;
+    }
+
+    public static SetInvalidContactToast(invalidContactToast: Toast): void
+    {
+        SignupErrorHandler.invalidContactToast = invalidContactToast;
     }
 
     public static HandleError(err: any): InputValidityStatus
@@ -64,6 +76,26 @@ export class SignupErrorHandler
             inputValidityStatus.password1Invalid = true;
 
             SignupErrorHandler.passwordsDontMatchToast.show();
+        }
+        else if(err instanceof InvalidPfpError)
+        {
+            inputValidityStatus.pfpInvalid = true;
+
+            SignupErrorHandler.invalidPfpToast.show();
+        }
+        else if(err instanceof InvalidContactError)
+        {
+            inputValidityStatus.contactInvalid = true;
+
+            SignupErrorHandler.invalidContactToast.show();
+        }
+        else if(err instanceof InvalidPfpContactError)
+        {
+            inputValidityStatus.pfpInvalid = true;
+            inputValidityStatus.contactInvalid = true;
+
+            SignupErrorHandler.invalidPfpToast.show();
+            SignupErrorHandler.invalidContactToast.show();
         }
 
         return inputValidityStatus;
