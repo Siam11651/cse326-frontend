@@ -15,10 +15,9 @@ export async function POST({request, cookies}: RequestEvent): Promise<Response>
     .rpc('preempt_search_service2', {
     term
     })
-
     if (error) console.error(error)
 
-    console.log(result);
+    //console.log(result);
 
     return new Response(JSON.stringify(result), {
 		headers: {
