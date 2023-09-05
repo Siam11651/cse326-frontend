@@ -13,22 +13,12 @@ export class InvalidUsernameEmailError extends Error
 
 }
 
-export class EmptyPasswordField0 extends Error
+export class PasswordTooSmallError extends Error
 {
 
 }
 
-export class EmptyPasswordField1 extends Error
-{
-
-}
-
-export class EmptyPasswordFieldBoth extends Error
-{
-
-}
-
-export class PasswordsDontMatch extends Error
+export class PasswordsDontMatchError extends Error
 {
 
 }

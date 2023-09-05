@@ -1,11 +1,13 @@
 import type { Toast } from "bootstrap";
-import { EmptyPasswordField0, EmptyPasswordField1, EmptyPasswordFieldBoth, InvalidEmailError, InvalidUserNameError, InvalidUsernameEmailError, PasswordsDontMatch } from "./signup-errors";
+import { InvalidEmailError, InvalidUserNameError, InvalidUsernameEmailError, PasswordTooSmallError, PasswordsDontMatchError } from "./signup-errors";
 import { InputValidityStatus } from "./input-validity-status";
 
 export class SignupErrorHandler
 {
     private static invalidUsernameToast: Toast;
     private static invalidEmailToast: Toast;
+    private static invalidPasswordToast: Toast;
+    private static passwordsDontMatchToast: Toast;
 
     public static SetInvalidUsernameToast(invalidUsernameToast: Toast): void
     {
@@ -17,13 +19,23 @@ export class SignupErrorHandler
         SignupErrorHandler.invalidEmailToast = invalidEmailToast;
     }
 
+    public static SetInvalidPasswordToast(invalidPasswordToast: Toast): void
+    {
+        SignupErrorHandler.invalidPasswordToast = invalidPasswordToast;
+    }
+
+    public static SetPasswordsDontMatchToast(passwordsDontMatchToast: Toast): void
+    {
+        SignupErrorHandler.passwordsDontMatchToast = passwordsDontMatchToast;
+    }
+
     public static HandleError(err: any): InputValidityStatus
     {
         let inputValidityStatus: InputValidityStatus = new InputValidityStatus();
 
         if(err instanceof InvalidUserNameError)
         {
-            inputValidityStatus.nameInvalid = true;
+            inputValidityStatus.usernameInvalid = true;
 
             SignupErrorHandler.invalidUsernameToast.show();
         }
@@ -35,28 +47,23 @@ export class SignupErrorHandler
         }
         else if(err instanceof InvalidUsernameEmailError)
         {
-            inputValidityStatus.nameInvalid = true;
+            inputValidityStatus.usernameInvalid = true;
             inputValidityStatus.emailInvalid = true;
 
             SignupErrorHandler.invalidUsernameToast.show();
             SignupErrorHandler.invalidEmailToast.show();
         }
-        else if(err instanceof EmptyPasswordField0)
+        else if(err instanceof PasswordTooSmallError)
         {
             inputValidityStatus.password0Invalid = true;
-        }
-        else if(err instanceof EmptyPasswordField1)
-        {
-            inputValidityStatus.password1Invalid = true;
-        }
-        else if(err instanceof EmptyPasswordFieldBoth)
-        {
-            inputValidityStatus.password0Invalid = true;
-            inputValidityStatus.password1Invalid = true;
-        }
-        else if(err instanceof PasswordsDontMatch)
-        {
 
+            SignupErrorHandler.invalidPasswordToast.show();
+        }
+        else if(err instanceof PasswordsDontMatchError)
+        {
+            inputValidityStatus.password1Invalid = true;
+
+            SignupErrorHandler.passwordsDontMatchToast.show();
         }
 
         return inputValidityStatus;

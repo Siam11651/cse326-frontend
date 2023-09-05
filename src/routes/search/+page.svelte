@@ -21,8 +21,11 @@
                                 <div id="service-{i}" class="accordion-collapse collapse" data-bs-parent="#all-services-accordion">
                                     <div class="accordion-body p-2">
                                         <ul class="list-group">
+                                            <!-- svelte-ignore a11y-invalid-attribute -->
                                             <a class="list-group-item list-group-item-action" href="#">Service {i + 1}-a</a>
+                                            <!-- svelte-ignore a11y-invalid-attribute -->
                                             <a class="list-group-item list-group-item-action" href="#">Service {i + 1}-b</a>
+                                            <!-- svelte-ignore a11y-invalid-attribute -->
                                             <a class="list-group-item list-group-item-action" href="#">Service {i + 1}-c</a>
                                         </ul>
                                     </div>
@@ -52,6 +55,7 @@
                     <div class="all-results-container">
                         <ul class="list-group list-group-flush">
                             {#each [...Array(10).keys()] as i}
+                                <!-- svelte-ignore a11y-invalid-attribute -->
                                 <a class="list-group-item list-group-item-action" href="#">
                                     <h6>Service {i + 1}</h6>
                                     <p class="text-body-secondary text-truncate">

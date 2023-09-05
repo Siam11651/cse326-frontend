@@ -1,5 +1,5 @@
 import type { SignupArgs } from "./signup-args";
-import { EmptyPasswordField0, EmptyPasswordField1, EmptyPasswordFieldBoth, InvalidEmailError, InvalidUserNameError, InvalidUsernameEmailError, PasswordsDontMatch } from "./signup-errors";
+import { InvalidEmailError, InvalidUserNameError, InvalidUsernameEmailError, PasswordTooSmallError, PasswordsDontMatchError } from "./signup-errors";
 
 export class StateManager
 {
@@ -9,7 +9,6 @@ export class StateManager
     private static passwordHash: string | null = null;
     private static pfp: Uint8Array | null;
     private static contact: string | null;
-    private static nid: string | null = null;
 
     public static GetStateCount(): number
     {
@@ -42,26 +41,17 @@ export class StateManager
 
             if(returnValue == -1)
             {
-                throw new EmptyPasswordFieldBoth();
+                throw new PasswordTooSmallError();
             }
             else if(returnValue == -2)
             {
-                throw new EmptyPasswordField0();
-            }
-            else if(returnValue == -3)
-            {
-                throw new EmptyPasswordField1();
-            }
-            else if(returnValue == -4)
-            {
-                throw new PasswordsDontMatch();
+                throw new PasswordsDontMatchError();
             }
         }
         else if(currentState == 2)
         {
             await StateManager.SetPfp(args.pfp);
             StateManager.SetContact(args.contact);
-            StateManager.SetNid(args.nid);
         }
         
         return currentState + 1;
@@ -113,39 +103,14 @@ export class StateManager
 
     private static SetPasswordHash(password0: string | null, password1: string | null): number
     {
-        if(password0 == null && password1 == null)
+        if(password0 == null || password0.length < 8)
         {
-            return -1;  // both of the fields empty
+            return -1; // password too small
         }
 
-        if(password0 == null)
+        if(password1 != null && !password0.match(password1))
         {
-            return -2; // first field empty
-        }
-
-        if(password1 == null)
-        {
-            return -3; // second field empty
-        }
-
-        if(password0.length == 0 && password1.length == 0)
-        {
-            return -1;
-        }
-
-        if(password0.length == 0)
-        {
-            return -2;
-        }
-
-        if(password1.length == 0)
-        {
-            return -3;
-        }
-
-        if(!password0.match(password1))
-        {
-            return -4;  // passwords don't match
+            return -2;  // passwords don't match
         }
 
         StateManager.passwordHash = password0;
@@ -173,13 +138,6 @@ export class StateManager
         return true;
     }
 
-    private static SetNid(nid: string | null): boolean
-    {
-        StateManager.nid = nid;
-
-        return true;
-    }
-
     public static async SignUp(): Promise<void>
     {
         let requestBodyObject =
@@ -188,8 +146,7 @@ export class StateManager
             email: StateManager.email,
             password_hash: StateManager.passwordHash,
             pfp: StateManager.pfp,
-            contact: StateManager.contact,
-            nid: StateManager.nid
+            contact: StateManager.contact
         };
 
         let requestBodyString = JSON.stringify(requestBodyObject);

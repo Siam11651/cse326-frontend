@@ -1,9 +1,9 @@
 <script lang="ts">
     import { fade } from "svelte/transition";
 
-    export let userNameValue: string;
+    export let usernameValue: string;
     export let emailValue: string;
-    export let nameInvalid: boolean;
+    export let usernameInvalid: boolean;
     export let emailInvalid: boolean;
 </script>
 
@@ -13,7 +13,7 @@
     </h5>
     
     <div class="form-floating mb-3">
-        <input type="text" class="form-control {nameInvalid ? "is-invalid" : ""}" id="signup-username-input" placeholder="Username" bind:value={userNameValue}>
+        <input type="text" class="form-control {usernameInvalid ? "is-invalid" : ""}" id="signup-username-input" placeholder="Username" bind:value={usernameValue}>
         <label for="signup-username-input">Username</label>
     </div>
     
