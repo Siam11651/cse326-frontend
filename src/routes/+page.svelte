@@ -126,7 +126,10 @@
 
     function Search(): void
     {
-        goto("/search?q=" + encodeURI(searchTerm));
+        if(searchTerm && searchTerm.length > 0)
+        {
+            goto("/search?q=" + encodeURI(searchTerm));
+        }
     }
 </script>
 
