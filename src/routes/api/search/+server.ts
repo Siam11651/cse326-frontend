@@ -1,4 +1,5 @@
 import { supabase } from "$lib/server/supabaseclient.server";
+import { esbuildVersion } from "vite";
 import type { RequestEvent } from "./$types";
 let req=
 {
@@ -28,6 +29,26 @@ export async function POST({request, cookies}: RequestEvent): Promise<Response>
     {
         ret_text=result;
     }
+
+    }
+    else
+    {
+        let term=req.search_term
+    let { data:result, error } = await supabase
+    .rpc('search_service', {
+    term
+    })
+    if (error)
+    {
+        ret_text={
+            errorcode:-1
+          }
+    } 
+    else
+    {
+        ret_text=result;
+    }
+
 
     }
     
