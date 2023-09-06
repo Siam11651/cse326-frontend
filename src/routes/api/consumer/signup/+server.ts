@@ -57,7 +57,7 @@ export async function POST({request, cookies}: RequestEvent): Promise<Response>
       let given_security_key=user.password_hash;
         
       let { data:result, error } = await supabase
-      .rpc('insert_consumer', {
+      .rpc('add_a_consumer', {
         given_billingaddress, 
         given_cname, 
         given_contactnumber, 

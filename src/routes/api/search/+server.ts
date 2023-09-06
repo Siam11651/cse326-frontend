@@ -1,5 +1,4 @@
 import { supabase } from "$lib/server/supabaseclient.server";
-import { esbuildVersion } from "vite";
 import type { RequestEvent } from "./$types";
 let req=
 {
