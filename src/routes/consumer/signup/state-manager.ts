@@ -3,6 +3,7 @@ import type { SignupArgs } from "./signup-args";
 import { goto } from "$app/navigation";
 import { Errorcodes } from "./signup-errors";
 import { SigninError } from "../../../lib/signin-error";
+import * as EmailValidator from "email-validator";
 
 export class StateManager
 {
@@ -131,7 +132,7 @@ export class StateManager
             return false;
         }
 
-        if(email.length == 0)
+        if(!EmailValidator.validate(email))
         {
             return false;
         }
