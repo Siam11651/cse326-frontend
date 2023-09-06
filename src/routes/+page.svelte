@@ -187,7 +187,6 @@
     .home-image-container
     {
         position: relative;
-        // width: 100%;
     }
 
     .home-image
