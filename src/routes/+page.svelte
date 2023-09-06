@@ -12,6 +12,7 @@
     import Footer from '$lib/components/footer.svelte';
     import { fade } from 'svelte/transition';
     import { Recommendation } from './Recommendation';
+    import { goto } from "$app/navigation";
 
     let searchTerm: string;
     let searchDFlexElement: HTMLDivElement;
@@ -98,8 +99,8 @@
                 {
                     recommendations[i] =
                     {
-                        title: responseObject[i].title,
-                        href: "/service/" + responseObject[i].serviceid
+                        title: responseObject[i].s_title,
+                        href: "/service/" + responseObject[i].s_serviceid
                     }
                 }
 
@@ -122,6 +123,11 @@
     {   
         ShowRecommendations();
     }
+
+    function Search(): void
+    {
+        goto("/search?q=" + encodeURI(searchTerm));
+    }
 </script>
 
 <Navbar userName={userName} />
@@ -143,7 +149,7 @@
         <div class="d-flex" bind:this={searchDFlexElement}>
             <div class="input-group mb-3">
                 <input type="text" class="form-control" placeholder="Search Service" aria-label="Search Service" aria-describedby="search-service-button" bind:value={searchTerm} on:click={StartSearch} on:input={SearchInputUpdate} on:focus={OnSearchFocus} on:blur={OnSearchBlur}>
-                <a class="btn btn-secondary" type="button" id="search-service-button">Search</a>
+                <button class="btn btn-secondary" type="button" id="search-service-button" on:click={Search}>Search</button>
             </div>
         </div>
         <div class="collapse" id="search-recommendation-collapse" bind:this={searchRecommendationCollapseElement}>

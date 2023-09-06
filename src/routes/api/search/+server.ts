@@ -1,5 +1,4 @@
 import { supabase } from "$lib/server/supabaseclient.server";
-import { Recommendation } from "../../Recommendation";
 import type { RequestEvent } from "./$types";
 let req=
 {
