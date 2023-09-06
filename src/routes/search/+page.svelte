@@ -166,7 +166,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="all-results-padder shadow-lg p-3 me-5 rounded" in:scale={{duration: 500, start: 0.95}}>
+                <div class="all-results-padder shadow-lg p-3 me-5 rounded">
                     {#if searchResultsReady}
                         <AllResultsContainer>
                             {#each searchResults as {id, title, description, price}}
