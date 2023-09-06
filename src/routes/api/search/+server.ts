@@ -43,6 +43,7 @@ export async function POST({request, cookies}: RequestEvent): Promise<Response>
         ret_text={
             errorcode:-1
           }
+          console.log(error);
     } 
     else
     {
