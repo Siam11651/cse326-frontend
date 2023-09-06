@@ -1,11 +1,24 @@
 <script lang="ts">
+    import type { Service } from "$lib/service/service";
 
+    export let service: Service;
+    export let serviceReady: boolean;
 </script>
 
 <h2>Intro</h2>
-<p class="fs-5 mb-5">
-    AC Jet Wash offers detailed cleaning of the indoor and outdoor units with Jet Wash Machine including minor problem-fixing (excluding materials and parts). The service charge varies on your AC amount, height, weight, and difficulties. 
-</p>
+
+{#if serviceReady}
+    <p class="fs-5 mb-5">
+        {service.description}
+    </p>
+{:else}
+    <p class="placeholder-glow fs-5 mb-5">
+        <span class="placeholder col-7"></span>
+        <span class="placeholder col-4"></span>
+        <span class="placeholder col-4"></span>
+    </p>
+{/if}
+
 <h2>Order Service</h2>
 <div class="input-group mb-5">
     <span class="input-group-text">Quantity</span>

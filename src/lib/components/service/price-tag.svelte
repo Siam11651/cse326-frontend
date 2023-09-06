@@ -1,6 +1,6 @@
 <script lang="ts">
     export let providerId: number;
-    export let price: number;
+    export let price: string;
 </script>
 
 <div class="info-tag input-group mb-3 ms-2">

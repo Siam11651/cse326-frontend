@@ -4,8 +4,9 @@ import type { RequestEvent } from "./$types";
 export async function POST({request, cookies}: RequestEvent): Promise<Response>
 {
     let ret_text;
+    let requestBody = await request.json();
 
-let given_serviceid=1;
+let given_serviceid= requestBody.service_id;
 let { data:result, error } = await supabase
 .from('servicetypes')
 .select()

@@ -1,11 +1,74 @@
 <script lang="ts">
     import Navbar from "$lib/components/navbar.svelte";
     import acRepairman from "$lib/assets/ac-repairman.webp";
-    import Overview from "$lib/components/service/overview.svelte";
     import { fade } from "svelte/transition";
-    import Provider from "../../lib/components/service/provider.svelte";
+    import ProviderComponent from "../../../lib/components/service/provider.svelte";
+    import { onMount } from "svelte";
+    import { _serviceId } from "./+page";
+    import { Service } from "$lib/service/service";
+    import Overview from "$lib/components/service/overview.svelte";
+    import type { Provider } from "$lib/service/provider";
 
-    let overviewMode: boolean = false;
+    let overviewMode: boolean = true;
+    let serviceReady: boolean = false;
+    let providerListReady: boolean = false;
+    let service: Service = new Service();
+    let providersList: Provider[] = [];
+
+    onMount(() =>
+    {
+        let requestObject =
+        {
+            service_id: _serviceId
+        };
+
+        let requestBodyString: string = JSON.stringify(requestObject);
+
+        fetch("/api/service/service_details",
+        {
+            method: "POST",
+            headers:
+            {
+                "Content-Type": "application/json"
+            },
+            body: requestBodyString
+        }).then(async (response: Response): Promise<void> =>
+        {
+            let responseObject = await response.json();
+            
+            service.title = responseObject[0].title;
+            service.description = responseObject[0].description;
+            serviceReady = true;
+        });
+
+        fetch("/api/provider_list",
+        {
+            method: "POST",
+            headers:
+            {
+                "Content-Type": "application/json"
+            },
+            body: requestBodyString
+        }).then(async (response: Response): Promise<void> =>
+        {
+            let responseObject = await response.json();
+            
+            providersList = new Array<Provider>(responseObject.length);
+
+            for(let i: number = 0; i < providersList.length; ++i)
+            {
+                providersList[i] =
+                {
+                    id: responseObject[i].pid,
+                    name: responseObject[i].pname,
+                    rate: responseObject[i].ratingrank,
+                    cost: responseObject[i].totalcost
+                }
+            }
+
+            providerListReady = true;
+        });
+    });
 
     function SwitchToProviderList(): void
     {
@@ -26,8 +89,12 @@
             <div class="partition-container d-flex">
                 <div class="left-part" />
                 <div class="mid-part m-5 p-5">
-                    <h4 class="text-white opacity-75 mx-3">AC Repair Service</h4>
-                    <h1 class="service-title fw-bold text-white">AC Jetwash</h1>
+                    <h4 class="text-white opacity-75 mx-1">AC Repair Service</h4>
+                    {#if serviceReady}
+                        <h1 class="fw-bold text-white">{service.title}</h1>
+                    {:else}
+                        <h1 class="fw-bold text-white placeholder-glow"><span class="placeholder col-6"></span></h1>
+                    {/if}
                 </div>
                 <div class="right-part" />
             </div>
@@ -47,15 +114,19 @@
                 </ul>
                 {#if overviewMode}
                     <div class="m-5" in:fade={{duration: 500}}>
-                        <Overview />
+                        <Overview serviceReady={serviceReady} service={service} />
                     </div>
                 {:else}
                     <div class="m-5" in:fade={{duration: 500}}>
                         <h2>Available Providers</h2>
                         <div class="list-group list-group">
-                            {#each [...Array(15).keys()] as i}
-                                <Provider id={i} />
-                            {/each}
+                            {#if providerListReady}
+                                {#each providersList as provider}
+                                    <ProviderComponent serviceId={_serviceId} provider={provider} />
+                                {/each}
+                            {:else}
+                                hehe
+                            {/if}
                         </div>
                     </div>
                 {/if}
@@ -107,11 +178,6 @@
     .right-part
     {
         width: 15%;
-    }
-
-    .service-title
-    {
-        font-size: 5em;
     }
 
     .info-root
