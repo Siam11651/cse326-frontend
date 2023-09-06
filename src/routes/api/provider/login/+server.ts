@@ -1,11 +1,7 @@
 import { supabase } from "$lib/server/supabaseclient.server";
 import type { RequestEvent } from "./$types";
 import jwt from 'jsonwebtoken';
-let provider =
-{
-    name:'',
-    password_hash:'',
-}
+
 export async function POST({request, cookies}: RequestEvent): Promise<Response>
 { 
     let ret_text;
@@ -14,7 +10,7 @@ export async function POST({request, cookies}: RequestEvent): Promise<Response>
     console.log(provider);
     let given_cname=provider.name;
 let { data:result, error } = await supabase
-.rpc('get_consumer_details', {
+.rpc('get_provider_details', {
   given_cname
 })
 
@@ -28,7 +24,7 @@ if (error)
 } 
 else
 {
-    if(result.consumerid!=null)
+    if(result.pid!=null)
     {
         //console.log(result.security_key);
         //console.log(provider.password_hash);
@@ -38,7 +34,7 @@ else
         let ret_provider=
         {
           id:result.consumerid,
-          is_consumer:true
+          is_consumer:false
         }
         const token = jwt.sign(ret_provider, import.meta.env.VITE_JWT_KEY, { expiresIn: `${15 * 86400 * 1000}` });
         ret_text={
