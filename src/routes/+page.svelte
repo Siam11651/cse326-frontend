@@ -18,6 +18,7 @@
     let searchRecommendationCollapseElement: HTMLDivElement;
     let searchRecommendationCollapse: Collapse;
     let recommendations: Recommendation[] = new Array<Recommendation>(5);
+    let userName: string | null = null;
 
     for(let i: number = 0; i < 5; ++i)
     {
@@ -30,6 +31,40 @@
         {
             toggle: false
         });
+
+        let auth: string | null = window.localStorage.getItem("auth");
+
+        if(auth === null)
+        {
+            return;
+        }
+
+        let authObject = JSON.parse(auth);
+
+        if(authObject.is_consumer)
+        {
+            let userDataRequestObject = 
+            {
+                jwt: authObject.jwt
+            };
+
+            // fetch("/api/consumer/data",
+            // {
+            //     method: "POST",
+            //     headers:
+            //     {
+            //         "Content-Type": "application/json"
+            //     },
+            //     body: JSON.stringify(userDataRequestObject)
+            // }).then((response: Response): void =>
+            // {
+
+            // });
+        }
+        else
+        {
+            
+        }
     });
 
     function StartSearch(): void
@@ -96,7 +131,7 @@
     }
 </script>
 
-<Navbar/>
+<Navbar userName={userName} />
 
 <div class="home-root">
     <div class="d-flex flex-column align-items-center">

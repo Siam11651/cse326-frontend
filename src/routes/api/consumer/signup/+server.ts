@@ -26,7 +26,6 @@ export async function POST({request, cookies}: RequestEvent): Promise<Response>
   if (error) 
   {
     ret_text={
-        success:false,
         errorcode:-1
     }
   }
@@ -35,7 +34,6 @@ export async function POST({request, cookies}: RequestEvent): Promise<Response>
     if(result == true)
     {
         ret_text={
-            success:false,
             errorcode:-2
         }
 
@@ -67,7 +65,6 @@ let { data:result, error } = await supabase
 if (error) 
 {
     ret_text={
-        success:false,
         errorcode:-3
     }
 }
@@ -75,14 +72,14 @@ else
 {
     let ret_user=
     {
-        id:result,
-        is_consumer:true
+      id:result,
+      is_consumer:true
     }
-    const token = jwt.sign(ret_user, import.meta.env.VITE_JWT_KEY, { expiresIn: `${15 * 60 * 1000}` });
+    const token = jwt.sign(ret_user, import.meta.env.VITE_JWT_KEY, { expiresIn: `${15 * 86400 * 1000}` });
     ret_text={
-        success:true,
-        errorcode:0,
-        jwt_token:token
+      errorcode:0,
+      jwt_token:token,
+      is_consumer:true
     }
 }
 

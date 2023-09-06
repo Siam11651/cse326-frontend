@@ -1,6 +1,7 @@
 import phone, { type PhoneResult } from "phone";
 import type { SignupArgs } from "./signup-args";
 import { InvalidContactError, InvalidEmailError, InvalidPfpContactError, InvalidPfpError, InvalidUserNameError, InvalidUsernameEmailError, PasswordTooSmallError, PasswordsDontMatchError } from "./signup-errors";
+import { goto } from "$app/navigation";
 
 export class StateManager
 {
@@ -192,10 +193,21 @@ export class StateManager
                 "Content-Type": "application/json"
             },
             body: requestBodyString
-        }).then(async(response: Response): Promise<void> =>
+        }).then(async (response: Response): Promise<void> =>
         {
-            
-            
+            let responseObject = await response.json();
+
+            if(responseObject.errorcode == 0)
+            {
+                let toSave = 
+                {
+                    jwt: responseObject.jwt_token,
+                    is_consumer: responseObject.is_consumer
+                };
+                window.localStorage.setItem("auth", JSON.stringify(toSave));
+                goto("/");
+            }
+            // else gule pore, vallagena
         });
     }
 };
