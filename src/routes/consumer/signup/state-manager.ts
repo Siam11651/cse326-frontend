@@ -201,10 +201,9 @@ export class StateManager
             {
                 let toSave = 
                 {
-                    jwt: responseObject.jwt_token,
-                    is_consumer: responseObject.is_consumer
+                    jwt: responseObject.jwt_token
                 };
-                window.localStorage.setItem("auth", JSON.stringify(toSave));
+                window.localStorage.setItem("consumer_auth", JSON.stringify(toSave));
                 goto("/");
             }
             // else gule pore, vallagena

@@ -32,39 +32,32 @@
             toggle: false
         });
 
-        let auth: string | null = window.localStorage.getItem("auth");
+        let consumerAuth: string | null = window.localStorage.getItem("consumer_auth");
 
-        if(auth === null)
+        if(consumerAuth === null)
         {
             return;
         }
 
-        let authObject = JSON.parse(auth);
+        let consumerAuthObject = JSON.parse(consumerAuth);
 
-        if(authObject.is_consumer)
+        let userDataRequestObject = 
         {
-            let userDataRequestObject = 
-            {
-                jwt: authObject.jwt
-            };
+            jwt: consumerAuthObject.jwt
+        };
 
-            // fetch("/api/consumer/data",
-            // {
-            //     method: "POST",
-            //     headers:
-            //     {
-            //         "Content-Type": "application/json"
-            //     },
-            //     body: JSON.stringify(userDataRequestObject)
-            // }).then((response: Response): void =>
-            // {
+        // fetch("/api/consumer/data",
+        // {
+        //     method: "POST",
+        //     headers:
+        //     {
+        //         "Content-Type": "application/json"
+        //     },
+        //     body: JSON.stringify(userDataRequestObject)
+        // }).then((response: Response): void =>
+        // {
 
-            // });
-        }
-        else
-        {
-            
-        }
+        // });
     });
 
     function StartSearch(): void

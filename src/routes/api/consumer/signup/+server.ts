@@ -78,8 +78,7 @@ else
     const token = jwt.sign(ret_user, import.meta.env.VITE_JWT_KEY, { expiresIn: `${15 * 86400 * 1000}` });
     ret_text={
       errorcode:0,
-      jwt_token:token,
-      is_consumer:true
+      jwt_token:token
     }
 }
 
