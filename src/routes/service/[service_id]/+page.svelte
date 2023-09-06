@@ -7,7 +7,7 @@
     import { _serviceId } from "./+page";
     import { Service } from "$lib/service/service";
     import Overview from "$lib/components/service/overview.svelte";
-    import type { Provider } from "$lib/service/provider";
+    import { Provider } from "$lib/service/provider";
 
     let overviewMode: boolean = true;
     let serviceReady: boolean = false;
@@ -62,7 +62,8 @@
                     id: responseObject[i].pid,
                     name: responseObject[i].pname,
                     rate: responseObject[i].ratingrank,
-                    cost: responseObject[i].totalcost
+                    cost: responseObject[i].totalcost,
+                    area: responseObject[i].plocal_area
                 }
             }
 
@@ -125,7 +126,9 @@
                                     <ProviderComponent serviceId={_serviceId} provider={provider} />
                                 {/each}
                             {:else}
-                                hehe
+                                {#each [...Array(5).keys()] as i}
+                                    <ProviderComponent placeholder={true} serviceId={-1} provider={new Provider()} />
+                                {/each}
                             {/if}
                         </div>
                     </div>

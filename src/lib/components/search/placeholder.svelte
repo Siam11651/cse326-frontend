@@ -3,7 +3,7 @@
 </script>
 
 <!-- svelte-ignore a11y-invalid-attribute -->
-<a class="list-group-item list-group-item-action placeholder-wave" href="#">
+<a class="list-group-item list-group-item-action placeholder-glow" href="#">
     <h6><span class="placeholder col-3" /></h6>
     <p class="text-body-secondary text-truncate">
         <span class="placeholder col-6" />

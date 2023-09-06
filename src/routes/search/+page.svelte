@@ -119,6 +119,8 @@
 
         if(queryTerm == null)
         {
+            goto("/");
+
             return;
         }
 
