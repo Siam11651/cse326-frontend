@@ -65,7 +65,7 @@ export async function POST({request, cookies}: RequestEvent): Promise<Response>
         given_nidcopy=provider.nid_copy;
       } 
       let { data:result, error } = await supabase
-      .rpc('insert_provider', {
+      .rpc('insert_providers', {
         given_contactaddress,
         given_local,
         given_nidcopy,
