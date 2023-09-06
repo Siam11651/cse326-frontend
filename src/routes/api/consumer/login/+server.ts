@@ -20,7 +20,7 @@ let { data:result, error } = await supabase
 
 if (error)
 {
-    console.log("Querry wron");
+    console.log("Querry wrong");
     ret_text={
         errorcode:-1
       }

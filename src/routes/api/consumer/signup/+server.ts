@@ -9,6 +9,8 @@ let user =
     password_hash:'',
     contact:'',
     pfp:null,
+    address:'',
+    area:'',
     id:0
 }
 export async function POST({request, cookies}: RequestEvent): Promise<Response>
@@ -25,6 +27,7 @@ export async function POST({request, cookies}: RequestEvent): Promise<Response>
   let ret_text;
   if (error) 
   {
+    console.log("querry wrong");
     ret_text={
       errorcode:-1
     }
@@ -33,6 +36,7 @@ export async function POST({request, cookies}: RequestEvent): Promise<Response>
   {
     if(result == true)
     {
+      console.log("user already exists");
       ret_text={
           errorcode:-2
       }
@@ -41,11 +45,11 @@ export async function POST({request, cookies}: RequestEvent): Promise<Response>
     else
     {
         
-      let given_billingaddress=''; 
+      let given_billingaddress=user.address; 
       let given_cname=user.name; 
       let given_contactnumber=user.contact; 
       let given_imagefile=null;
-      if(user.pfp)
+      if(user.pfp!=null)
       {
         given_imagefile=user.pfp;
       } 
@@ -64,12 +68,15 @@ export async function POST({request, cookies}: RequestEvent): Promise<Response>
 
       if (error) 
       {
+        console.log("insert db error");
+        console.log(error);
         ret_text={
           errorcode:-3
         }
       }
       else 
       {
+        console.log("insert done");
         let ret_user=
         {
           id:result,
