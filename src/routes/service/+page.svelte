@@ -52,7 +52,7 @@
                 {:else}
                     <div class="m-5" in:fade={{duration: 500}}>
                         <h2>Available Providers</h2>
-                        <div class="list-group list-group-flush">
+                        <div class="list-group list-group">
                             {#each [...Array(15).keys()] as i}
                                 <Provider id={i} />
                             {/each}
