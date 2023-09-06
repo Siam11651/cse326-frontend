@@ -104,7 +104,7 @@ export class SorterImplementation
         return SorterImplementation.sorterName[sorterType];
     }
 
-    public static ApplyFilter(searchResults: SearchResult[], sorterType: SorterType): SearchResult[]
+    public static ApplySort(searchResults: SearchResult[], sorterType: SorterType): SearchResult[]
     {
         return SorterImplementation.SorterFunctions[sorterType](searchResults);
     }

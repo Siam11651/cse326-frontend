@@ -128,7 +128,7 @@
     {
         if(searchTerm && searchTerm.length > 0)
         {
-            goto("/search?q=" + encodeURI(searchTerm));
+            goto("/search?" + encodeURI("q=" + searchTerm));
         }
     }
 </script>

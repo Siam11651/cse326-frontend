@@ -1,7 +1,5 @@
 <script lang="ts">
     import { fade } from "svelte/transition";
-
-
 </script>
 
 <div class="all-results-container" in:fade={{duration: 500}}>
