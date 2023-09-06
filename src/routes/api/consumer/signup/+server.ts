@@ -80,7 +80,8 @@ export async function POST({request, cookies}: RequestEvent): Promise<Response>
         let ret_user=
         {
           id:result,
-          is_consumer:true
+          is_consumer:true,
+          name:user.name
         }
         const token = jwt.sign(ret_user, import.meta.env.VITE_JWT_KEY, { expiresIn: `${15 * 86400 * 1000}` });
         ret_text={

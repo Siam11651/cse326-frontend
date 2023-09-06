@@ -34,7 +34,8 @@ else
         let ret_provider=
         {
           id:result.consumerid,
-          is_consumer:false
+          is_consumer:false,
+          name:provider.name
         }
         const token = jwt.sign(ret_provider, import.meta.env.VITE_JWT_KEY, { expiresIn: `${15 * 86400 * 1000}` });
         ret_text={
