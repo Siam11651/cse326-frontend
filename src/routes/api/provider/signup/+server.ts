@@ -51,7 +51,7 @@ export async function POST({request, cookies}: RequestEvent): Promise<Response>
       let given_pname=provider.name; 
       let given_contactnumber=provider.contact; 
       let given_imagefile=null;
-      let given_local=provider.area;
+      let given_local=provider.region;
       if(provider.pfp!=null)
       {
         given_imagefile=provider.pfp;
