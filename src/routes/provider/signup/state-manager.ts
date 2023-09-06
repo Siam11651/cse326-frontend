@@ -7,12 +7,14 @@ import * as EmailValidator from "email-validator";
 
 export class StateManager
 {
-    private static STATE_COUNT: number = 4;
+    private static STATE_COUNT: number = 5;
     private static username: string | null = null;
     private static email: string | null = null;
     private static passwordHash: string | null = null;
     private static pfp: Uint8Array | null = null;
     private static contact: string | null = null;
+    private static nidNumber: number | null = null;
+    private static nid: Uint8Array | null = null;
     private static address: string | null = null;
     private static region: string | null = null;
 
@@ -75,6 +77,11 @@ export class StateManager
             }
         }
         else if(currentState === 3)
+        {
+            StateManager.SetNidNumber(args.nidNumber);
+            await StateManager.SetNid(args.nid);
+        }
+        else if(currentState === 4)
         {
             let addressValid: boolean = StateManager.SetAddress(args.address);
             let regionValid: boolean = StateManager.SetRegion(args.region);
@@ -194,6 +201,26 @@ export class StateManager
         return true;
     }
 
+    private static SetNidNumber(nidNumber: number | null): boolean
+    {
+        StateManager.nidNumber = nidNumber;
+
+        return true;
+    }
+
+    private static async SetNid(nid: File | null): Promise<boolean>
+    {
+        if(nid == null)
+        {
+            return false;
+        }
+
+        let arrayBuffer: ArrayBuffer = await nid.arrayBuffer();
+        StateManager.nid = new Uint8Array(arrayBuffer);
+
+        return true;
+    }
+
     private static SetAddress(address: string | null): boolean
     {
         if(address === null || address.length === 0)
@@ -234,13 +261,15 @@ export class StateManager
             password_hash: StateManager.passwordHash,
             pfp: StateManager.pfp,
             contact: StateManager.contact,
+            nidnumber: StateManager.nidNumber,
+            nid_copy: StateManager.nid,
             address: StateManager.address,
             region: StateManager.region
         };
 
         let requestBodyString = JSON.stringify(requestBodyObject);
 
-        fetch("/api/consumer/signup", 
+        fetch("/api/provider/signup", 
         {
             method: "POST",
             headers:
@@ -258,8 +287,8 @@ export class StateManager
                 {
                     jwt: responseObject.jwt_token
                 };
-                window.localStorage.setItem("consumer_auth", JSON.stringify(toSave));
-                goto("/");
+                window.localStorage.setItem("provider_auth", JSON.stringify(toSave));
+                goto("/provider/dashboard");
             }
             // else gule pore, vallagena
         });

@@ -52,8 +52,6 @@
 
     async function GoNext(): Promise<void>
     {
-        console.log(addressValue);
-
         try
         {
             state = await StateManager.GoNext(state,
@@ -135,7 +133,7 @@
                 {#if state < StateManager.GetStateCount() - 1}
                     <button type="button" class="btn btn-primary" on:click={GoNext}>Next</button>
                 {:else if state == StateManager.GetStateCount() - 1}
-                <button type="button" class="btn btn-primary" on:click={GoNext}>Sign Up</button>
+                    <button type="button" class="btn btn-primary" on:click={GoNext}>Sign Up</button>
                 {/if}
             </div>
         </div>
