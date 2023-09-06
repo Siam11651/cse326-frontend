@@ -6,19 +6,22 @@
     import Result from "$lib/components/search/result.svelte";
     import Placeholder from "$lib/components/search/placeholder.svelte";
     import { SorterType, type Sorter, SorterImplementation } from "./sorter";
+    import AllResultsContainer from "$lib/components/search/all-results-container.svelte";
 
-    let searchResults: SearchResult[] = new Array<SearchResult>(10);
+    let searchResults: SearchResult[] = []; 
+    let searchResultsReady: boolean = false;
+    // let searchResults: SearchResult[] = new Array<SearchResult>(10);
 
-    for(let i: number = 0; i < 10; ++i)
-    {
-        searchResults[i] =
-        {
-            id: i,
-            title: "Service " + (i + 1),
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pretium ultrices nibh in scelerisque. Proin facilisis dolor a est eleifend, congue egestas lorem convallis. Nam porta aliquam mi. Nullam ligula tellus, aliquam vitae magna congue, dignissim feugiat sapien. Sed vulputate commodo eros tempus mollis. Ut vestibulum blandit ornare. Sed id semper massa. Ut augue libero, efficitur a orci eget, commodo volutpat augue. Proin in neque turpis. Nullam pretium iaculis nisl, non pellentesque purus feugiat a. Vivamus malesuada augue vel nisl faucibus, eu bibendum purus posuere. Suspendisse tristique ut libero volutpat auctor.",
-            price: 69
-        };
-    }
+    // for(let i: number = 0; i < 10; ++i)
+    // {
+    //     searchResults[i] =
+    //     {
+    //         id: i,
+    //         title: "Service " + (i + 1),
+    //         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pretium ultrices nibh in scelerisque. Proin facilisis dolor a est eleifend, congue egestas lorem convallis. Nam porta aliquam mi. Nullam ligula tellus, aliquam vitae magna congue, dignissim feugiat sapien. Sed vulputate commodo eros tempus mollis. Ut vestibulum blandit ornare. Sed id semper massa. Ut augue libero, efficitur a orci eget, commodo volutpat augue. Proin in neque turpis. Nullam pretium iaculis nisl, non pellentesque purus feugiat a. Vivamus malesuada augue vel nisl faucibus, eu bibendum purus posuere. Suspendisse tristique ut libero volutpat auctor.",
+    //         price: 69
+    //     };
+    // }
 
     let sortMethod: string = SorterImplementation.GetSorterName(SorterType.NAME_ASC);
     let sorters: Sorter[] =
@@ -27,32 +30,40 @@
             name: SorterImplementation.GetSorterName(SorterType.NAME_ASC),
             handler: (): void =>
             {
+                searchResultsReady = false;
                 sortMethod = SorterImplementation.GetSorterName(SorterType.NAME_ASC);
                 searchResults = SorterImplementation.ApplyFilter(searchResults, SorterType.NAME_ASC)
+                searchResultsReady = true;
             }
         },
         {
             name: SorterImplementation.GetSorterName(SorterType.NAME_DESC),
             handler: (): void =>
             {
+                searchResultsReady = false;
                 sortMethod = SorterImplementation.GetSorterName(SorterType.NAME_DESC);
                 searchResults = SorterImplementation.ApplyFilter(searchResults, SorterType.NAME_DESC)
+                searchResultsReady = true;
             }
         },
         {
             name: SorterImplementation.GetSorterName(SorterType.PRICE_ASC),
             handler: (): void =>
             {
+                searchResultsReady = false;
                 sortMethod = SorterImplementation.GetSorterName(SorterType.PRICE_ASC);
                 searchResults = SorterImplementation.ApplyFilter(searchResults, SorterType.PRICE_ASC)
+                searchResultsReady = true;
             }
         },
         {
             name: SorterImplementation.GetSorterName(SorterType.PRICE_DESC),
             handler: (): void =>
             {
+                searchResultsReady = false;
                 sortMethod = SorterImplementation.GetSorterName(SorterType.PRICE_DESC);
                 searchResults = SorterImplementation.ApplyFilter(searchResults, SorterType.PRICE_DESC)
+                searchResultsReady = true;
             }
         }
     ]
@@ -83,7 +94,21 @@
                 body: requestBodyString
             }).then(async (response: Response): Promise<void> =>
             {
-                
+                let responseObject = await response.json();
+                searchResults = new Array<SearchResult>(responseObject.length);
+
+                for(let i: number = 0; i < searchResults.length; ++i)
+                {
+                    searchResults[i] =
+                    {
+                        id: responseObject[i].s_serviceid,
+                        title: responseObject[i].s_title,
+                        description: responseObject[i].s_description,
+                        price: responseObject[i].s_basecost
+                    };
+                }
+
+                searchResultsReady = true;
             });
         }
     });
@@ -142,19 +167,19 @@
                     </div>
                 </div>
                 <div class="all-results-padder shadow-lg p-3 me-5 rounded" in:scale={{duration: 500, start: 0.95}}>
-                    <div class="all-results-container">
-                        <ul class="list-group list-group-flush">
-                            {#if searchResults.length == 0}
-                                {#each [...Array(4).keys()] as i}
-                                    <Placeholder index={i} />
-                                {/each}
-                            {:else}
-                                {#each searchResults as {id, title, description, price}}
-                                    <Result id={id} title={title} description={description} price={price} />
-                                {/each}
-                            {/if}
-                        </ul>
-                    </div>
+                    {#if searchResultsReady}
+                        <AllResultsContainer>
+                            {#each searchResults as {id, title, description, price}}
+                                <Result id={id} title={title} description={description} price={price} />
+                            {/each}
+                        </AllResultsContainer>
+                    {:else}
+                        <AllResultsContainer>
+                            {#each [...Array(4).keys()] as i}
+                                <Placeholder index={i} />
+                            {/each}
+                        </AllResultsContainer>
+                    {/if}
                 </div>
             </div>
         </div>
@@ -198,11 +223,5 @@
         bottom: 0;
         right: 0;
         left: 0;
-    }
-
-    .all-results-container
-    {
-        max-height: 100%;
-        overflow-y: auto;
     }
 </style>
