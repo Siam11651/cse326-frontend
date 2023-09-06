@@ -21,6 +21,7 @@ export async function POST({request, cookies}: RequestEvent): Promise<Response>
     })
     if (error)
     {
+        console.log(error);
         ret_text={
             errorcode:-1
           }
