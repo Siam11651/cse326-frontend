@@ -67,7 +67,7 @@
             let searchTerm: string = decodeURI(encodedTerm);
             let requestObject = 
             {
-                recommendation: true,
+                recommendation: false,
                 search_term: searchTerm
             };
 
