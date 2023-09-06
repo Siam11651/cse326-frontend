@@ -10,9 +10,9 @@ export async function POST({request, cookies}: RequestEvent): Promise<Response>
 { 
     let ret_text;
 
-    let req = await request.json();
-    console.log(req);
-    let given_cname=req.name;
+    let user = await request.json();
+    console.log(user);
+    let given_cname=user.name;
 let { data:result, error } = await supabase
 .rpc('get_consumer_details', {
   given_cname
@@ -30,6 +30,8 @@ else
 {
     if(result.consumerid!=null)
     {
+        //console.log(result.security_key);
+        //console.log(user.password_hash);
         if(result.security_key==user.password_hash)
     {
         console.log("user exist");
