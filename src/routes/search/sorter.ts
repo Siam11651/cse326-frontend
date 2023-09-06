@@ -83,7 +83,7 @@ export class SorterImplementation
             {
                 if(left.price < right.price)
                 {
-                    return -1;
+                    return 1;
                 }
                 else if(left.price === right.price)
                 {
@@ -91,7 +91,7 @@ export class SorterImplementation
                 }
                 else
                 {
-                    return 1;
+                    return -1;
                 }
             });
 
