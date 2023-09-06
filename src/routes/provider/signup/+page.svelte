@@ -1,6 +1,6 @@
 <script lang="ts">
-    import Names from "$lib/components/auth/signup/name.svelte";
-    import Password from "$lib/components/auth/signup/password.svelte";
+    import Names from "$lib/components/sigin/signup/name.svelte";
+    import Password from "$lib/components/sigin/signup/password.svelte";
     import { fade } from "svelte/transition";
     import bg from "$lib/assets/home-delivery-man.webp"
 

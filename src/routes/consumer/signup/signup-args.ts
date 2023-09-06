@@ -6,4 +6,6 @@ export class SignupArgs
     public password1: string | null  = null;
     public pfp: File | null  = null;
     public contact: string | null  = null;
+    public address: string | null = null;
+    public region: string | null = null;
 }

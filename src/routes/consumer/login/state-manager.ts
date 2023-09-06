@@ -1,5 +1,6 @@
+import { SigninError } from "../../../lib/signin-error";
 import type { LoginArgs } from "./login-args";
-import { InvalidPasswordError, InvalidUserNameError, InvalidUsernamePasswordError } from "./login-errors";
+import { Errorcodes } from "./login-errors";
 
 export class StateManager
 {
@@ -19,15 +20,15 @@ export class StateManager
 
         if(!usernameValid && !passwordValid)
         {
-            throw new InvalidUsernamePasswordError();
+            throw new SigninError(Errorcodes.INVALID_USERNAME_PASSWORD);
         }
         else if(!usernameValid)
         {
-            throw new InvalidUserNameError();
+            throw new SigninError(Errorcodes.INVALID_USERNAME);
         }
         else if(!passwordValid)
         {
-            throw new InvalidPasswordError();
+            throw new SigninError(Errorcodes.INVALID_PASSWORD);
         }
         
         return currentState + 1;

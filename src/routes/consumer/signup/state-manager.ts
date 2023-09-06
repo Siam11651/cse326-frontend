@@ -1,16 +1,19 @@
 import phone, { type PhoneResult } from "phone";
 import type { SignupArgs } from "./signup-args";
-import { InvalidContactError, InvalidEmailError, InvalidPfpContactError, InvalidPfpError, InvalidUserNameError, InvalidUsernameEmailError, PasswordTooSmallError, PasswordsDontMatchError } from "./signup-errors";
 import { goto } from "$app/navigation";
+import { Errorcodes } from "./signup-errors";
+import { SigninError } from "../../../lib/signin-error";
 
 export class StateManager
 {
-    private static STATE_COUNT: number = 3;
+    private static STATE_COUNT: number = 4;
     private static username: string | null = null;
     private static email: string | null = null;
     private static passwordHash: string | null = null;
     private static pfp: Uint8Array | null;
     private static contact: string | null;
+    private static address: string | null;
+    private static region: string | null;
 
     public static GetStateCount(): number
     {
@@ -19,55 +22,75 @@ export class StateManager
 
     public static async GoNext(currentState: number, args: SignupArgs): Promise<number>
     {
-        if(currentState == 0)
+        if(currentState === 0)
         {
             let usernameValid = StateManager.SetUsername(args.username);
             let emailValid = StateManager.SetEmail(args.email);
 
             if(!usernameValid && !emailValid)
             {
-                throw new InvalidUsernameEmailError();
+                throw new SigninError(Errorcodes.INVALID_USERNAME_EMAIL);
             }
             else if(!usernameValid)
             {
-                throw new InvalidUserNameError();
+                throw new SigninError(Errorcodes.INVALID_USERNAME);
             }
             else if(!emailValid)
             {
-                throw new InvalidEmailError();
+                throw new SigninError(Errorcodes.INVALID_EMAIL);
             }
         }
-        else if(currentState == 1)
+        else if(currentState === 1)
         {
             let returnValue: number = StateManager.SetPasswordHash(args.password0, args.password1);
 
-            if(returnValue == -1)
+            if(returnValue === -1)
             {
-                throw new PasswordTooSmallError();
+                throw new SigninError(Errorcodes.PASSWORD_TOO_SMALL);
             }
-            else if(returnValue == -2)
+            else if(returnValue === -2)
             {
-                throw new PasswordsDontMatchError();
+                throw new SigninError(Errorcodes.PASSWORDS_DONT_MATCH);
             }
         }
-        else if(currentState == 2)
+        else if(currentState === 2)
         {
             let pfpValid = await StateManager.SetPfp(args.pfp);
             let contactValid = StateManager.SetContact(args.contact);
 
             if(!pfpValid && !contactValid)
             {
-                throw new InvalidPfpContactError();
+                throw new SigninError(Errorcodes.INVALID_PFP_CONTACT);
             }
 
             if(!pfpValid)
             {
-                throw new InvalidPfpError();
+                throw new SigninError(Errorcodes.INVALID_PFP);
             }
 
             if(!contactValid)
             {
-                throw new InvalidContactError();
+                throw new SigninError(Errorcodes.INVALID_CONTACT);
+            }
+        }
+        else if(currentState === 3)
+        {
+            let addressValid: boolean = StateManager.SetAddress(args.address);
+            let regionValid: boolean = StateManager.SetRegion(args.region);
+
+            if(!addressValid && !regionValid)
+            {
+                throw new SigninError(Errorcodes.INVALID_ADDRESS_REGION);
+            }
+             
+            if(!addressValid)
+            {
+                throw new SigninError(Errorcodes.INVALID_ADDRESS);
+            }
+
+            if(!regionValid)
+            {
+                throw new SigninError(Errorcodes.INVALID_REGION);
             }
         }
         
@@ -170,6 +193,37 @@ export class StateManager
         return true;
     }
 
+    private static SetAddress(address: string | null): boolean
+    {
+        if(address === null || address.length === 0)
+        {
+            return false;
+        }
+
+        StateManager.address = address;
+
+        return true;
+    }
+
+    private static SetRegion(region: string | null): boolean
+    {
+        if(region)
+        {
+            if(region.length === 0)
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+
+        StateManager.region = region;
+
+        return true;
+    }
+
     public static async SignUp(): Promise<void>
     {
         let requestBodyObject =
@@ -178,7 +232,9 @@ export class StateManager
             email: StateManager.email,
             password_hash: StateManager.passwordHash,
             pfp: StateManager.pfp,
-            contact: StateManager.contact
+            contact: StateManager.contact,
+            address: StateManager.address,
+            region: StateManager.region
         };
 
         let requestBodyString = JSON.stringify(requestBodyObject);

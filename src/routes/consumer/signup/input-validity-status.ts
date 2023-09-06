@@ -6,4 +6,6 @@ export class InputValidityStatus
     public password1Invalid: boolean = false;
     public pfpInvalid: boolean = false;
     public contactInvalid: boolean = false;
+    public addressInvalid: boolean = false;
+    public regionInvalid: boolean = false;
 }

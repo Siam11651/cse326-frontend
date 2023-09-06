@@ -13,9 +13,9 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         {#if userName == null}
-            hehe
-        {:else}
             <a type="button" class="btn btn-primary" href="/consumer/login">Sign In</a>
+        {:else}
+            hehe
         {/if}
     </div>
 </nav>

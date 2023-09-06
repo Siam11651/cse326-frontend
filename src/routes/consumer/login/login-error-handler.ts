@@ -1,6 +1,7 @@
 import type { Toast } from "bootstrap";
-import { InvalidUserNameError, InvalidPasswordError, InvalidUsernamePasswordError } from "./login-errors";
+import { Errorcodes } from "./login-errors";
 import { InputValidityStatus } from "./input-validity-status";
+import type { SigninError } from "../../../lib/signin-error";
 
 export class LoginErrorHandler
 {
@@ -17,23 +18,23 @@ export class LoginErrorHandler
         LoginErrorHandler.invalidPasswordToast = invalidPasswordToast;
     }
 
-    public static HandleError(err: any): InputValidityStatus
+    public static HandleError(err: SigninError): InputValidityStatus
     {
         let inputValidityStatus: InputValidityStatus = new InputValidityStatus();
 
-        if(err instanceof InvalidUserNameError)
+        if(err.GetErrorcode() === Errorcodes.INVALID_USERNAME)
         {
             inputValidityStatus.usernameInvalid = true;
 
             LoginErrorHandler.invalidUserNameToast.show();
         }
-        else if(err instanceof InvalidPasswordError)
+        else if(err.GetErrorcode() === Errorcodes.INVALID_PASSWORD)
         {
             inputValidityStatus.passwordInvalid = true;
 
             LoginErrorHandler.invalidPasswordToast.show();
         }
-        else if(err instanceof InvalidUsernamePasswordError)
+        else if(err.GetErrorcode() === Errorcodes.INVALID_USERNAME_PASSWORD)
         {
             inputValidityStatus.usernameInvalid = true;
             inputValidityStatus.passwordInvalid = true;

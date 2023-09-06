@@ -1,14 +1,6 @@
-export class InvalidUserNameError extends Error
+export enum Errorcodes
 {
-
-}
-
-export class InvalidPasswordError extends Error
-{
-    
-}
-
-export class InvalidUsernamePasswordError extends Error
-{
-    
+    INVALID_USERNAME = 0,
+    INVALID_PASSWORD = 1,
+    INVALID_USERNAME_PASSWORD = 2
 }

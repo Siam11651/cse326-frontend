@@ -1,8 +1,8 @@
 <script lang="ts">
     import bg from "$lib/assets/home-delivery-man.webp"
-    import Creds from "$lib/components/auth/login/creds.svelte";
-    import Waiter from "$lib/components/auth/waiter.svelte";
-    import Title from "$lib/components/auth/title.svelte";
+    import Creds from "$lib/components/sigin/login/creds.svelte";
+    import Waiter from "$lib/components/sigin/waiter.svelte";
+    import Title from "$lib/components/sigin/title.svelte";
     import { fade } from "svelte/transition";
     import { StateManager } from "./state-manager";
     import { InputValidityStatus } from "./input-validity-status";
@@ -10,6 +10,7 @@
     import { onMount } from "svelte";
     import type { Toast } from "bootstrap";
     import ErrorToast from "$lib/components/error-toast.svelte";
+    import { SigninError } from "../../../lib/signin-error";
 
     let stateContainerElement: HTMLDivElement;
     let invalidUsernameToast: Toast;
@@ -39,7 +40,10 @@
         }
         catch(err)
         {
-            inputValidityStatus = LoginErrorHandler.HandleError(err);
+            if(err instanceof SigninError)
+            {
+                inputValidityStatus = LoginErrorHandler.HandleError(err);
+            }
         }
 
         if(state == 1)
