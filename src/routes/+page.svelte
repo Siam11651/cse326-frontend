@@ -11,7 +11,7 @@
     import { Collapse } from 'bootstrap';
     import Footer from '$lib/components/footer.svelte';
     import { fade } from 'svelte/transition';
-    import { Recommendation } from './Recommendation';
+    import { Recommendation } from './recommendation';
     import { goto } from "$app/navigation";
 
     let searchTerm: string;

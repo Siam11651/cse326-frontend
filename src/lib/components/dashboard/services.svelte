@@ -1,8 +1,64 @@
 <script lang="ts">
     import { fade } from "svelte/transition";
     import type { Service } from "../../../routes/provider/dashboard/service";
+    import type { AddableService } from "../../../routes/provider/dashboard/addable-service";
 
     export let services: Service[];
+    let addableServices: AddableService[] = [];
+    let waitingToAdd: boolean = false;
+
+    function FetchAddableServices(): void
+    {
+        fetch("/api/provider/service/addable_services",
+        {
+            method: "POST",
+            headers:
+            {
+                "Content-Type": "application/json"
+            }
+        }).then(async (response: Response): Promise<void> =>
+        {
+            let responseObject = await response.json();
+
+            addableServices = new Array<AddableService>(responseObject.length);
+
+            for(let i: number = 0; i < addableServices.length; ++i)
+            {
+                addableServices[i] =
+                {
+                    id: responseObject[i]._serviceid,
+                    title: responseObject[i]._title,
+                    handler: ()=>
+                    {
+                        let requestBody =
+                        {
+                            given_serviceid: responseObject[i]._serviceid
+                        };
+
+                        fetch("/api/provider/add_service_to_provider",
+                        {
+                            method: "POST",
+                            headers:
+                            {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify(requestBody)
+                        }).then(async (response: Response): Promise<void> =>
+                        {
+                            let responseObject = await response.json();
+
+                            if(responseObject.data)
+                            {
+                                
+                            }
+                        });
+
+                        // waitingToAdd = true;
+                    }
+                };
+            }
+        });
+    }
 </script>
 
 <div class="services-root flex-fill d-flex flex-column justify-content-between" in:fade={{duration: 200}}>
@@ -54,11 +110,35 @@
         </div>
     </div>
     <div class="d-flex flex-row-reverse mt-3">
-        <button type="button" class="btn btn-success" title="Add New Service">
+        <button type="button" class="btn btn-success" title="Add New Service" data-bs-toggle="modal" data-bs-target="#add-service-modal" on:click={FetchAddableServices}>
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
                 <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
             </svg>
         </button>
+    </div>
+</div>
+
+<div class="modal fade" id="add-service-modal" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="d-flex align-item-center justify-content-between p-2">
+                    <h4 class="card-title">Addable Services</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="list-group">
+                    {#if waitingToAdd}
+                        waiting
+                    {:else}
+                        {#each addableServices as service}
+                            <button class="list-group-item list-group-item-action" data-bs-dismiss="modal" on:click={service.handler}>
+                                {service.title}
+                            </button>
+                        {/each}
+                    {/if}
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

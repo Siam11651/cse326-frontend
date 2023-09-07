@@ -12,12 +12,12 @@ export async function POST({ request, cookies }: RequestEvent): Promise<Response
     let given_pid = decodedToken.id;
 
     // service id direct
-    let given_serviceid = await request.json().given_serviceid;
+    let given_serviceid = (await request.json()).given_serviceid;
 
     let { data: result, error } = await supabase
       .rpc('add_service_to_provider', {
-        given_serviceid,
-        given_pid
+        given_pid,
+        given_serviceid
       })
     if (error) {
       console.log(error);
