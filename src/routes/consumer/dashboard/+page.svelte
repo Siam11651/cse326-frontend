@@ -2,29 +2,18 @@
     import Navbar from "$lib/components/navbar.svelte";
     import defaultPfp from "$lib/assets/default-pfp.webp"
     import { fly } from "svelte/transition";
-    import Overview from "$lib/components/dashboard/provider/overview.svelte";
-    import Services from "$lib/components/dashboard/services.svelte";
+    import Overview from "$lib/components/dashboard/consumer/overview.svelte";
     import { onMount } from "svelte";
     import { PersonalInfo } from "./personal-info";
-    import type { Service } from "./service";
 
     let menuButtons: HTMLButtonElement[] = new Array<HTMLButtonElement>(5);
     let menuSelection: number = 0;
-    let username: string = "";
-    let usernameSet: boolean = false;
     let personalInfo: PersonalInfo = new PersonalInfo();
     let personalInfoSet: boolean = false;
-    let services: Service[] = [];
 
     onMount((): void =>
     {
-        FetchPersonalInfo();
-        FetchServices();
-    });
-
-    function FetchPersonalInfo(): void
-    {
-        fetch("/api/provider/info",
+        fetch("/api/consumer/info",
         {
             method: "POST",
             headers:
@@ -35,57 +24,16 @@
         {
             let responseObject = await response.json();
 
-            personalInfo =
+            personalInfo = 
             {
-                username: responseObject.pname,
-                email: responseObject.mail,
+                username: responseObject.cname,
                 contact: responseObject.contactnumber,
-                nidNumber: responseObject.nidnumber,
-                region: responseObject.local_area,
-                fullAddress: responseObject.contactaddress
-            }
-
+                email: responseObject.mail,
+                address: responseObject.billingaddress
+            };
             personalInfoSet = true;
-
-            if(!usernameSet)
-            {
-                username = personalInfo.username;
-                usernameSet = true;
-            }
         });
-    }
-
-    function FetchServices(): void
-    {
-        fetch("/api/provider/service/service_list",
-        {
-            method: "POST",
-            headers:
-            {
-                "Content-Type": "application/json"
-            }
-        }).then(async (response: Response): Promise<void> =>
-        {
-            let responseObject = await response.json();
-
-            if(responseObject.errorcode == null)
-            {
-                services = new Array<Service>(responseObject.length);
-
-                for(let i: number = 0; i < services.length; ++i)
-                {
-                    services[i] =
-                    {
-                        id: responseObject[i]._serviceid,
-                        title: responseObject[i]._title,
-                        description: responseObject[i]._description,
-                        price: responseObject[i]._basecost,
-                        discount: responseObject[i]._discount,
-                    }
-                }
-            }
-        });
-    }
+    });
 
     function ResetSelection(): void
     {
@@ -97,13 +45,10 @@
 
     function OnOverviewMenuClick(): void
     {
-        personalInfoSet = false;
         ResetSelection();
 
         menuButtons[0].classList.add("active");
         menuSelection = 0;
-
-        FetchPersonalInfo();
     }
 
     function OnServicesMenuClick(): void
@@ -112,11 +57,9 @@
 
         menuButtons[1].classList.add("active");
         menuSelection = 1;
-
-        FetchServices();
     }
 
-    function OnTasksMenuClick(): void
+    function OnHistoryClick(): void
     {
         ResetSelection();
 
@@ -124,20 +67,12 @@
         menuSelection = 2;
     }
 
-    function OnHistoryClick(): void
+    function OnReviewsClick(): void
     {
         ResetSelection();
 
         menuButtons[3].classList.add("active");
         menuSelection = 3;
-    }
-
-    function OnReviewsClick(): void
-    {
-        ResetSelection();
-
-        menuButtons[4].classList.add("active");
-        menuSelection = 4;
     }
 </script>
 
@@ -156,8 +91,8 @@
                         </svg>
                     </a>
                     <h5 class="placeholder-glow mb-5">
-                        {#if usernameSet}
-                            {username}
+                        {#if personalInfoSet}
+                            {personalInfo.username}
                         {:else}
                             <span class="placeholder col-4"></span>
                         {/if}
@@ -166,18 +101,15 @@
                 <div class="menu-list-container ps-3 mb-3 mt-5">
                     <div class="list-group list-group-flush border border-end-0 rounded-start">
                         <button type="button" class="menu-button list-group-item list-group-item-action fs-5 active" bind:this={menuButtons[0]} on:click={OnOverviewMenuClick}>Overview</button>
-                        <button type="button" class="menu-button list-group-item list-group-item-action fs-5" bind:this={menuButtons[1]} on:click={OnServicesMenuClick}>Services</button>
-                        <button type="button" class="menu-button list-group-item list-group-item-action fs-5" bind:this={menuButtons[2]} on:click={OnTasksMenuClick}>Tasks</button>
-                        <button type="button" class="menu-button list-group-item list-group-item-action fs-5" bind:this={menuButtons[3]} on:click={OnHistoryClick}>History</button>
-                        <button type="button" class="menu-button list-group-item list-group-item-action fs-5" bind:this={menuButtons[4]} on:click={OnReviewsClick}>Reviews</button>
+                        <button type="button" class="menu-button list-group-item list-group-item-action fs-5" bind:this={menuButtons[1]} on:click={OnServicesMenuClick}>Orders</button>
+                        <button type="button" class="menu-button list-group-item list-group-item-action fs-5" bind:this={menuButtons[2]} on:click={OnHistoryClick}>History</button>
+                        <button type="button" class="menu-button list-group-item list-group-item-action fs-5" bind:this={menuButtons[3]} on:click={OnReviewsClick}>Reviews</button>
                     </div>
                 </div>
             </div>
             <div class="menu-details d-flex flex-column align-items-stretch p-5">
                 {#if menuSelection == 0}
                     <Overview placeholder={!personalInfoSet} personalInfo={personalInfo} />
-                {:else if menuSelection == 1}
-                    <Services services={services} />
                 {/if}
             </div>
         </div>

@@ -1,10 +1,10 @@
 <script lang="ts">
     import { fade } from "svelte/transition";
-    import LabeledInfoTag from "./labeled-info-tag.svelte";
-    import type { PersonalInfo } from "../../../routes/provider/dashboard/personal-info";
+    import LabeledInfoTag from "../labeled-info-tag.svelte";
+    import type { PersonalInfo } from "../../../../routes/consumer/dashboard/personal-info";
 
-    export let placeholder: boolean = false;
     export let personalInfo: PersonalInfo;
+    export let placeholder: boolean = false;
 </script>
 
 <div class="overview-root" in:fade={{duration: 200}}>
@@ -21,15 +21,7 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <LabeledInfoTag placeholder={placeholder} label="NID Number" info={personalInfo.nidNumber} />
-                </div>
-                <div class="col">
-                    <LabeledInfoTag placeholder={placeholder} label="Region" info={personalInfo.region} />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <LabeledInfoTag placeholder={placeholder} label="Contact Address" info={personalInfo.fullAddress} />
+                    <LabeledInfoTag placeholder={placeholder} label="Billing Address" info={personalInfo.address} />
                 </div>
             </div>
         </div>
@@ -41,29 +33,6 @@
                     <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
                 </svg>
             </a>
-        </div>
-    </div>
-    
-    <div class="card">
-        <div class="card-body">
-            <h4>Activities:</h4>
-            <div class="d-flex">
-                <div class="flex-fill ps-3 pe-3">
-                    <div class="m-2">
-                        Followers: 69420
-                    </div>
-                </div>
-                <div class="flex-fill border-start border-end ps-3 pe-3">
-                    <div class="m-2">
-                        Services Done: 1234
-                    </div>
-                </div>
-                <div class="flex-fill ps-3 pe-3">
-                    <div class="m-2">
-                        Average Rate: 4.9
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>

@@ -133,7 +133,7 @@
     }
 </script>
 
-<Navbar userName={userName} />
+<Navbar />
 
 <div class="home-root">
     <div class="d-flex flex-column align-items-center">
