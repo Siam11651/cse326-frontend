@@ -337,17 +337,6 @@
         height: 100%;
     }
 
-    .left-part
-    {
-        width: 15%;
-    }
-    
-    .mid-part
-    {
-        width: 70%;
-        height: 100%;
-    }
-
     .right-part
     {
         width: 15%;
