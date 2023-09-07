@@ -10,11 +10,19 @@
 
     let menuButtons: HTMLButtonElement[] = new Array<HTMLButtonElement>(5);
     let menuSelection: number = 0;
+    let username: string = "";
+    let usernameSet: boolean = false;
     let personalInfo: PersonalInfo = new PersonalInfo();
     let personalInfoSet: boolean = false;
     let services: Service[] = [];
 
     onMount((): void =>
+    {
+        FetchPersonalInfo();
+        FetchServices();
+    });
+
+    function FetchPersonalInfo(): void
     {
         fetch("/api/provider/info",
         {
@@ -38,8 +46,17 @@
             }
 
             personalInfoSet = true;
-        });
 
+            if(!usernameSet)
+            {
+                username = personalInfo.username;
+                usernameSet = true;
+            }
+        });
+    }
+
+    function FetchServices(): void
+    {
         fetch("/api/provider/service/service_list",
         {
             method: "POST",
@@ -66,21 +83,7 @@
                 }
             }
         });
-
-        fetch("/api/provider/service/addable_services",
-        {
-            method: "POST",
-            headers:
-            {
-                "Content-Type": "application/json"
-            }
-        }).then(async (response: Response): Promise<void> =>
-        {
-            let responseObject = await response.json();
-
-            console.log(responseObject);
-        });
-    });
+    }
 
     function ResetSelection(): void
     {
@@ -92,10 +95,13 @@
 
     function OnOverviewMenuClick(): void
     {
+        personalInfoSet = false;
         ResetSelection();
 
         menuButtons[0].classList.add("active");
         menuSelection = 0;
+
+        FetchPersonalInfo();
     }
 
     function OnServicesMenuClick(): void
@@ -104,6 +110,8 @@
 
         menuButtons[1].classList.add("active");
         menuSelection = 1;
+
+        FetchServices();
     }
 
     function OnTasksMenuClick(): void
@@ -146,8 +154,8 @@
                         </svg>
                     </a>
                     <h5 class="placeholder-glow mb-5">
-                        {#if personalInfoSet}
-                            {personalInfo.username}
+                        {#if usernameSet}
+                            {username}
                         {:else}
                             <span class="placeholder col-4"></span>
                         {/if}
