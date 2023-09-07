@@ -67,6 +67,12 @@ else
     }
  
 }
+let response: Response = new Response(JSON.stringify(ret_text),{
+  headers: {
+    'Content-Type': 'application/json'
+  }
+});
+
 if(token)
   {
     let cookie: string = "cjwt=" + token + "; HttpOnly; Path=/; Expires="; // pjwt mane provider er
@@ -81,17 +87,5 @@ if(token)
 
   return response;
 
-  if(token)
-  {
-    let cookie: string = "cjwt=" + token + "; HttpOnly; Path=/; Expires="; // pjwt mane provider er
-    let date: Date = new Date();
-    
-    date.setDate(date.getDate() + 7);
-
-    cookie += date.toUTCString();
-
-    response.headers.append("Set-Cookie", cookie);
-  }
-
-  return response;
+  
 }
