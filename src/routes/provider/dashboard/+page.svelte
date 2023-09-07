@@ -78,7 +78,9 @@
                     {
                         id: responseObject[i]._serviceid,
                         title: responseObject[i]._title,
-                        description: responseObject[i]._description
+                        description: responseObject[i]._description,
+                        price: responseObject[i]._basecost,
+                        discount: responseObject[i]._discount,
                     }
                 }
             }
