@@ -1,4 +1,4 @@
-import { SigninError } from "../../../lib/signin-error";
+import { SigninError } from "../../../lib/errors/signin-error";
 import type { LoginArgs } from "./login-args";
 import { Errorcodes } from "./login-errors";
 

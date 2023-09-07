@@ -10,7 +10,7 @@
     import { onMount } from "svelte";
     import type { Toast } from "bootstrap";
     import ErrorToast from "$lib/components/error-toast.svelte";
-    import { SigninError } from "../../../lib/signin-error";
+    import { SigninError } from "../../../lib/errors/signin-error";
 
     let stateContainerElement: HTMLDivElement;
     let invalidUsernameToast: Toast;

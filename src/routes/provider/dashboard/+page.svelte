@@ -4,9 +4,40 @@
     import { fly } from "svelte/transition";
     import Overview from "$lib/components/dashboard/overview.svelte";
     import Services from "$lib/components/dashboard/services.svelte";
+    import { onMount } from "svelte";
+    import { PersonalInfo } from "./PersonalInfo";
 
     let menuButtons: HTMLButtonElement[] = new Array<HTMLButtonElement>(5);
     let menuSelection: number = 0;
+    let personalInfo: PersonalInfo = new PersonalInfo();
+    let personalInfoSet: boolean = false;
+
+    onMount((): void =>
+    {
+        fetch("/api/provider/info",
+        {
+            method: "POST",
+            headers:
+            {
+                "Content-Type": "application/json"
+            }
+        }).then(async (response: Response): Promise<void> =>
+        {
+            let responseObject = await response.json();
+
+            personalInfo =
+            {
+                username: responseObject.pname,
+                email: responseObject.mail,
+                contact: responseObject.contactnumber,
+                nidNumber: responseObject.nidnumber,
+                region: responseObject.local_area,
+                fullAddress: responseObject.contactaddress
+            }
+
+            personalInfoSet = true;
+        });
+    });
 
     function ResetSelection(): void
     {
@@ -71,7 +102,13 @@
                             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
                         </svg>
                     </a>
-                    <h5 class="mb-5">abdul_motin</h5>
+                    <h5 class="placeholder-glow mb-5">
+                        {#if personalInfoSet}
+                            {personalInfo.username}
+                        {:else}
+                            <span class="placeholder col-4"></span>
+                        {/if}
+                    </h5>
                 </div>
                 <div class="menu-list-container ps-3 mb-3 mt-5">
                     <div class="list-group list-group-flush border border-end-0 rounded-start">
@@ -85,7 +122,7 @@
             </div>
             <div class="menu-details d-flex flex-column align-items-stretch p-5">
                 {#if menuSelection == 0}
-                    <Overview />
+                    <Overview placeholder={!personalInfoSet} personalInfo={personalInfo} />
                 {:else if menuSelection == 1}
                     <Services />
                 {/if}

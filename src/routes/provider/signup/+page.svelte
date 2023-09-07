@@ -13,7 +13,7 @@
     import Waiter from "$lib/components/sigin/waiter.svelte";
     import ErrorToast from "$lib/components/error-toast.svelte";
     import Address from "$lib/components/sigin/signup/address.svelte";
-    import { SigninError } from "../../../lib/signin-error";
+    import { SigninError } from "../../../lib/errors/signin-error";
     import Nid from "$lib/components/sigin/signup/nid.svelte";
 
     let stateContainerElement: HTMLDivElement;
@@ -38,7 +38,7 @@
     let regionValue: string;
     let state: number = 0;
     let inputValidityStatus: InputValidityStatus = new InputValidityStatus();
-    let regions: string[] = ["Kallyanpur", "Uttara", "Mohammadpur"];
+    let regions: string[] = ["Abdullahpur", "Agargaon", "Badda"];
 
     $: stateContainerHeight = stateContainerElement?.offsetHeight ?? 0;
 

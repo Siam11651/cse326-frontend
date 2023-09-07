@@ -5,9 +5,9 @@
     import ProviderComponent from "../../../lib/components/service/provider.svelte";
     import { onMount } from "svelte";
     import { _serviceId } from "./+page";
-    import { Service } from "$lib/service/service";
+    import { Service } from "./service";
     import Overview from "$lib/components/service/overview.svelte";
-    import { Provider } from "$lib/service/provider";
+    import { Provider } from "./provider";
 
     let overviewMode: boolean = true;
     let serviceReady: boolean = false;

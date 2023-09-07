@@ -2,7 +2,7 @@ import phone, { type PhoneResult } from "phone";
 import type { SignupArgs } from "./signup-args";
 import { goto } from "$app/navigation";
 import { Errorcodes } from "./signup-errors";
-import { SigninError } from "../../../lib/signin-error";
+import { SigninError } from "../../../lib/errors/signin-error";
 import * as EmailValidator from "email-validator";
 
 export class StateManager

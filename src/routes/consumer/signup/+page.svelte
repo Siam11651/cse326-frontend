@@ -13,7 +13,7 @@
     import Waiter from "$lib/components/sigin/waiter.svelte";
     import ErrorToast from "$lib/components/error-toast.svelte";
     import Address from "$lib/components/sigin/signup/address.svelte";
-    import { SigninError } from "../../../lib/signin-error";
+    import { SigninError } from "../../../lib/errors/signin-error";
 
     let stateContainerElement: HTMLDivElement;
     let invalidUsernameToast: Toast;

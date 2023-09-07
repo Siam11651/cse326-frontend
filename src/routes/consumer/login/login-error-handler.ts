@@ -1,7 +1,7 @@
 import type { Toast } from "bootstrap";
 import { Errorcodes } from "./login-errors";
 import { InputValidityStatus } from "./input-validity-status";
-import type { SigninError } from "../../../lib/signin-error";
+import type { SigninError } from "../../../lib/errors/signin-error";
 
 export class LoginErrorHandler
 {

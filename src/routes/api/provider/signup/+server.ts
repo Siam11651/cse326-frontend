@@ -17,16 +17,17 @@ let provider =
 }
 export async function POST({request, cookies}: RequestEvent): Promise<Response>
 { 
-    const provider = await request.json();
-    console.log(provider); 
-    let given_pname=provider.name;
-    let given_mail=provider.email;
-    let { data:result, error } = await supabase
-    .rpc('is_provider_in_table', {
-      given_pname,
-      given_mail
-    })
+  const provider = await request.json();
+  console.log(provider); 
+  let given_pname=provider.name;
+  let given_mail=provider.email;
+  let { data:result, error } = await supabase
+  .rpc('is_provider_in_table', {
+    given_pname,
+    given_mail
+  })
   let ret_text;
+  let token: string | null = null;
   if (error) 
   {
     console.log("querry wrong");
@@ -46,7 +47,6 @@ export async function POST({request, cookies}: RequestEvent): Promise<Response>
     }
     else
     {
-        
       let given_contactaddress=provider.address; 
       let given_pname=provider.name; 
       let given_contactnumber=provider.contact; 
@@ -94,19 +94,33 @@ export async function POST({request, cookies}: RequestEvent): Promise<Response>
           is_consumer:false,
           name:provider.name
         }
-        const token = jwt.sign(ret_provider, import.meta.env.VITE_JWT_KEY, { expiresIn: `${15 * 86400 * 1000}` });
+        token = jwt.sign(ret_provider, import.meta.env.VITE_JWT_KEY, { expiresIn: `${15 * 86400 * 1000}` });
         ret_text={
-          errorcode:0,
-          jwt_token:token
+          errorcode:0
+          // jwt_token:token
         }
         
       }
     }
   }
 
-    return new Response(JSON.stringify(ret_text), {
-		headers: {
-			'Content-Type': 'application/json'
-		}
+  let response: Response = new Response(JSON.stringify(ret_text),{
+    headers: {
+      'Content-Type': 'application/json'
+    }
 	});
+
+  if(token)
+  {
+    let cookie: string = "pjwt=" + token + "; HttpOnly; Path=/; Expires="; // pjwt mane provider er
+    let date: Date = new Date();
+    
+    date.setDate(date.getDate() + 7);
+
+    cookie += date.toUTCString();
+
+    response.headers.append("Set-Cookie", cookie);
+  }
+
+  return response;
 }
