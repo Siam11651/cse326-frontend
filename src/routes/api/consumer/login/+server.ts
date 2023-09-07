@@ -9,7 +9,7 @@ let user =
 export async function POST({request, cookies}: RequestEvent): Promise<Response>
 { 
     let ret_text;
-
+    let token:string|null = null;
     let user = await request.json();
     console.log(user);
     let given_cname=user.name;
@@ -41,11 +41,12 @@ else
           is_consumer:true,
           name:user.name
         }
-        const token = jwt.sign(ret_user, import.meta.env.VITE_JWT_KEY, { expiresIn: `${15 * 86400 * 1000}` });
         ret_text={
           errorcode:0,
-          jwt_token:token
+          //jwt_token:token
         }
+        token = jwt.sign(ret_user, import.meta.env.VITE_JWT_KEY, { expiresIn: `${15 * 86400 * 1000}` });
+        
     }
     else
     {
@@ -64,13 +65,33 @@ else
           }
         
     }
+ 
+}
+if(token)
+  {
+    let cookie: string = "cjwt=" + token + "; HttpOnly; Path=/; Expires="; // pjwt mane provider er
+    let date: Date = new Date();
     
-    
-} 
+    date.setDate(date.getDate() + 7);
 
-    return new Response(JSON.stringify(ret_text), {
-		headers: {
-			'Content-Type': 'application/json'
-		}
-	});
+    cookie += date.toUTCString();
+
+    response.headers.append("Set-Cookie", cookie);
+  }
+
+  return response;
+
+  if(token)
+  {
+    let cookie: string = "cjwt=" + token + "; HttpOnly; Path=/; Expires="; // pjwt mane provider er
+    let date: Date = new Date();
+    
+    date.setDate(date.getDate() + 7);
+
+    cookie += date.toUTCString();
+
+    response.headers.append("Set-Cookie", cookie);
+  }
+
+  return response;
 }
