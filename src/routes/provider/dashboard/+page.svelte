@@ -76,7 +76,7 @@
                 {
                     services[i] =
                     {
-                        id: responseObject[i]._pid,
+                        id: responseObject[i]._serviceid,
                         title: responseObject[i]._title,
                         description: responseObject[i]._description
                     }
