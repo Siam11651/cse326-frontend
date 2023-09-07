@@ -8,12 +8,15 @@
     import { Service } from "./service";
     import Overview from "$lib/components/service/overview.svelte";
     import { Provider } from "./provider";
+    import { SortMethod, SORT_ROUTES, SORT_NAMES } from "./sort";
 
     let overviewMode: boolean = true;
     let serviceReady: boolean = false;
     let providerListReady: boolean = false;
+    let fetchingProviderList: boolean = false;
     let service: Service = new Service();
     let providersList: Provider[] = [];
+    let sortName: string = "Rate (Asc)";
 
     onMount(() =>
     {
@@ -41,7 +44,27 @@
             serviceReady = true;
         });
 
-        fetch("/api/provider_list",
+        FetchProviderList(SortMethod.RATE, false);
+    });
+
+    function FetchProviderList(sortMethod: SortMethod, sortAsc: boolean): void
+    {
+        if(fetchingProviderList)
+        {
+            return;
+        }
+
+        fetchingProviderList = true;
+        providerListReady = false;
+        sortName = SORT_NAMES[sortMethod] + (sortAsc) ? " (Asc)" : " (Desc)";
+        let requestObject =
+        {
+            service_id: _serviceId
+        };
+
+        let requestBodyString: string = JSON.stringify(requestObject);
+
+        fetch(SORT_ROUTES[sortMethod],
         {
             method: "POST",
             headers:
@@ -52,7 +75,7 @@
         }).then(async (response: Response): Promise<void> =>
         {
             let responseObject = await response.json();
-            
+
             providersList = new Array<Provider>(responseObject.length);
 
             for(let i: number = 0; i < providersList.length; ++i)
@@ -67,9 +90,45 @@
                 }
             }
 
+            if(sortAsc)
+            {
+                providersList.reverse();
+            }
+
             providerListReady = true;
+            fetchingProviderList = false;
         });
-    });
+    }
+
+    function SortCostAsc(): void
+    {
+        FetchProviderList(SortMethod.COST, true);
+    }
+
+    function SortCostDesc(): void
+    {
+        FetchProviderList(SortMethod.COST, false);
+    }
+
+    function SortDiscAsc(): void
+    {
+        FetchProviderList(SortMethod.DISC, true);
+    }
+
+    function SortDiscDesc(): void
+    {
+        FetchProviderList(SortMethod.DISC, false);
+    }
+
+    function SortRateAsc(): void
+    {
+        FetchProviderList(SortMethod.RATE, true);
+    }
+
+    function SortRateDesc(): void
+    {
+        FetchProviderList(SortMethod.RATE, false);
+    }
 
     function SwitchToProviderList(): void
     {
@@ -120,6 +179,54 @@
                 {:else}
                     <div class="m-5" in:fade={{duration: 500}}>
                         <h2>Available Providers</h2>
+                        <div class="d-flex flex-row-reverse align-items-center mb-3">
+                            <div class="dropdown">
+                                <div class="input-group">
+                                    <span class="input-group-text">Sort By:</span>
+                                    <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                        {sortName}
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <!-- cost ascending -->
+                                        <li>
+                                            <button class="dropdown-item" on:click={SortCostAsc}>
+                                                {"Cost (Asc)"}
+                                            </button>
+                                        </li>
+                                        <!-- cost descending -->
+                                        <li>
+                                            <button class="dropdown-item" on:click={SortCostDesc}>
+                                                {"Cost (Desc)"}
+                                            </button>
+                                        </li>
+                                        <!-- discount ascending -->
+                                        <li>
+                                            <button class="dropdown-item" on:click={SortDiscAsc}>
+                                                {"Discount (Asc)"}
+                                            </button>
+                                        </li>
+                                        <!-- discount descending -->
+                                        <li>
+                                            <button class="dropdown-item" on:click={SortDiscDesc}>
+                                                {"Discount (Desc)"}
+                                            </button>
+                                        </li>
+                                        <!-- rate ascending -->
+                                        <li>
+                                            <button class="dropdown-item" on:click={SortRateAsc}>
+                                                {"Rate (Asc)"}
+                                            </button>
+                                        </li>
+                                        <!-- rate descending -->
+                                        <li>
+                                            <button class="dropdown-item" on:click={SortRateDesc}>
+                                                {"Rate (Desc)"}
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                         <div class="list-group list-group">
                             {#if providerListReady}
                                 {#each providersList as provider}
