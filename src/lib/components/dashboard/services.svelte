@@ -2,6 +2,7 @@
     import { fade } from "svelte/transition";
     import type { Service } from "../../../routes/provider/dashboard/service";
     import type { AddableService } from "../../../routes/provider/dashboard/addable-service";
+    import DiscountInput from "./discount-input.svelte";
 
     export let services: Service[];
     let addableServices: AddableService[] = [];
@@ -68,16 +69,32 @@
             {#each services as service}
                 <div class="list-group-item">
                     <div class="d-flex align-items-center">
-                        <div class="flex-grow-1 d-flex justify-content-between align-items-center">
-                            <div class="m-1">
-                                <a href="/" class="link-primary link-offset-1 link-underline-opacity-0">
-                                    <h5>
-                                        {service.title}
-                                    </h5>
-                                </a>
-                                <p class="service-details text-body-secondary">
-                                    {service.description}
-                                </p>
+                        <div class="flex-grow-1 m-1">
+                            <a href="/" class="link-primary link-offset-1 link-underline-opacity-0">
+                                <h5>
+                                    {service.title}
+                                </h5>
+                            </a>
+                            <p class="service-details text-body-secondary mb-1">
+                                {service.description}
+                            </p>
+                            <div class="d-flex align-items-center text-body-secondary ms-1">
+                                <div title="Discount">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-graph-down-arrow" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M0 0h1v15h15v1H0V0Zm10 11.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 0-1 0v2.6l-3.613-4.417a.5.5 0 0 0-.74-.037L7.06 8.233 3.404 3.206a.5.5 0 0 0-.808.588l4 5.5a.5.5 0 0 0 .758.06l2.609-2.61L13.445 11H10.5a.5.5 0 0 0-.5.5Z"/>
+                                    </svg>
+                                    {service.discount}%
+                                </div>
+                                <div class="mx-2">
+                                    •
+                                </div>
+                                <div title="Price">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tags" viewBox="0 0 16 16">
+                                        <path d="M3 2v4.586l7 7L14.586 9l-7-7H3zM2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586V2z"/>
+                                        <path d="M5.5 5a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1zm0 1a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM1 7.086a1 1 0 0 0 .293.707L8.75 15.25l-.043.043a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 0 7.586V3a1 1 0 0 1 1-1v5.086z"/>
+                                    </svg>
+                                    {service.price}৳
+                                </div>
                             </div>
                         </div>
                         <!-- svelte-ignore a11y-invalid-attribute -->
@@ -97,12 +114,25 @@
                                 </svg>
                             </a>
                             <!-- svelte-ignore a11y-invalid-attribute -->
-                            <a class="link-secondary me-3" href="javascript:" title="Edit Service">
+                            <a class="link-secondary me-3" href="javascript:" title="Edit Service" data-bs-toggle="modal" data-bs-target="#edit-service-modal-{service.id}">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                     <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                                     <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
                                 </svg>
                             </a>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="edit-service-modal-{service.id}" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <div class="d-flex align-item-center justify-content-between p-2">
+                                        <h4 class="card-title">Set Service Discount</h4>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <DiscountInput serviceId={service.id} />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
