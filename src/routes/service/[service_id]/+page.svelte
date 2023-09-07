@@ -336,10 +336,11 @@
     {
         height: 100%;
     }
-
-    .right-part
+    
+    .mid-part
     {
-        width: 15%;
+        width: 70%;
+        height: 100%;
     }
 
     .info-root
