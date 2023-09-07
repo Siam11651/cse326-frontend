@@ -143,13 +143,13 @@
 
 <div class="dashboard-root d-flex flex-column">
     <Navbar />
-    <div class="main-partition d-flex flex-column align-item-center justify-content-center">
-        <div class="dashboard-container d-flex align-items-center shadow-lg rounded" in:fly={{duration: 500}}>
+    <div class="dashboard-container">
+        <div class="dashboard d-flex align-items-center shadow-lg rounded" in:fly={{duration: 500}}>
             <div class="side-menu d-flex flex-column align-items-center justify-content-between border-end">
                 <div class="d-flex flex-column align-items-center mt-3">
                     <img class="profile-picture rounded mb-1" src={defaultPfp} alt="pp"/>
                     <!-- svelte-ignore a11y-invalid-attribute -->
-                    <a class="link-primary" href="javascript:" title="Edit Profile Picture">
+                    <a class="link-primary" href="#" title="Edit Profile Picture">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
@@ -173,7 +173,8 @@
                     </div>
                 </div>
             </div>
-            <div class="menu-details d-flex flex-column align-items-stretch p-5">
+            <!-- <div class="menu-details d-flex flex-column align-items-stretch p-5"> -->
+            <div class="menu-details p-5">
                 {#if menuSelection == 0}
                     <Overview placeholder={!personalInfoSet} personalInfo={personalInfo} />
                 {:else if menuSelection == 1}
@@ -194,16 +195,22 @@
         right: 0;
     }
 
-    .main-partition
-    {
-        height: 90%;
-    }
-
     .dashboard-container
     {
-        margin: auto;
-        width: 70%;
-        height: 90%;
+        position: absolute;
+        top: 6%;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding-top: 2%;
+        padding-bottom: 2%;
+        padding-left: 17%;
+        padding-right: 17%;
+    }
+
+    .dashboard
+    {
+        height: 100%;
     }
 
     .side-menu
@@ -216,6 +223,8 @@
     {
         height: 96px;
         width: 96px;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .menu-list-container
