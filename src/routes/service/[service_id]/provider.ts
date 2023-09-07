@@ -5,4 +5,5 @@ export class Provider
     public cost: number = -1;
     public rate: number = -1;
     public area: string = "";
+    public discount: number = -1;
 }

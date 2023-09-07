@@ -3,9 +3,9 @@ import type { RequestEvent } from "./$types";
 
 export async function POST({request, cookies}: RequestEvent): Promise<Response>
 { 
-    //req = await request.json();
+    let req = await request.json();
     let ret_text;
-    let given_serviceid=1;
+    let given_serviceid=req.service_id;
     let { data:result, error } = await supabase
   .rpc('get_matching_providers_service_cost', {
     given_serviceid
