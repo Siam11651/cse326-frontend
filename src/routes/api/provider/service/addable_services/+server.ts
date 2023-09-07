@@ -12,7 +12,7 @@ export async function POST({ request, cookies }: RequestEvent): Promise<Response
     let given_pid = decodedToken.id;
 
     let { data: result, error } = await supabase
-      .rpc('get_provider_servicelist', {
+      .rpc('get_addable_services', {
         given_pid
       })
     if (error) {
