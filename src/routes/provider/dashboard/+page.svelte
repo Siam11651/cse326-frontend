@@ -66,6 +66,20 @@
                 }
             }
         });
+
+        fetch("/api/provider/service/addable_services",
+        {
+            method: "POST",
+            headers:
+            {
+                "Content-Type": "application/json"
+            }
+        }).then(async (response: Response): Promise<void> =>
+        {
+            let responseObject = await response.json();
+
+            console.log(responseObject);
+        });
     });
 
     function ResetSelection(): void

@@ -16,7 +16,7 @@
         <label for="login-username-input">Username</label>
     </div>
     <div class="form-floating mb-3">
-        <input type="text" class="form-control {passwordInvalid ? "is-invalid" : ""}" id="login-password-input" placeholder="Password" bind:value={passwordValue}>
+        <input type="password" class="form-control {passwordInvalid ? "is-invalid" : ""}" id="login-password-input" placeholder="Password" bind:value={passwordValue}>
         <label for="login-password-input">Password</label>
     </div>
     <div class="d-flex justify-content-end p-2">
