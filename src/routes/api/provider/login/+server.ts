@@ -7,16 +7,16 @@ export async function POST({ request, cookies }: RequestEvent): Promise<Response
 
   let provider = await request.json();
   console.log(provider);
-  let given_cname = provider.name;
+  let given_pname = provider.name;
   let { data: result, error } = await supabase
   .rpc('get_provider_details', {
-    given_cname
+    given_pname
   })
 
   let token: string | null = null;
 
   if (error) {
-    console.log("Querry wrong");
+    console.log(error);
     ret_text = {
       errorcode: -1
     }
@@ -30,7 +30,7 @@ export async function POST({ request, cookies }: RequestEvent): Promise<Response
         console.log("provider exist");
         let ret_provider =
         {
-          id: result.consumerid,
+          id: result.pid,
           is_consumer: false,
           name: provider.name
         }

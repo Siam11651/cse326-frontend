@@ -51,15 +51,18 @@
         {
             let responseObject = await response.json();
 
-            services = new Array<Service>(responseObject.length);
-
-            for(let i: number = 0; i < services.length; ++i)
+            if(responseObject.errorcode == null)
             {
-                services[i] =
+                services = new Array<Service>(responseObject.length);
+
+                for(let i: number = 0; i < services.length; ++i)
                 {
-                    id: responseObject[i]._pid,
-                    title: responseObject[i]._title,
-                    description: responseObject[i]._description
+                    services[i] =
+                    {
+                        id: responseObject[i]._pid,
+                        title: responseObject[i]._title,
+                        description: responseObject[i]._description
+                    }
                 }
             }
         });

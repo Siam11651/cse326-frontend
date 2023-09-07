@@ -1,0 +1,6 @@
+export enum Errorcodes
+{
+    INVALID_USERNAME = 0,
+    INVALID_PASSWORD = 1,
+    INVALID_USERNAME_PASSWORD = 2
+}
