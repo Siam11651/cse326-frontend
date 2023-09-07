@@ -173,10 +173,9 @@
 <div class="service-root">
     <Navbar />
     <div class="banner-container">
-        <img src={acRepairman} class="banner img-fluid" alt="">
+        <img src={acRepairman} class="banner" alt="">
         <div class="banner-content">
-            <div class="partition-container d-flex">
-                <div class="left-part" />
+            <div class="partition-container d-flex justify-content-center">
                 <div class="mid-part m-5 p-5">
                     <h4 class="text-white opacity-75 mx-1">AC Repair Service</h4>
                     {#if serviceReady}
@@ -185,7 +184,6 @@
                         <h1 class="fw-bold text-white placeholder-glow"><span class="placeholder col-6"></span></h1>
                     {/if}
                 </div>
-                <div class="right-part" />
             </div>
         </div>
     </div>
@@ -312,11 +310,17 @@
     {
         position: absolute;
         top: 6%;
+        bottom: 44%;
+        left: 0;
+        right: 0;
     }
 
     .banner
     {
+        width: 100%;
+        height: 100%;
         filter: brightness(50%);
+        object-fit: cover;
     }
 
     .banner-content
