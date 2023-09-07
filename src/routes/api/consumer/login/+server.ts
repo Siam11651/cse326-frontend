@@ -72,7 +72,7 @@ if(token)
     let date: Date = new Date();
     
     date.setDate(date.getDate() + 7);
-
+    response.headers.append("Set-Cookie", cookie);
   }
 
   return response;

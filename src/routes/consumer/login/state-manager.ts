@@ -1,3 +1,4 @@
+import { goto } from "$app/navigation";
 import { SigninError } from "../../../lib/errors/signin-error";
 import type { LoginArgs } from "./login-args";
 import { Errorcodes } from "./login-errors";
@@ -85,8 +86,7 @@ export class StateManager
             body: requestBodyString
         }).then(async(response: Response): Promise<void> =>
         {
-            
-            
+            goto("/");
         });
     }
 };
