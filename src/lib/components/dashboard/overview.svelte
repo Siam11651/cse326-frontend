@@ -1,7 +1,7 @@
 <script lang="ts">
     import { fade } from "svelte/transition";
     import LabeledInfoTag from "./labeled-info-tag.svelte";
-    import type { PersonalInfo } from "../../../routes/provider/dashboard/PersonalInfo";
+    import type { PersonalInfo } from "../../../routes/provider/dashboard/personal-info";
 
     export let placeholder: boolean = false;
     export let personalInfo: PersonalInfo;

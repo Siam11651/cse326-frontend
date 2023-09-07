@@ -1,6 +1,6 @@
 import { supabase } from "$lib/server/supabaseclient.server";
 import type { RequestEvent } from "./$types";
-import jwt, { type JwtPayload } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 export async function POST({ request, cookies }: RequestEvent): Promise<Response> {
 
@@ -9,7 +9,7 @@ export async function POST({ request, cookies }: RequestEvent): Promise<Response
   if(token)
   {
     // token ache user er, verify kore kaj sharbo
-    let decodedToken = jwt.verify(token, import.meta.env.VITE_JWT_KEY); // any dichhi lal dag shoraite, amar buk ta faita jaitese any deyar jonno, cringe
+    let decodedToken: any = jwt.verify(token, import.meta.env.VITE_JWT_KEY); // any dichhi lal dag shoraite, amar buk ta faita jaitese any deyar jonno, cringe
     let ret_text;
     let given_pname = decodedToken.name;
 

@@ -1,34 +1,37 @@
 <script lang="ts">
     import { fade } from "svelte/transition";
+    import type { Service } from "../../../routes/provider/dashboard/service";
+
+    export let services: Service[];
 </script>
 
 <div class="services-root flex-fill d-flex flex-column justify-content-between" in:fade={{duration: 200}}>
     <h4 class="header">Services:</h4>
     <div class="services-list">
         <div class="list-group">
-            {#each [...Array(15).keys()] as i}
+            {#each services as service}
                 <div class="list-group-item">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1 d-flex justify-content-between align-items-center">
                             <div class="m-1">
                                 <a href="/" class="link-primary link-offset-1 link-underline-opacity-0">
                                     <h5>
-                                        {Math.random().toString(36).substring(5)}
+                                        {service.title}
                                     </h5>
                                 </a>
                                 <p class="service-details text-body-secondary">
-                                    {Math.random().toString(36).substring(5)}
+                                    {service.description}
                                 </p>
                             </div>
                         </div>
                         <!-- svelte-ignore a11y-invalid-attribute -->
-                        <a class="link-secondary" href="javascript:" title="More Options" data-bs-toggle="collapse" data-bs-target="#service-options-{i}" aria-expanded="false" aria-controls="service-options-{i}">
+                        <a class="link-secondary" href="javascript:" title="More Options" data-bs-toggle="collapse" data-bs-target="#service-options-{service.id}" aria-expanded="false" aria-controls="service-options-{service.id}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
                                 <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
                             </svg>
                         </a>
                     </div>
-                    <div class="collapse" id="service-options-{i}">
+                    <div class="collapse" id="service-options-{service.id}">
                         <div class="card card-body d-flex flex-row-reverse">
                             <!-- svelte-ignore a11y-invalid-attribute -->
                             <a class="link-danger" href="javascript:" title="Delete Service">

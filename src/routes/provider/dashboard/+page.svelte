@@ -5,12 +5,14 @@
     import Overview from "$lib/components/dashboard/overview.svelte";
     import Services from "$lib/components/dashboard/services.svelte";
     import { onMount } from "svelte";
-    import { PersonalInfo } from "./PersonalInfo";
+    import { PersonalInfo } from "./personal-info";
+    import type { Service } from "./service";
 
     let menuButtons: HTMLButtonElement[] = new Array<HTMLButtonElement>(5);
     let menuSelection: number = 0;
     let personalInfo: PersonalInfo = new PersonalInfo();
     let personalInfoSet: boolean = false;
+    let services: Service[] = [];
 
     onMount((): void =>
     {
@@ -36,6 +38,30 @@
             }
 
             personalInfoSet = true;
+        });
+
+        fetch("/api/provider/service/service_list",
+        {
+            method: "POST",
+            headers:
+            {
+                "Content-Type": "application/json"
+            }
+        }).then(async (response: Response): Promise<void> =>
+        {
+            let responseObject = await response.json();
+
+            services = new Array<Service>(responseObject.length);
+
+            for(let i: number = 0; i < services.length; ++i)
+            {
+                services[i] =
+                {
+                    id: responseObject[i]._pid,
+                    title: responseObject[i]._title,
+                    description: responseObject[i]._description
+                }
+            }
         });
     });
 
@@ -124,7 +150,7 @@
                 {#if menuSelection == 0}
                     <Overview placeholder={!personalInfoSet} personalInfo={personalInfo} />
                 {:else if menuSelection == 1}
-                    <Services />
+                    <Services services={services} />
                 {/if}
             </div>
         </div>
