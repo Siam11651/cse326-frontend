@@ -26,10 +26,10 @@
 
             personalInfo = 
             {
-                username: responseObject.cname,
-                contact: responseObject.contactnumber,
-                email: responseObject.mail,
-                address: responseObject.billingaddress
+                username: responseObject._cname,
+                contact: responseObject._contactnumber,
+                email: responseObject._mail,
+                address: responseObject._billingaddress
             };
             personalInfoSet = true;
         });
