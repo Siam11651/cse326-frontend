@@ -24,7 +24,7 @@ export async function POST({
     };
   } else {
     if (result == true) {
-      console.log("user exist");
+      console.log("consumer exist: ", given_cname);
       let { data: result, error } = await supabase.rpc("get_consumer_details", {
         given_cname
       });
@@ -34,8 +34,9 @@ export async function POST({
           errorcode: -1,
         };
       } else {
+        console.log("s/r/a/c/l/37: ", result);
         let ret_user = {
-          id: result._consumerid,
+          id: result[0]._consumerid,
           is_consumer: true,
           name: user.name,
         };

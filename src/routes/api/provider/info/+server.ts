@@ -17,12 +17,14 @@ export async function POST({
     let { data: result, error } = await supabase.rpc("get_provider_details", {
       given_pname,
     });
+
+    let singleResult = result[0];
     if (error) {
       ret_text = {
         errorcode: -1,
       };
     } else {
-      ret_text = result;
+      ret_text = singleResult;
     }
 
     return new Response(JSON.stringify(ret_text), {

@@ -56,14 +56,14 @@ export async function POST({
     }
 
     console.log(pfp);
-
+    let singleResult = result[0];
     if (error) {
       ret_text = {
         errorcode: -1,
       };
     } else {
-      result.pfp = pfp;
-      ret_text = result;
+      singleResult.pfp = pfp;
+      ret_text = singleResult;
     }
   } else {
     ret_text = {
