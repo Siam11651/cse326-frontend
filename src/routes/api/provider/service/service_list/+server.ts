@@ -12,7 +12,7 @@ export async function POST({
     let decodedToken: any = jwt.verify(token, import.meta.env.VITE_JWT_KEY); // any dichhi lal dag shoraite, amar buk ta faita jaitese any deyar jonno, cringe
     let ret_text;
     let given_pid = decodedToken.id;
-
+    
     let { data: result, error } = await supabase.rpc(
       "get_provider_servicelist",
       {
@@ -21,7 +21,6 @@ export async function POST({
     );
     if (error) {
       console.log(error);
-
       ret_text = {
         errorcode: -1,
       };
@@ -30,6 +29,12 @@ export async function POST({
     }
 
     return new Response(JSON.stringify(ret_text), {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  } else {
+    return new Response(JSON.stringify({ errorcode: -2 }), {
       headers: {
         "Content-Type": "application/json",
       },

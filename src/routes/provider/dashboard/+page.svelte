@@ -34,7 +34,7 @@
         }).then(async (response: Response): Promise<void> =>
         {
             let responseObject = await response.json();
-
+            console.log("pfp: ", responseObject.pfp);
             personalInfo =
             {
                 username: responseObject._pname,

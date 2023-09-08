@@ -11,11 +11,14 @@ export async function POST({
   let provider = await request.json();
   console.log(provider);
   let given_pname = provider.name;
-  let { data: result, error } = await supabase.rpc("get_provider_details", {
-    given_pname,
-  });
+  let given_key = provider.password_hash;
 
   let token: string | null = null;
+
+  let { data: result, error } = await supabase.rpc("can_log_in_provider", {
+    given_key,
+    given_pname,
+  });
 
   if (error) {
     console.log(error);
@@ -23,11 +26,17 @@ export async function POST({
       errorcode: -1,
     };
   } else {
-    if (result._pid != null) {
-      //console.log(result.security_key);
-      //console.log(provider.password_hash);
-      if (result._security_key == provider.password_hash) {
-        console.log("provider exist");
+    if (result == true) {
+      let { data: result, error } = await supabase.rpc("get_provider_details", {
+        given_pname,
+      });
+      if (error) {
+        console.log(error);
+        ret_text = {
+          errorcode: -1,
+        };
+      } else {
+        console.log(result._pid, " at 39 of s/r/a/p/l");
         let ret_provider = {
           id: result._pid,
           is_consumer: false,
@@ -40,16 +49,11 @@ export async function POST({
           errorcode: 0,
           // jwt_token: token
         };
-      } else {
-        console.log("wrong password");
-        ret_text = {
-          errorcode: -2,
-        };
       }
     } else {
-      console.log("provider does not exist");
+      console.log("wrong password or provider name");
       ret_text = {
-        errorcode: -3,
+        errorcode: -2,
       };
     }
   }

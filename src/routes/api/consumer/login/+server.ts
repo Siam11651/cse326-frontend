@@ -1,10 +1,7 @@
 import { supabase } from "$lib/server/supabaseclient.server";
 import type { RequestEvent } from "./$types";
 import jwt from "jsonwebtoken";
-let user = {
-  name: "",
-  password_hash: "",
-};
+
 export async function POST({
   request,
   cookies,
@@ -28,26 +25,36 @@ export async function POST({
   } else {
     if (result == true) {
       console.log("user exist");
-      let ret_user = {
-        id: result._consumerid,
-        is_consumer: true,
-        name: user.name,
-      };
-      ret_text = {
-        errorcode: 0,
-        //jwt_token:token
-      };
-      token = jwt.sign(ret_user, import.meta.env.VITE_JWT_KEY, {
-        expiresIn: `${15 * 86400 * 1000}`,
+      let { data: result, error } = await supabase.rpc("get_consumer_details", {
+        given_cname
       });
+      if (error) {
+        console.log("Query wrong: ", error);
+        ret_text = {
+          errorcode: -1,
+        };
+      } else {
+        let ret_user = {
+          id: result._consumerid,
+          is_consumer: true,
+          name: user.name,
+        };
+        ret_text = {
+          errorcode: 0,
+          //jwt_token:token
+        };
+        token = jwt.sign(ret_user, import.meta.env.VITE_JWT_KEY, {
+          expiresIn: `${15 * 86400 * 1000}`,
+        });
+      }
     } else {
-      console.log("wrong password");
+      console.log("wrong password or consumer name");
       ret_text = {
         errorcode: -2,
       };
     }
   }
-  
+
   let response: Response = new Response(JSON.stringify(ret_text), {
     headers: {
       "Content-Type": "application/json",
