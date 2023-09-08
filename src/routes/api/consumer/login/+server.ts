@@ -14,8 +14,10 @@ export async function POST({
   let user = await request.json();
   console.log(user);
   let given_cname = user.name;
-  let { data: result, error } = await supabase.rpc("get_consumer_details", {
+  let given_key = user.password_hash;
+  let { data: result, error } = await supabase.rpc("can_log_in_consumer", {
     given_cname,
+    given_key,
   });
 
   if (error) {
@@ -24,34 +26,28 @@ export async function POST({
       errorcode: -1,
     };
   } else {
-    if (result.consumerid != null) {
-      if (result.security_key == user.password_hash) {
-        console.log("user exist");
-        let ret_user = {
-          id: result.consumerid,
-          is_consumer: true,
-          name: user.name,
-        };
-        ret_text = {
-          errorcode: 0,
-          //jwt_token:token
-        };
-        token = jwt.sign(ret_user, import.meta.env.VITE_JWT_KEY, {
-          expiresIn: `${15 * 86400 * 1000}`,
-        });
-      } else {
-        console.log("wrong password");
-        ret_text = {
-          errorcode: -2,
-        };
-      }
-    } else {
-      console.log("user does not exist");
+    if (result == true) {
+      console.log("user exist");
+      let ret_user = {
+        id: result._consumerid,
+        is_consumer: true,
+        name: user.name,
+      };
       ret_text = {
-        errorcode: -3,
+        errorcode: 0,
+        //jwt_token:token
+      };
+      token = jwt.sign(ret_user, import.meta.env.VITE_JWT_KEY, {
+        expiresIn: `${15 * 86400 * 1000}`,
+      });
+    } else {
+      console.log("wrong password");
+      ret_text = {
+        errorcode: -2,
       };
     }
   }
+  
   let response: Response = new Response(JSON.stringify(ret_text), {
     headers: {
       "Content-Type": "application/json",

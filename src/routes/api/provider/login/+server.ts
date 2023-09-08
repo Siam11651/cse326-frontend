@@ -23,13 +23,13 @@ export async function POST({
       errorcode: -1,
     };
   } else {
-    if (result.pid != null) {
+    if (result._pid != null) {
       //console.log(result.security_key);
       //console.log(provider.password_hash);
-      if (result.security_key == provider.password_hash) {
+      if (result._security_key == provider.password_hash) {
         console.log("provider exist");
         let ret_provider = {
-          id: result.pid,
+          id: result._pid,
           is_consumer: false,
           name: provider.name,
         };
