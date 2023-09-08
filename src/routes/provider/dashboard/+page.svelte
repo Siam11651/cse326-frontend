@@ -143,8 +143,8 @@
 
 <div class="dashboard-root d-flex flex-column">
     <Navbar />
-    <div class="dashboard-container">
-        <div class="dashboard d-flex align-items-center shadow-lg rounded" in:fly={{duration: 500}}>
+    <div class="main-partition">
+        <div class="dashboard-container d-flex align-items-center shadow-lg rounded" in:fly={{duration: 500}}>
             <div class="side-menu d-flex flex-column align-items-center justify-content-between border-end">
                 <div class="d-flex flex-column align-items-center mt-3">
                     <img class="profile-picture rounded mb-1" src={defaultPfp} alt="pp"/>
@@ -195,21 +195,23 @@
         right: 0;
     }
 
-    .dashboard-container
+    .main-partition
     {
         position: absolute;
-        top: 6%;
+        top: 6vh;
         bottom: 0;
         left: 0;
         right: 0;
-        padding-top: 2%;
-        padding-bottom: 2%;
-        padding-left: 17%;
-        padding-right: 17%;
+        padding-top: 5vh;
+        padding-bottom: 5vh;
+        padding-left: 20%;
+        padding-right: 20%;
     }
 
-    .dashboard
+    .dashboard-container
     {
+        margin: auto;
+        width: 100%;
         height: 100%;
     }
 

@@ -135,8 +135,8 @@
         right: 0;
         padding-top: 5vh;
         padding-bottom: 5vh;
-        padding-left: 15%;
-        padding-right: 15%;
+        padding-left: 20%;
+        padding-right: 20%;
     }
 
     .dashboard-container
