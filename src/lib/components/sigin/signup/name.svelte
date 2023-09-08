@@ -5,6 +5,7 @@
     export let emailValue: string;
     export let usernameInvalid: boolean;
     export let emailInvalid: boolean;
+    export let type: string;
 </script>
 
 <div class="signup-name-root" in:fade={{duration: 500}}>
@@ -23,6 +24,6 @@
     </div>
     
     <div class="d-flex justify-content-end p-2">
-        <a class="link-primary link-offset-1 link-underline-opacity-75 link-underline-opacity-100-hover" href="/consumer/login">Already Have an Account</a>
+        <a class="link-primary link-offset-1 link-underline-opacity-75 link-underline-opacity-100-hover" href="/{type}/login">Already Have an Account</a>
     </div>
 </div>

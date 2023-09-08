@@ -14,6 +14,7 @@
     import ErrorToast from "$lib/components/error-toast.svelte";
     import Address from "$lib/components/sigin/signup/address.svelte";
     import { SigninError } from "../../../lib/errors/signin-error";
+    import Navbar from "$lib/components/navbar.svelte";
 
     let stateContainerElement: HTMLDivElement;
     let invalidUsernameToast: Toast;
@@ -93,37 +94,38 @@
     }
 </script>
 
+<Navbar showSignIn={false} />
+
+<div class="bg-image-container" in:fade={{delay: 200, duration: 500}}>
+    <img class="bg-image img-fluid" src={bg} alt="background">
+</div>
+
 <div class="signup-root">
-    <div class="bg-image-container" in:fade={{delay: 200, duration: 500}}>
-        <img class="bg-image" src={bg} alt="background">
-    </div>
-    <div class="d-flex flex-column justify-content-center align-items-center" style="height: 100%;">
-        <div class="card" style="width: 50ex;">
-            <div class="card-body">
-                <Title title="Sign Up" />
-                <div class="p-1" style="height: {stateContainerHeight}px; overflow: hidden; transition: height 300ms ease">
-                    {#if state == 0}
-                        <div bind:this={stateContainerElement}>
-                            <Names usernameInvalid={inputValidityStatus.usernameInvalid} emailInvalid={inputValidityStatus.emailInvalid} bind:usernameValue={usernameValue} bind:emailValue={emailValue} />
-                        </div>
-                    {:else if state == 1}
-                        <div bind:this={stateContainerElement}>
-                            <Password password0Invalid={inputValidityStatus.password0Invalid} password1Invalid={inputValidityStatus.password1Invalid} bind:passwordValue0={passwordValue0} bind:passwordValue1={passwordValue1} />
-                        </div>
-                    {:else if state == 2}
-                        <div bind:this={stateContainerElement}>
-                            <Contact pfpInvalid={inputValidityStatus.pfpInvalid} contactInvalid={inputValidityStatus.contactInvalid} bind:pfpValues={pfpValues} bind:contactValue={contactValue} />
-                        </div>
-                    {:else if state == 3}
-                        <div bind:this={stateContainerElement}>
-                            <Address regions={regions} bind:address={addressValue} bind:region={regionValue} />
-                        </div>
-                    {:else if state == StateManager.GetStateCount()}
-                        <div bind:this={stateContainerElement}>
-                            <Waiter messege="Signing up..." />
-                        </div>
-                    {/if}
-                </div>
+    <div class="signup-input-container d-flex flex-column justify-content-center align-items-center">
+        <div class="signup-input bg-white shadow-lg rounded p-3">
+            <Title title="Sign Up" />
+            <div class="p-1" style="height: {stateContainerHeight}px; overflow: hidden; transition: height 300ms ease">
+                {#if state == 0}
+                    <div bind:this={stateContainerElement}>
+                        <Names type="consumer" usernameInvalid={inputValidityStatus.usernameInvalid} emailInvalid={inputValidityStatus.emailInvalid} bind:usernameValue={usernameValue} bind:emailValue={emailValue} />
+                    </div>
+                {:else if state == 1}
+                    <div bind:this={stateContainerElement}>
+                        <Password password0Invalid={inputValidityStatus.password0Invalid} password1Invalid={inputValidityStatus.password1Invalid} bind:passwordValue0={passwordValue0} bind:passwordValue1={passwordValue1} />
+                    </div>
+                {:else if state == 2}
+                    <div bind:this={stateContainerElement}>
+                        <Contact pfpInvalid={inputValidityStatus.pfpInvalid} contactInvalid={inputValidityStatus.contactInvalid} bind:pfpValues={pfpValues} bind:contactValue={contactValue} />
+                    </div>
+                {:else if state == 3}
+                    <div bind:this={stateContainerElement}>
+                        <Address regions={regions} bind:address={addressValue} bind:region={regionValue} />
+                    </div>
+                {:else if state == StateManager.GetStateCount()}
+                    <div bind:this={stateContainerElement}>
+                        <Waiter messege="Signing up..." />
+                    </div>
+                {/if}
             </div>
             <div class="d-flex justify-content-end p-3">
                 {#if 0 < state && state < StateManager.GetStateCount()}
@@ -155,7 +157,7 @@
     .signup-root
     {
         position: absolute;
-        top: 0;
+        top: 6vh;
         bottom: 0;
         left: 0;
         right: 0;
@@ -164,8 +166,7 @@
     .bg-image-container
     {
         position: absolute;
-        position: absolute;
-        top: 0;
+        top: 6vh;
         bottom: 0;
         left: 0;
         right: 0;
@@ -175,6 +176,15 @@
     {
         width: 100%;
         height: 100%;
-        object-fit: cover;
+    }
+
+    .signup-input-container
+    {
+        height: 100%;
+    }
+
+    .signup-input
+    {
+        width: 50ex;
     }
 </style>

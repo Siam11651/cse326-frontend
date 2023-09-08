@@ -11,6 +11,7 @@
     import type { Toast } from "bootstrap";
     import ErrorToast from "$lib/components/error-toast.svelte";
     import { SigninError } from "../../../lib/errors/signin-error";
+    import Navbar from "$lib/components/navbar.svelte";
 
     let stateContainerElement: HTMLDivElement;
     let invalidUsernameToast: Toast;
@@ -53,30 +54,31 @@
     }
 </script>
 
+<Navbar showSignIn={false} />
+
+<div class="bg-image-container" in:fade={{delay: 200, duration: 500}}>
+    <img class="bg-image img-fluid" src={bg} alt="background">
+</div>
+
 <div class="login-root">
-    <div class="bg-image-container" in:fade={{delay: 200, duration: 500}}>
-        <img class="bg-image" src={bg} alt="background">
-    </div>
-    <div class="d-flex flex-column justify-content-center align-items-center" style="height: 100%;">
-        <div class="card shadow-lg" style="width: 50ex;">
-            <div class="card-body">
-                <Title title="Login" />
-                <div class="p-1" style="height: {stateContainerHeight}px; overflow: hidden; transition: height 300ms ease">
-                    {#if state == 0}
-                        <div bind:this={stateContainerElement}>
-                            <Creds usernameInvalid={inputValidityStatus.usernameInvalid} passwordInvalid={inputValidityStatus.passwordInvalid} bind:usernameValue={usernameValue} bind:passwordValue={passwordValue} />
-                        </div>
-                    {:else if state == 1}
-                        <div bind:this={stateContainerElement}>
-                            <Waiter messege="Logging in..."/>
-                        </div>
-                    {/if}
-                </div>
-                <div class="d-flex justify-content-end p-3">
-                    {#if state == 0}
-                        <button type="button" class="btn btn-primary" on:click={GoNext}>Login</button>
-                    {/if}
-                </div>
+    <div class="login-input-container d-flex flex-column justify-content-center align-items-center">
+        <div class="login-input bg-white shadow-lg rounded p-3">
+            <Title title="Login" />
+            <div class="p-1" style="height: {stateContainerHeight}px; overflow: hidden; transition: height 300ms ease">
+                {#if state == 0}
+                    <div bind:this={stateContainerElement}>
+                        <Creds type="provider" usernameInvalid={inputValidityStatus.usernameInvalid} passwordInvalid={inputValidityStatus.passwordInvalid} bind:usernameValue={usernameValue} bind:passwordValue={passwordValue} />
+                    </div>
+                {:else if state == 1}
+                    <div bind:this={stateContainerElement}>
+                        <Waiter messege="Logging in..."/>
+                    </div>
+                {/if}
+            </div>
+            <div class="d-flex justify-content-end p-3">
+                {#if state == 0}
+                    <button type="button" class="btn btn-primary" on:click={GoNext}>Login</button>
+                {/if}
             </div>
         </div>
     </div>
@@ -91,24 +93,34 @@
     .login-root
     {
         position: absolute;
-        top: 0;
+        top: 6vh;
         bottom: 0;
         left: 0;
         right: 0;
     }
+
     .bg-image-container
     {
         position: absolute;
-        position: absolute;
-        top: 0;
+        top: 6vh;
         bottom: 0;
         left: 0;
         right: 0;
     }
+
     .bg-image
     {
         width: 100%;
         height: 100%;
-        object-fit: cover;
+    }
+
+    .login-input-container
+    {
+        height: 100%;
+    }
+
+    .login-input
+    {
+        width: 50ex;
     }
 </style>

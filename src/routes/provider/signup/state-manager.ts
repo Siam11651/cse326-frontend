@@ -4,6 +4,7 @@ import { goto } from "$app/navigation";
 import { Errorcodes } from "./signup-errors";
 import { SigninError } from "../../../lib/errors/signin-error";
 import * as EmailValidator from "email-validator";
+import { ConsumerFetchState, ConsumerLoginData } from "$lib/consumer/profile";
 
 export class StateManager
 {
@@ -283,11 +284,8 @@ export class StateManager
 
             if(responseObject.errorcode == 0)
             {
-                let toSave = 
-                {
-                    jwt: responseObject.jwt_token
-                };
-                window.localStorage.setItem("provider_auth", JSON.stringify(toSave));
+                ConsumerLoginData.fetchState = ConsumerFetchState.FETCHING;
+                
                 goto("/provider/dashboard");
             }
             // else gule pore, vallagena

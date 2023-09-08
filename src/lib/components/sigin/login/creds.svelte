@@ -5,6 +5,7 @@
     export let passwordValue: string;
     export let usernameInvalid: boolean;
     export let passwordInvalid: boolean;
+    export let type: string;
 </script>
 
 <div class="login-input-root" in:fade={{duration: 500}}>
@@ -20,6 +21,6 @@
         <label for="login-password-input">Password</label>
     </div>
     <div class="d-flex justify-content-end p-2">
-        <a class="link-primary link-offset-1 link-underline-opacity-75 link-underline-opacity-100-hover" href="/consumer/signup">Create an Account</a>
+        <a class="link-primary link-offset-1 link-underline-opacity-75 link-underline-opacity-100-hover" href="/{type}/signup">Create an Account</a>
     </div>
 </div>

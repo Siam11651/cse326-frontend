@@ -1,4 +1,5 @@
 import { goto } from "$app/navigation";
+import { ConsumerFetchState, ConsumerLoginData } from "$lib/consumer/profile";
 import { SigninError } from "../../../lib/errors/signin-error";
 import type { LoginArgs } from "./login-args";
 import { Errorcodes } from "./login-errors";
@@ -90,6 +91,8 @@ export class StateManager
 
             if(responseObject.errorcode == 0)
             {
+                ConsumerLoginData.fetchState = ConsumerFetchState.FETCHING;
+
                 goto("/provider/dashboard");
             }
         });

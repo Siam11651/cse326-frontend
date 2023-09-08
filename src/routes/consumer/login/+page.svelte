@@ -57,17 +57,17 @@
 <Navbar showSignIn={false} />
 
 <div class="bg-image-container" in:fade={{delay: 200, duration: 500}}>
-    <img class="bg-image img-fuil" src={bg} alt="background">
+    <img class="bg-image img-fluid" src={bg} alt="background">
 </div>
 
 <div class="login-root">
-    <div class="d-flex flex-column justify-content-center align-items-center" style="height: 100%;">
+    <div class="login-input-container d-flex flex-column justify-content-center align-items-center">
         <div class="login-input bg-white shadow-lg rounded p-3" style="width: 50ex;">
             <Title title="Login" />
             <div class="p-1" style="height: {stateContainerHeight}px; overflow: hidden; transition: height 300ms ease">
                 {#if state == 0}
                     <div bind:this={stateContainerElement}>
-                        <Creds usernameInvalid={inputValidityStatus.usernameInvalid} passwordInvalid={inputValidityStatus.passwordInvalid} bind:usernameValue={usernameValue} bind:passwordValue={passwordValue} />
+                        <Creds type="consumer" usernameInvalid={inputValidityStatus.usernameInvalid} passwordInvalid={inputValidityStatus.passwordInvalid} bind:usernameValue={usernameValue} bind:passwordValue={passwordValue} />
                     </div>
                 {:else if state == 1}
                     <div bind:this={stateContainerElement}>
@@ -112,5 +112,15 @@
     {
         width: 100%;
         height: 100%;
+    }
+
+    .login-input-container
+    {
+        height: 100%;
+    }
+
+    .login-input
+    {
+        width: 50ex;
     }
 </style>
