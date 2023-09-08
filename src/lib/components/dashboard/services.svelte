@@ -198,11 +198,6 @@
         height: 6%;
     }
 
-    .services-list
-    {
-        overflow-y: auto;
-    }
-
     .service-details
     {
         margin: 0;
