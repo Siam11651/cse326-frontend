@@ -64,7 +64,7 @@ export async function POST({request, cookies}: RequestEvent): Promise<Response>
   let token: string | null = null;
   if (error) 
   {
-    console.log("querry wrong");
+    console.log("quert wrong");
     ret_text={
       errorcode:-1
     }
