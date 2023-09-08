@@ -2,44 +2,37 @@ import { supabase } from "$lib/server/supabaseclient.server";
 import type { RequestEvent } from "./$types";
 import jwt, { type JwtPayload } from "jsonwebtoken";
 
-export async function POST({request, cookies}: RequestEvent): Promise<Response>
-{
-    let ret_text;
-    let token: string | undefined = cookies.get("cjwt");
-    
-    if(token)
-    {
-      let decodedToken = jwt.verify(token, import.meta.env.VITE_JWT_KEY);
-      let _cid=decodedToken.id;
+export async function POST({
+  request,
+  cookies,
+}: RequestEvent): Promise<Response> {
+  let ret_text;
+  let token: string | undefined = cookies.get("cjwt");
 
-let { data:result, error } = await supabase
-  .rpc('get_rating_of_consumer', {
-    _cid
-  })
-if (error) 
-{
-    ret_text={
-        errorcode:-1
-      }
-}
-else 
-{
-    ret_text=result;
-}
+  if (token) {
+     // any defeats point of type setting, temporary for now
+    let decodedToken: any = jwt.verify(token, import.meta.env.VITE_JWT_KEY);
+    let _cid = decodedToken.id;
 
-
+    let { data: result, error } = await supabase.rpc("get_rating_of_consumer", {
+      _cid,
+    });
+    if (error) {
+      ret_text = {
+        errorcode: -1,
+      };
+    } else {
+      ret_text = result;
     }
-    else
-    {
-      ret_text={
-        errorcode:-2
-      }
-    }
+  } else {
+    ret_text = {
+      errorcode: -2,
+    };
+  }
 
-
-    return new Response(JSON.stringify(ret_text), {
-		headers: {
-			'Content-Type': 'application/json'
-		}
-	});
+  return new Response(JSON.stringify(ret_text), {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 }
