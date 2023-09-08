@@ -37,12 +37,12 @@
 
             personalInfo =
             {
-                username: responseObject.pname,
-                email: responseObject.mail,
-                contact: responseObject.contactnumber,
-                nidNumber: responseObject.nidnumber,
-                region: responseObject.local_area,
-                fullAddress: responseObject.contactaddress
+                username: responseObject._pname,
+                email: responseObject._mail,
+                contact: responseObject._contactnumber,
+                nidNumber: responseObject._nidnumber,
+                region: responseObject._local_area,
+                fullAddress: responseObject._contactaddress
             }
 
             personalInfoSet = true;
