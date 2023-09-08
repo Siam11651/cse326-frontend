@@ -78,7 +78,7 @@
 
 <div class="dashboard-root d-flex flex-column">
     <Navbar />
-    <div class="main-partition d-flex flex-column align-item-center justify-content-center">
+    <div class="main-partition">
         <div class="dashboard-container d-flex align-items-center shadow-lg rounded" in:fly={{duration: 500}}>
             <div class="side-menu d-flex flex-column align-items-center justify-content-between border-end">
                 <div class="d-flex flex-column align-items-center mt-3">
@@ -128,14 +128,22 @@
 
     .main-partition
     {
-        height: 90%;
+        position: absolute;
+        top: 6vh;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding-top: 5vh;
+        padding-bottom: 5vh;
+        padding-left: 15%;
+        padding-right: 15%;
     }
 
     .dashboard-container
     {
         margin: auto;
-        width: 70%;
-        height: 90%;
+        width: 100%;
+        height: 100%;
     }
 
     .side-menu
