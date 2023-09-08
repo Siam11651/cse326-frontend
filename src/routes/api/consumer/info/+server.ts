@@ -3,21 +3,6 @@ import type { RequestEvent } from "./$types";
 import jwt from "jsonwebtoken";
 import fs from "fs";
 
-// function readFile(file: any) {
-//   return new Promise((resolve, reject) => {
-//     // Create file reader
-//     let reader = new FileReader();
-//     // Register event listeners
-//     reader.addEventListener("loadend", (e) => resolve(e.target?.result));
-//     reader.addEventListener("error", reject);
-//     // Read file
-//     reader.readAsArrayBuffer(file);
-//   });
-// }
-// async function getAsByteArray(file: any) {
-//   return new Uint8Array(await readFile(file));
-// }
-
 async function load_pfp(given_cname: string): Promise<any> {
   let { data: consumer_pfp, error } = await supabase
     .from("consumers")
@@ -46,13 +31,7 @@ export async function POST({
     let pfp: any = load_pfp(given_cname);
 
     if (!pfp) {
-      var pfpBuf = [];
-      var buf = fs.readFileSync("../../api-assets/no_pfp.png").buffer;
-      var arrayBuf = new Uint8Array(buf);
-      for (var i = 0; i < arrayBuf.length; i++) {
-        pfpBuf.push(arrayBuf[i]);
-      }
-      pfp = pfpBuf;
+      // TODO: conver ../../api-assets/no_pfp.png to bytearray, put in pfp var
     }
 
     console.log(pfp);
