@@ -176,14 +176,20 @@
         <img src={acRepairman} class="banner" alt="">
         <div class="banner-content">
             <div class="partition-container d-flex justify-content-center">
-                <div class="mid-part m-5 p-5">
-                    <h4 class="text-white opacity-75 mx-1">AC Repair Service</h4>
-                    {#if serviceReady}
-                        <h1 class="fw-bold text-white">{service.title}</h1>
-                    {:else}
-                        <h1 class="fw-bold text-white placeholder-glow"><span class="placeholder col-6"></span></h1>
-                    {/if}
-                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="title">
+        <div class="mid-part d-flex flex-column justify-content-center">
+            <div>
+                <h4 class="text-white opacity-75 mx-1">AC Repair Service</h4>
+                {#if serviceReady}
+                    <h1 class="fw-bold text-white">{service.title}</h1>
+                {:else}
+                    <h1 class="fw-bold text-white placeholder-glow"><span class="placeholder col-6"></span></h1>
+                {/if}
             </div>
         </div>
     </div>
@@ -309,7 +315,7 @@
     .banner-container
     {
         position: absolute;
-        top: 6%;
+        top: 6vh;
         bottom: 44%;
         left: 0;
         right: 0;
@@ -341,15 +347,29 @@
     {
         width: 70%;
         height: 100%;
+        padding-left: 5%;
+        padding-right: 5%;
+    }
+
+    .title
+    {
+        position: absolute;
+        top: 6vh;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding-bottom: 69vh;
+        padding-left: 15%;
+        padding-right: 15%;
     }
 
     .info-root
     {
         position: absolute;
-        padding-top: 16%;
+        padding-top: 25vh;
         padding-left: 15%;
         padding-right: 15%;
-        top: 6%;
+        top: 6vh;
         bottom: 0;
         left: 0;
         right: 0;

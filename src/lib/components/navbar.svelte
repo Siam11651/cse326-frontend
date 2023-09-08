@@ -39,10 +39,10 @@
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-toggler" aria-controls="navbar-toggler" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+        <div class="collapse navbar-collapse" id="navbar-toggler">
             <a class="navbar-brand align-items-center me-auto" href="/">
                 <img src={logo} alt="logo" height="24" class="d-inline-block align-text-top me-1">
                 Online Utility and Handyman
@@ -74,6 +74,6 @@
 <style lang="scss">
     .navbar
     {
-        height: 6%;
+        height: 6vh;
     }
 </style>
