@@ -14,12 +14,11 @@
     let usernameSet: boolean = false;
     let personalInfo: PersonalInfo = new PersonalInfo();
     let personalInfoSet: boolean = false;
-    let services: Service[] = [];
 
     onMount((): void =>
     {
         FetchPersonalInfo();
-        FetchServices();
+        // FetchServices();
     });
 
     function FetchPersonalInfo(): void
@@ -55,37 +54,37 @@
         });
     }
 
-    function FetchServices(): void
-    {
-        fetch("/api/provider/service/service_list",
-        {
-            method: "POST",
-            headers:
-            {
-                "Content-Type": "application/json"
-            }
-        }).then(async (response: Response): Promise<void> =>
-        {
-            let responseObject = await response.json();
+    // function FetchServices(): void
+    // {
+    //     fetch("/api/provider/service/service_list",
+    //     {
+    //         method: "POST",
+    //         headers:
+    //         {
+    //             "Content-Type": "application/json"
+    //         }
+    //     }).then(async (response: Response): Promise<void> =>
+    //     {
+    //         let responseObject = await response.json();
 
-            if(responseObject.errorcode == null)
-            {
-                services = new Array<Service>(responseObject.length);
+    //         if(responseObject.errorcode == null)
+    //         {
+    //             services = new Array<Service>(responseObject.length);
 
-                for(let i: number = 0; i < services.length; ++i)
-                {
-                    services[i] =
-                    {
-                        id: responseObject[i]._serviceid,
-                        title: responseObject[i]._title,
-                        description: responseObject[i]._description,
-                        price: responseObject[i]._basecost,
-                        discount: responseObject[i]._discount,
-                    }
-                }
-            }
-        });
-    }
+    //             for(let i: number = 0; i < services.length; ++i)
+    //             {
+    //                 services[i] =
+    //                 {
+    //                     id: responseObject[i]._serviceid,
+    //                     title: responseObject[i]._title,
+    //                     description: responseObject[i]._description,
+    //                     price: responseObject[i]._basecost,
+    //                     discount: responseObject[i]._discount,
+    //                 }
+    //             }
+    //         }
+    //     });
+    // }
 
     function ResetSelection(): void
     {
@@ -113,7 +112,7 @@
         menuButtons[1].classList.add("active");
         menuSelection = 1;
 
-        FetchServices();
+        // FetchServices();
     }
 
     function OnTasksMenuClick(): void
@@ -178,7 +177,7 @@
                 {#if menuSelection == 0}
                     <Overview placeholder={!personalInfoSet} personalInfo={personalInfo} />
                 {:else if menuSelection == 1}
-                    <Services services={services} />
+                    <Services />
                 {/if}
             </div>
         </div>

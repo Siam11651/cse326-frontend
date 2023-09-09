@@ -30,7 +30,7 @@
             <path d="M5.5 5a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1zm0 1a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM1 7.086a1 1 0 0 0 .293.707L8.75 15.25l-.043.043a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 0 7.586V3a1 1 0 0 1 1-1v5.086z"/>
         </svg>
         {#if placeholder}
-            <span class="placeholder col-1"></span>
+            <span class="placeholder" style="width: 50px;"></span>
         {:else}
             {price}৳
         {/if}
