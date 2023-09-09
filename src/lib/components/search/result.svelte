@@ -36,10 +36,3 @@
         {/if}
     </div>
 </a>
-
-<style lang="scss">
-    .info-tag
-    {
-        max-width: 10em;
-    }
-</style>
