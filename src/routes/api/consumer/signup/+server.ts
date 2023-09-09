@@ -79,7 +79,7 @@ export async function POST({
 
         let pfpBuffer: Buffer = Buffer.from(byteArray);
 
-        writeFile(`src/routes/api/api-assets/${ret_user.id}.jpg`, pfpBuffer, (err): void => {});
+        writeFile(`src/routes/api/api-assets/${ret_user.id}.jpg`, pfpBuffer, (): void => {});
 
         let given_consumerid = ret_user.id;
         let given_imagefile = `${ret_user.id}.${extension}`;
