@@ -1,5 +1,6 @@
 <script lang="ts">
-    import type { Service } from "$lib/service/service";
+    import { fade } from "svelte/transition";
+    import type { Service } from "../../../routes/service/[service_id]/service";
 
     export let service: Service;
     export let serviceReady: boolean;
@@ -8,7 +9,7 @@
 <h2>Intro</h2>
 
 {#if serviceReady}
-    <p class="fs-5 mb-5">
+    <p class="fs-5 mb-5" in:fade={{duration: 200}}>
         {service.description}
     </p>
 {:else}
