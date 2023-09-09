@@ -83,7 +83,7 @@ export class SorterImplementation
             {
                 if(left.price < right.price)
                 {
-                    return -1;
+                    return 1;
                 }
                 else if(left.price === right.price)
                 {
@@ -91,7 +91,7 @@ export class SorterImplementation
                 }
                 else
                 {
-                    return 1;
+                    return -1;
                 }
             });
 
@@ -104,7 +104,7 @@ export class SorterImplementation
         return SorterImplementation.sorterName[sorterType];
     }
 
-    public static ApplyFilter(searchResults: SearchResult[], sorterType: SorterType): SearchResult[]
+    public static ApplySort(searchResults: SearchResult[], sorterType: SorterType): SearchResult[]
     {
         return SorterImplementation.SorterFunctions[sorterType](searchResults);
     }

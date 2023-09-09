@@ -1,29 +1,35 @@
 <script lang="ts">
     import { fade } from "svelte/transition";
+    import LabeledInfoTag from "../labeled-info-tag.svelte";
+    import type { PersonalInfo } from "../../../../routes/provider/dashboard/personal-info";
+
+    export let placeholder: boolean = false;
+    export let personalInfo: PersonalInfo;
 </script>
 
 <div class="overview-root" in:fade={{duration: 200}}>
-    <div class="card mb-3">
+    <div class="card mb-2">
         <div class="card-body">
             <h4>Personal Data:</h4>
             <div class="row">
                 <div class="col">
-                    <label for="first-name" class="form-label">First Name</label>
-                    <input id="first-name" type="text" class="form-control" aria-label="First name" value={"Abdul"} disabled>
+                    <LabeledInfoTag placeholder={placeholder} label="Email" info={personalInfo.email} />
                 </div>
                 <div class="col">
-                    <label for="last-name" class="form-label">Last Name</label>
-                    <input id="last-name" type="text" class="form-control" aria-label="Last name" value={"Motin"} disabled>
+                    <LabeledInfoTag placeholder={placeholder} label="Contact" info={personalInfo.contact} />
                 </div>
             </div>
             <div class="row">
                 <div class="col">
-                    <label for="date-of-birth" class="form-label">Date of Birth</label>
-                    <input id="date-of-birth" type="text" class="form-control" aria-label="Date of Birth" value={"16 October 2011"} disabled>
+                    <LabeledInfoTag placeholder={placeholder} label="NID Number" info={personalInfo.nidNumber} />
                 </div>
                 <div class="col">
-                    <label for="gender" class="form-label">Gender</label>
-                    <input id="gender" type="text" class="form-control" aria-label="Last name" value={"Female"} disabled>
+                    <LabeledInfoTag placeholder={placeholder} label="Region" info={personalInfo.region} />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <LabeledInfoTag placeholder={placeholder} label="Contact Address" info={personalInfo.fullAddress} />
                 </div>
             </div>
         </div>
@@ -41,21 +47,12 @@
     <div class="card">
         <div class="card-body">
             <h4>Activities:</h4>
-            <div class="d-flex">
-                <div class="flex-fill ps-3 pe-3">
-                    <div class="m-2">
-                        Followers: 69420
-                    </div>
+            <div class="row">
+                <div class="col">
+                    <LabeledInfoTag placeholder={placeholder} label="Services Completed" info={"420"} />
                 </div>
-                <div class="flex-fill border-start border-end ps-3 pe-3">
-                    <div class="m-2">
-                        Services Done: 1234
-                    </div>
-                </div>
-                <div class="flex-fill ps-3 pe-3">
-                    <div class="m-2">
-                        Average Rate: 4.9
-                    </div>
+                <div class="col">
+                    <LabeledInfoTag placeholder={placeholder} label="Rate" info={"4.2"} />
                 </div>
             </div>
         </div>

@@ -2,8 +2,9 @@ import phone, { type PhoneResult } from "phone";
 import type { SignupArgs } from "./signup-args";
 import { goto } from "$app/navigation";
 import { Errorcodes } from "./signup-errors";
-import { SigninError } from "../../../lib/signin-error";
+import { SigninError } from "../../../lib/errors/signin-error";
 import * as EmailValidator from "email-validator";
+import { ConsumerFetchState, ConsumerLoginData } from "$lib/consumer/profile";
 
 export class StateManager
 {
@@ -11,10 +12,10 @@ export class StateManager
     private static username: string | null = null;
     private static email: string | null = null;
     private static passwordHash: string | null = null;
-    private static pfp: Uint8Array | null;
-    private static contact: string | null;
-    private static address: string | null;
-    private static region: string | null;
+    private static pfp: Uint8Array | null = null;
+    private static contact: string | null = null;
+    private static address: string | null = null;
+    private static region: string | null = null;
 
     public static GetStateCount(): number
     {
@@ -240,8 +241,6 @@ export class StateManager
 
         let requestBodyString = JSON.stringify(requestBodyObject);
 
-        console.log(requestBodyString);
-
         fetch("/api/consumer/signup", 
         {
             method: "POST",
@@ -256,11 +255,8 @@ export class StateManager
 
             if(responseObject.errorcode == 0)
             {
-                let toSave = 
-                {
-                    jwt: responseObject.jwt_token
-                };
-                window.localStorage.setItem("consumer_auth", JSON.stringify(toSave));
+                ConsumerLoginData.fetchState = ConsumerFetchState.FETCHING;
+                
                 goto("/");
             }
             // else gule pore, vallagena

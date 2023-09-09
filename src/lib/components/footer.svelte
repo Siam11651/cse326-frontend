@@ -10,7 +10,7 @@
         <span class="text-body-secondary">&copy 2023 Online Utility and Handyman</span>
     </div>
     <div class="d-flex align-items-center me-4">
-        <a href="/provider/login" class="nav-link text-body-secondary me-2">For Service Provides</a>
+        <a href="/provider/dashboard" class="nav-link text-body-secondary me-2">For Service Provides</a>
         <div class="border-start ps-2">
             <a href="https://github.com/Siam11651/cse326-frontend" class="nav-link">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">

@@ -8,56 +8,23 @@
     import cleaning from "$lib/assets/cleaning.webp"
     import shifting from "$lib/assets/shifting.webp"
     import { onMount } from 'svelte';
-    import { Collapse } from 'bootstrap';
     import Footer from '$lib/components/footer.svelte';
-    import { fade } from 'svelte/transition';
-    import { Recommendation } from './Recommendation';
+    import { fade, slide } from 'svelte/transition';
+    import type { Recommendation } from './recommendation';
+    import { goto } from "$app/navigation";
 
-    let searchTerm: string;
     let searchDFlexElement: HTMLDivElement;
-    let searchRecommendationCollapseElement: HTMLDivElement;
-    let searchRecommendationCollapse: Collapse;
-    let recommendations: Recommendation[] = new Array<Recommendation>(5);
-    let userName: string | null = null;
-
-    for(let i: number = 0; i < 5; ++i)
-    {
-        recommendations[i] = new Recommendation();
-    }
+    let searchTerm: string;
+    let recommendations: Recommendation[] = [];
 
     onMount((): void =>
     {
-        searchRecommendationCollapse = new Collapse(searchRecommendationCollapseElement,
-        {
-            toggle: false
-        });
-
         let consumerAuth: string | null = window.localStorage.getItem("consumer_auth");
 
         if(consumerAuth === null)
         {
             return;
         }
-
-        let consumerAuthObject = JSON.parse(consumerAuth);
-
-        let userDataRequestObject = 
-        {
-            jwt: consumerAuthObject.jwt
-        };
-
-        // fetch("/api/consumer/data",
-        // {
-        //     method: "POST",
-        //     headers:
-        //     {
-        //         "Content-Type": "application/json"
-        //     },
-        //     body: JSON.stringify(userDataRequestObject)
-        // }).then((response: Response): void =>
-        // {
-
-        // });
     });
 
     function StartSearch(): void
@@ -69,7 +36,7 @@
     {
         if(searchTerm == null || searchTerm.length == 0)
         {
-            searchRecommendationCollapse.hide();
+            recommendations = [];
         }
         else
         {
@@ -98,12 +65,10 @@
                 {
                     recommendations[i] =
                     {
-                        title: responseObject[i].title,
-                        href: "/service/" + responseObject[i].serviceid
+                        title: responseObject[i].s_title,
+                        href: "/service/" + responseObject[i].s_serviceid
                     }
                 }
-
-                searchRecommendationCollapse.show();
             });
         }
     }
@@ -115,16 +80,24 @@
 
     function OnSearchBlur(): void
     {
-        searchRecommendationCollapse.hide();
+        recommendations = [];
     }
 
     function SearchInputUpdate(): void
     {   
         ShowRecommendations();
     }
+
+    function Search(): void
+    {
+        if(searchTerm && searchTerm.length > 0)
+        {
+            goto("/search?" + encodeURI("q=" + searchTerm));
+        }
+    }
 </script>
 
-<Navbar userName={userName} />
+<Navbar />
 
 <div class="home-root">
     <div class="d-flex flex-column align-items-center">
@@ -139,19 +112,18 @@
             </div>
         </div>
     </div>
-    <div class="ps-3 pe-3 mt-5">
+    <div class="ps-3 pe-3 mt-5" on:focus={OnSearchFocus} on:blur={OnSearchBlur}>
         <div class="d-flex" bind:this={searchDFlexElement}>
             <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Search Service" aria-label="Search Service" aria-describedby="search-service-button" bind:value={searchTerm} on:click={StartSearch} on:input={SearchInputUpdate} on:focus={OnSearchFocus} on:blur={OnSearchBlur}>
-                <a class="btn btn-secondary" type="button" id="search-service-button">Search</a>
+                <input type="text" class="form-control" placeholder="Search Service" aria-label="Search Service" aria-describedby="search-service-button" bind:value={searchTerm} on:click={StartSearch} on:input={SearchInputUpdate}>
+                <!-- <button class="btn btn-secondary" type="button" id="search-service-button" on:click={Search}>Search</button> -->
+                <button class="btn btn-secondary" type="button" on:click={Search}>Search</button>
             </div>
         </div>
-        <div class="collapse" id="search-recommendation-collapse" bind:this={searchRecommendationCollapseElement}>
-            <div class="list-group">
-                {#each recommendations as {title, href}}
-                    <a type="button" class="list-group-item list-group-item-action" href={href}>{title}</a>
-                {/each}
-            </div>
+        <div class="list-group">
+            {#each recommendations as {title, href}}
+                <a type="button" class="list-group-item list-group-item-action" href={href} transition:slide={{duration: 500, axis: "y"}}>{title}</a>
+            {/each}
         </div>
     </div>
     <div class="mt-1">
@@ -178,7 +150,6 @@
     .home-image-container
     {
         position: relative;
-        // width: 100%;
     }
 
     .home-image
