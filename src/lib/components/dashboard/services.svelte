@@ -123,7 +123,7 @@
 
 <div class="services-root" in:fade={{duration: 200}}>
     {#if showAddableServices}
-        <div class="addable-services" in:fade={{duration: 500}}>
+        <div class="addable-services" in:fade={{duration: 200}}>
             <h4 class="addable-service-title d-flex align-items-center m-0">
                 <!-- svelte-ignore a11y-invalid-attribute -->
                 <a class="link-danger me-2" href="#" on:click={HideAddableServices}>
@@ -134,7 +134,7 @@
                 Addable Services
             </h4>
                 {#if addableServicesReady}
-                    <div class="addable-service-list list-group">
+                    <div class="addable-service-list list-group" in:fade={{duration: 200}}>
                         {#each addableServices as service}
                             <button class="list-group-item list-group-item-action" data-bs-dismiss="modal" on:click={service.handler}>
                                 {service.title}
@@ -153,13 +153,13 @@
                 {/if}
         </div>
     {:else}
-        <div class="services" in:fade={{duration: 500}}>
+        <div class="services" in:fade={{duration: 200}}>
             <div class="top-part">
                 <h4 class="header">Services</h4>
             </div>
             <div class="middle-part mb-2">
                 {#if servicesReady}
-                    <div class="list-group" in:fade={{duration: 500}}>
+                    <div class="list-group" in:fade={{duration: 200}}>
                         {#each services as service}
                             <div class="list-group-item">
                                 <div class="d-flex align-items-center">

@@ -1,6 +1,6 @@
 <script lang="ts">
     import Navbar from "$lib/components/navbar.svelte";
-    import { fly } from "svelte/transition";
+    import { fade } from "svelte/transition";
     import Overview from "$lib/components/dashboard/provider/overview.svelte";
     import Services from "$lib/components/dashboard/services.svelte";
     import { onMount } from "svelte";
@@ -86,8 +86,6 @@
 
         menuButtons[1].classList.add("active");
         menuSelection = 1;
-
-        // FetchServices();
     }
 
     function OnTasksMenuClick(): void
@@ -117,51 +115,52 @@
 
 <div class="dashboard-root d-flex flex-column">
     <Navbar />
-    <div class="main-partition">
-        <div class="dashboard-container d-flex align-items-center shadow-lg rounded" in:fly={{duration: 500}}>
-            <div class="side-menu d-flex flex-column align-items-center justify-content-between border-end">
-                <div class="d-flex flex-column align-items-center mt-3">
-                    {#if usernameSet}
+    <div class="dashboard-container">
+        {#if usernameSet}
+            <div class="dashboard d-flex align-items-center shadow-lg rounded">
+                <div class="side-menu d-flex flex-column align-items-center justify-content-between border-end" in:fade={{duration: 200}}>
+                    <div class="d-flex flex-column align-items-center mt-3">
                         <img class="profile-picture rounded mb-1" src={pfp} alt="pp"/>
-                    {:else}
-                        <div class="placeholder-glow mb-1">
-                            <span class="pfp-placeholder placeholder rounded"></span>
-                        </div>
-                    {/if}
-                    <!-- svelte-ignore a11y-invalid-attribute -->
-                    <a class="link-primary" href="#" title="Edit Profile Picture">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-                        </svg>
-                    </a>
-                    <h5 class="placeholder-glow mb-5">
-                        {#if usernameSet}
+                        <!-- svelte-ignore a11y-invalid-attribute -->
+                        <a class="link-primary" href="#" title="Edit Profile Picture">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                            </svg>
+                        </a>
+                        <h5 class="placeholder-glow mb-5">
                             {username}
-                        {:else}
-                            <span class="placeholder col-4"></span>
-                        {/if}
-                    </h5>
+                        </h5>
+                    </div>
+                    <div class="menu-list-container ps-3 mb-3 mt-5">
+                        <div class="list-group list-group-flush border border-end-0 rounded-start">
+                            <button type="button" class="menu-button list-group-item list-group-item-action fs-5 active" bind:this={menuButtons[0]} on:click={OnOverviewMenuClick}>Overview</button>
+                            <button type="button" class="menu-button list-group-item list-group-item-action fs-5" bind:this={menuButtons[1]} on:click={OnServicesMenuClick}>Services</button>
+                            <button type="button" class="menu-button list-group-item list-group-item-action fs-5" bind:this={menuButtons[2]} on:click={OnTasksMenuClick}>Tasks</button>
+                            <button type="button" class="menu-button list-group-item list-group-item-action fs-5" bind:this={menuButtons[3]} on:click={OnHistoryClick}>History</button>
+                            <button type="button" class="menu-button list-group-item list-group-item-action fs-5" bind:this={menuButtons[4]} on:click={OnReviewsClick}>Reviews</button>
+                        </div>
+                    </div>
                 </div>
-                <div class="menu-list-container ps-3 mb-3 mt-5">
-                    <div class="list-group list-group-flush border border-end-0 rounded-start">
-                        <button type="button" class="menu-button list-group-item list-group-item-action fs-5 active" bind:this={menuButtons[0]} on:click={OnOverviewMenuClick}>Overview</button>
-                        <button type="button" class="menu-button list-group-item list-group-item-action fs-5" bind:this={menuButtons[1]} on:click={OnServicesMenuClick}>Services</button>
-                        <button type="button" class="menu-button list-group-item list-group-item-action fs-5" bind:this={menuButtons[2]} on:click={OnTasksMenuClick}>Tasks</button>
-                        <button type="button" class="menu-button list-group-item list-group-item-action fs-5" bind:this={menuButtons[3]} on:click={OnHistoryClick}>History</button>
-                        <button type="button" class="menu-button list-group-item list-group-item-action fs-5" bind:this={menuButtons[4]} on:click={OnReviewsClick}>Reviews</button>
+                <!-- <div class="menu-details d-flex flex-column align-items-stretch p-5"> -->
+                <div class="menu-details p-5" in:fade={{duration: 200}}>
+                    {#if menuSelection == 0}
+                        <Overview placeholder={!personalInfoSet} personalInfo={personalInfo} />
+                    {:else if menuSelection == 1}
+                        <Services />
+                    {/if}
+                </div>
+            </div>
+        {:else}
+            <div class="dashboard d-flex justify-content-center align-items-center shadow-lg rounded">
+                <div class="loggin-spinner d-flex justify-content-center align-items-center">
+                    <h3 class="my-auto me-3">Logging in</h3>
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
                     </div>
                 </div>
             </div>
-            <!-- <div class="menu-details d-flex flex-column align-items-stretch p-5"> -->
-            <div class="menu-details p-5">
-                {#if menuSelection == 0}
-                    <Overview placeholder={!personalInfoSet} personalInfo={personalInfo} />
-                {:else if menuSelection == 1}
-                    <Services />
-                {/if}
-            </div>
-        </div>
+        {/if}
     </div>
 </div>
 
@@ -175,7 +174,7 @@
         right: 0;
     }
 
-    .main-partition
+    .dashboard-container
     {
         position: absolute;
         top: 6vh;
@@ -188,11 +187,16 @@
         padding-right: 20%;
     }
 
-    .dashboard-container
+    .dashboard
     {
         margin: auto;
         width: 100%;
         height: 100%;
+    }
+
+    .loggin-spinner
+    {
+        width: 50%;
     }
 
     .side-menu
@@ -202,12 +206,6 @@
     }
 
     .profile-picture
-    {
-        height: 96px;
-        width: 96px;
-    }
-
-    .pfp-placeholder
     {
         height: 96px;
         width: 96px;

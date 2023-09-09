@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { fade } from "svelte/transition";
+
     export let placeholder: boolean = false;
     export let label: string;
     export let info: string;
@@ -8,11 +10,13 @@
     {label}
 </label>
 <div id={label} class="card card-body p-2 placeholder-glow mb-2">
-    <p class="m-0">
-        {#if placeholder}
+    {#if placeholder}
+        <p class="m-0">
             <span class="placeholder col-4"></span>
-        {:else}
+        </p>
+    {:else}
+        <p class="m-0" in:fade={{duration: 200}}>
             {info}
-        {/if}
-    </p>
+        </p>
+    {/if}
 </div>
