@@ -33,5 +33,9 @@ export async function POST({
     });
   }
 
-  return new Response();
+  return new Response(JSON.stringify({errorcode: -2}), {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 }
