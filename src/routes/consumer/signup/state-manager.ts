@@ -12,7 +12,9 @@ export class StateManager
     private static username: string | null = null;
     private static email: string | null = null;
     private static passwordHash: string | null = null;
-    private static pfp: Uint8Array | null = null;
+    // private static pfp: Uint8Array | null = null;
+    private static pfp: number[] | null = null;
+    // private static pfpFormData: FormData | null = null;
     private static contact: string | null = null;
     private static address: string | null = null;
     private static region: string | null = null;
@@ -168,9 +170,23 @@ export class StateManager
         }
 
         let arrayBuffer: ArrayBuffer = await pfp.arrayBuffer();
-        StateManager.pfp = new Uint8Array(arrayBuffer);
+        let pfpUint8Array: Uint8Array = new Uint8Array(arrayBuffer);
+        StateManager.pfp = new Array<number>(pfpUint8Array.length);
+
+        for(let i: number = 0; i < pfpUint8Array.length; ++i)
+        {
+            StateManager.pfp[i] = pfpUint8Array[i];
+        }
 
         return true;
+
+        // let formData: FormData = new FormData();
+
+        // formData.append("pfp", pfp);
+
+        // StateManager.pfpFormData = formData;
+
+        // return true;
     }
 
     private static SetContact(contact: string | null): boolean
@@ -233,6 +249,7 @@ export class StateManager
             name: StateManager.username,
             email: StateManager.email,
             password_hash: StateManager.passwordHash,
+            // pfp: StateManager.pfpFormData,
             pfp: StateManager.pfp,
             contact: StateManager.contact,
             address: StateManager.address,
