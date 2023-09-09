@@ -73,7 +73,7 @@ export async function POST({
           errorcode: 0,
           // jwt_token:token
         };
-        let extension = "jpg";
+        let extension = "png";
 
         let byteArray: Uint8Array = new Uint8Array(provider.pfp.length);
 
@@ -84,7 +84,7 @@ export async function POST({
         let pfpBuffer: Buffer = Buffer.from(byteArray);
 
         writeFile(
-          `src/routes/api/api-assets/provider/${ret_provider.id}.jpg`,
+          `src/routes/api/api-assets/pfp/provider/${ret_provider.id}.jpg`,
           pfpBuffer,
           (err): void => {}
         );
