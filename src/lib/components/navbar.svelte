@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { Dropdown } from "bootstrap";
     import logo from "$lib/assets/logo.webp";
     import { ConsumerFetchState, ConsumerLoginData } from "$lib/consumer/profile";
     import { onMount } from "svelte";
@@ -32,7 +33,7 @@
             }
             else
             {
-                ConsumerLoginData.username = responseObject.cname;
+                ConsumerLoginData.username = responseObject._cname;
                 ConsumerLoginData.fetchState = ConsumerFetchState.LOGGED_IN;
             }
         });

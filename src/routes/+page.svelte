@@ -42,11 +42,6 @@
 
         let consumerAuthObject = JSON.parse(consumerAuth);
 
-        let userDataRequestObject = 
-        {
-            jwt: consumerAuthObject.jwt
-        };
-
         // fetch("/api/consumer/data",
         // {
         //     method: "POST",
@@ -148,10 +143,10 @@
             </div>
         </div>
     </div>
-    <div class="ps-3 pe-3 mt-5">
+    <div class="ps-3 pe-3 mt-5" on:focus={OnSearchFocus} on:blur={OnSearchBlur}>
         <div class="d-flex" bind:this={searchDFlexElement}>
             <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Search Service" aria-label="Search Service" aria-describedby="search-service-button" bind:value={searchTerm} on:click={StartSearch} on:input={SearchInputUpdate} on:focus={OnSearchFocus} on:blur={OnSearchBlur}>
+                <input type="text" class="form-control" placeholder="Search Service" aria-label="Search Service" aria-describedby="search-service-button" bind:value={searchTerm} on:click={StartSearch} on:input={SearchInputUpdate}>
                 <button class="btn btn-secondary" type="button" id="search-service-button" on:click={Search}>Search</button>
             </div>
         </div>
