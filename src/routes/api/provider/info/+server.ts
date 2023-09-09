@@ -2,6 +2,18 @@ import { supabase } from "$lib/server/supabaseclient.server";
 import type { RequestEvent } from "./$types";
 import jwt from "jsonwebtoken";
 
+async function load_pfp(given_pname: string): Promise<any> {
+  let { data: provider_pfp, error } = await supabase
+    .from("providers")
+    .select("imagefile")
+    .eq("pname", given_pname);
+  if (provider_pfp) {
+    return provider_pfp;
+  } else {
+    return null;
+  }
+}
+
 export async function POST({
   request,
   cookies,
@@ -19,13 +31,22 @@ export async function POST({
     });
 
     let singleResult = result[0];
+    
+    let pfp: any = load_pfp(given_pname);
+
+    if (pfp === null) {
+      pfp = '/api/api-assets/no_pfp.png';
+    }
+    
     if (error) {
       ret_text = {
         errorcode: -1,
       };
     } else {
+      singleResult.pfp = pfp;
       ret_text = singleResult;
     }
+    
 
     return new Response(JSON.stringify(ret_text), {
       headers: {
