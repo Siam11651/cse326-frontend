@@ -28,7 +28,7 @@ export async function POST({
     let { data: result, error } = await supabase.rpc("get_consumer_details", {
       given_cname,
     });
-    let pfp: any = load_pfp(given_cname);
+    let pfp: any = (await load_pfp(given_cname))[0].imagefile
 
     if (pfp === null) {
       pfp = '/api/api-assets/no_pfp.png';

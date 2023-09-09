@@ -32,7 +32,7 @@ export async function POST({
 
     let singleResult = result[0];
     
-    let pfp: any = load_pfp(given_pname);
+    let pfp: any = (await load_pfp(given_pname))[0].imagefile;
 
     if (pfp === null) {
       pfp = '/api/api-assets/no_pfp.png';
@@ -47,7 +47,7 @@ export async function POST({
       ret_text = singleResult;
     }
     
-
+    console.log(pfp);
     return new Response(JSON.stringify(ret_text), {
       headers: {
         "Content-Type": "application/json",
