@@ -289,30 +289,6 @@
     {/if}
 </div>
 
-<div class="modal fade" id="add-service-modal" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-body">
-                <div class="d-flex align-item-center justify-content-between p-2">
-                    <h4 class="card-title">Addable Services</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="list-group">
-                    <!-- {#if waitingToAdd}
-                        waiting
-                    {:else}
-                        {#each addableServices as service}
-                            <button class="list-group-item list-group-item-action" data-bs-dismiss="modal" on:click={service.handler}>
-                                {service.title}
-                            </button>
-                        {/each}
-                    {/if} -->
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <style lang="scss">
     .services-root
     {
