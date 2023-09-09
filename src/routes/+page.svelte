@@ -8,7 +8,6 @@
     import cleaning from "$lib/assets/cleaning.webp"
     import shifting from "$lib/assets/shifting.webp"
     import { onMount } from 'svelte';
-    import { Collapse } from 'bootstrap';
     import Footer from '$lib/components/footer.svelte';
     import { fade, slide } from 'svelte/transition';
     import type { Recommendation } from './recommendation';
@@ -16,17 +15,10 @@
 
     let searchDFlexElement: HTMLDivElement;
     let searchTerm: string;
-    let searchRecommendationCollapseElement: HTMLDivElement;
-    let searchRecommendationCollapse: Collapse;
     let recommendations: Recommendation[] = [];
 
     onMount((): void =>
     {
-        searchRecommendationCollapse = new Collapse(searchRecommendationCollapseElement,
-        {
-            toggle: false
-        });
-
         let consumerAuth: string | null = window.localStorage.getItem("consumer_auth");
 
         if(consumerAuth === null)
