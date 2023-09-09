@@ -1,6 +1,7 @@
 import { supabase } from "$lib/server/supabaseclient.server";
 import type { RequestEvent } from "./$types";
 import jwt from "jsonwebtoken";
+import {writeFileSync} from 'fs';
 
 export async function POST({
   request,
@@ -34,7 +35,7 @@ export async function POST({
           errorcode: -1,
         };
       } else {
-        console.log("s/r/a/c/l/37: ", result);
+        
         let ret_user = {
           id: result[0]._consumerid,
           is_consumer: true,
@@ -47,6 +48,8 @@ export async function POST({
         token = jwt.sign(ret_user, import.meta.env.VITE_JWT_KEY, {
           expiresIn: `${15 * 86400 * 1000}`,
         });
+
+        
       }
     } else {
       console.log("wrong password or consumer name");

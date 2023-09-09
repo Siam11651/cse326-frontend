@@ -32,6 +32,8 @@ export async function POST({
 
     if (pfp === null) {
       pfp = '/src/routes/api/api-assets/no_pfp.png';
+    } else {
+      pfp = `/src/routes/api/api-assets/${pfp}`;
     }
 
     console.log(pfp);

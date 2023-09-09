@@ -1,17 +1,8 @@
 import { supabase } from "$lib/server/supabaseclient.server";
 import type { RequestEvent } from "./$types";
-
 import jwt from "jsonwebtoken";
-let user = {
-  name: "",
-  email: "",
-  password_hash: "",
-  contact: "",
-  pfp: null,
-  address: "",
-  area: "",
-  id: 0,
-};
+import { writeFileSync } from "fs";
+
 export async function POST({
   request,
   cookies,
@@ -77,6 +68,28 @@ export async function POST({
           errorcode: 0,
           //jwt_token:token
         };
+        let extension = "";
+        const formData = Object.fromEntries(await request.formData());
+        if ((formData.pfp as File).name) {
+          const { pfp } = formData as { pfp: File };
+          extension = pfp.name.split(".")[1];
+          writeFileSync(
+            `/src/routes/api/api-assets/${ret_user.id}`,
+            Buffer.from(await pfp.arrayBuffer())
+          );
+        }
+
+        let given_consumerid = ret_user.id;
+        let given_imagefile = `${ret_user.id}.${extension}`;
+
+        let { data, error } = await supabase.rpc("add_consumer_pfp", {
+          given_consumerid,
+          given_imagefile,
+        });
+
+        if (error) {
+          console.log(error);
+        }
       }
     }
   }
