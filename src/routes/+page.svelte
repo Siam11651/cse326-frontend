@@ -10,21 +10,15 @@
     import { onMount } from 'svelte';
     import { Collapse } from 'bootstrap';
     import Footer from '$lib/components/footer.svelte';
-    import { fade } from 'svelte/transition';
-    import { Recommendation } from './recommendation';
+    import { fade, slide } from 'svelte/transition';
+    import type { Recommendation } from './recommendation';
     import { goto } from "$app/navigation";
 
-    let searchTerm: string;
     let searchDFlexElement: HTMLDivElement;
+    let searchTerm: string;
     let searchRecommendationCollapseElement: HTMLDivElement;
     let searchRecommendationCollapse: Collapse;
-    let recommendations: Recommendation[] = new Array<Recommendation>(5);
-    let userName: string | null = null;
-
-    for(let i: number = 0; i < 5; ++i)
-    {
-        recommendations[i] = new Recommendation();
-    }
+    let recommendations: Recommendation[] = [];
 
     onMount((): void =>
     {
@@ -39,21 +33,6 @@
         {
             return;
         }
-
-        let consumerAuthObject = JSON.parse(consumerAuth);
-
-        // fetch("/api/consumer/data",
-        // {
-        //     method: "POST",
-        //     headers:
-        //     {
-        //         "Content-Type": "application/json"
-        //     },
-        //     body: JSON.stringify(userDataRequestObject)
-        // }).then((response: Response): void =>
-        // {
-
-        // });
     });
 
     function StartSearch(): void
@@ -65,7 +44,7 @@
     {
         if(searchTerm == null || searchTerm.length == 0)
         {
-            searchRecommendationCollapse.hide();
+            recommendations = [];
         }
         else
         {
@@ -98,8 +77,6 @@
                         href: "/service/" + responseObject[i].s_serviceid
                     }
                 }
-
-                searchRecommendationCollapse.show();
             });
         }
     }
@@ -111,7 +88,7 @@
 
     function OnSearchBlur(): void
     {
-        searchRecommendationCollapse.hide();
+        recommendations = [];
     }
 
     function SearchInputUpdate(): void
@@ -147,15 +124,14 @@
         <div class="d-flex" bind:this={searchDFlexElement}>
             <div class="input-group mb-3">
                 <input type="text" class="form-control" placeholder="Search Service" aria-label="Search Service" aria-describedby="search-service-button" bind:value={searchTerm} on:click={StartSearch} on:input={SearchInputUpdate}>
-                <button class="btn btn-secondary" type="button" id="search-service-button" on:click={Search}>Search</button>
+                <!-- <button class="btn btn-secondary" type="button" id="search-service-button" on:click={Search}>Search</button> -->
+                <button class="btn btn-secondary" type="button" on:click={Search}>Search</button>
             </div>
         </div>
-        <div class="collapse" id="search-recommendation-collapse" bind:this={searchRecommendationCollapseElement}>
-            <div class="list-group">
-                {#each recommendations as {title, href}}
-                    <a type="button" class="list-group-item list-group-item-action" href={href}>{title}</a>
-                {/each}
-            </div>
+        <div class="list-group">
+            {#each recommendations as {title, href}}
+                <a type="button" class="list-group-item list-group-item-action" href={href} transition:slide={{duration: 500, axis: "y"}}>{title}</a>
+            {/each}
         </div>
     </div>
     <div class="mt-1">
