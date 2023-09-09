@@ -91,8 +91,6 @@ export class StateManager
 
             if(responseObject.errorcode == 0)
             {
-                ConsumerLoginData.fetchState = ConsumerFetchState.FETCHING;
-
                 goto("/provider/dashboard");
             }
         });

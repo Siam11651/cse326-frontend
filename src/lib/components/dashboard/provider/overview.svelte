@@ -47,21 +47,12 @@
     <div class="card">
         <div class="card-body">
             <h4>Activities:</h4>
-            <div class="d-flex">
-                <div class="flex-fill ps-3 pe-3">
-                    <div class="m-2">
-                        Followers: 69420
-                    </div>
+            <div class="row">
+                <div class="col">
+                    <LabeledInfoTag placeholder={placeholder} label="Services Completed" info={"420"} />
                 </div>
-                <div class="flex-fill border-start border-end ps-3 pe-3">
-                    <div class="m-2">
-                        Services Done: 1234
-                    </div>
-                </div>
-                <div class="flex-fill ps-3 pe-3">
-                    <div class="m-2">
-                        Average Rate: 4.9
-                    </div>
+                <div class="col">
+                    <LabeledInfoTag placeholder={placeholder} label="Rate" info={"4.2"} />
                 </div>
             </div>
         </div>

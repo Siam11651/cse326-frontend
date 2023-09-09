@@ -9,4 +9,5 @@ export class ConsumerLoginData
 {
     public static fetchState: ConsumerFetchState = ConsumerFetchState.FETCHING;
     public static username: string = "";
+    public static pfpPath: string = "";
 }

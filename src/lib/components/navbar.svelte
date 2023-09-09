@@ -9,6 +9,7 @@
 
     $: fetchState = ConsumerLoginData.fetchState;
     $: username = ConsumerLoginData.username;
+    $: pfpPath = ConsumerLoginData.pfpPath;
 
     onMount((): void =>
     {
@@ -35,6 +36,7 @@
             else
             {
                 ConsumerLoginData.username = responseObject._cname;
+                ConsumerLoginData.pfpPath = responseObject.pfp;
                 ConsumerLoginData.fetchState = ConsumerFetchState.LOGGED_IN;
             }
         });
@@ -58,7 +60,7 @@
                     <div class="dropdown">
                         <!-- svelte-ignore a11y-invalid-attribute -->
                         <a class="" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src={pfp} alt="logo" class="pfp img-thumbnail">
+                            <img src={pfpPath} alt="logo" class="pfp img-thumbnail">
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li>

@@ -124,7 +124,7 @@
 <div class="services-root" in:fade={{duration: 200}}>
     {#if showAddableServices}
         <div class="addable-services" in:fade={{duration: 500}}>
-            <h4 class="addable-service-title d-flex m-0">
+            <h4 class="addable-service-title d-flex align-items-center m-0">
                 <!-- svelte-ignore a11y-invalid-attribute -->
                 <a class="link-danger me-2" href="#" on:click={HideAddableServices}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
@@ -173,21 +173,25 @@
                                             {service.description}
                                         </p>
                                         <div class="d-flex align-items-center text-body-secondary ms-1">
-                                            <div title="Discount">
+                                            <div title="Discount" class="d-flex align-items-center">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-graph-down-arrow" viewBox="0 0 16 16">
                                                     <path fill-rule="evenodd" d="M0 0h1v15h15v1H0V0Zm10 11.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 0-1 0v2.6l-3.613-4.417a.5.5 0 0 0-.74-.037L7.06 8.233 3.404 3.206a.5.5 0 0 0-.808.588l4 5.5a.5.5 0 0 0 .758.06l2.609-2.61L13.445 11H10.5a.5.5 0 0 0-.5.5Z"/>
                                                 </svg>
-                                                {service.discount}%
+                                                <span class="ms-1">
+                                                    {service.discount}%
+                                                </span>
                                             </div>
                                             <div class="mx-2">
                                                 •
                                             </div>
-                                            <div title="Total Price">
+                                            <div title="Total Price" class="d-flex align-items-center">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tags" viewBox="0 0 16 16">
                                                     <path d="M3 2v4.586l7 7L14.586 9l-7-7H3zM2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586V2z"/>
                                                     <path d="M5.5 5a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1zm0 1a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM1 7.086a1 1 0 0 0 .293.707L8.75 15.25l-.043.043a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 0 7.586V3a1 1 0 0 1 1-1v5.086z"/>
                                                 </svg>
-                                                {service.price}৳
+                                                <span class="ms-1">
+                                                    {service.price}৳
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
@@ -248,21 +252,21 @@
                                         <span class="placeholder col-2"></span>
                                     </p>
                                     <div class="d-flex align-items-center text-body-secondary ms-1">
-                                        <div>
+                                        <div class="d-flex align-items-center">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-graph-down-arrow" viewBox="0 0 16 16">
                                                 <path fill-rule="evenodd" d="M0 0h1v15h15v1H0V0Zm10 11.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 0-1 0v2.6l-3.613-4.417a.5.5 0 0 0-.74-.037L7.06 8.233 3.404 3.206a.5.5 0 0 0-.808.588l4 5.5a.5.5 0 0 0 .758.06l2.609-2.61L13.445 11H10.5a.5.5 0 0 0-.5.5Z"/>
                                             </svg>
-                                            <span class="placeholder" style="width: 50px;"></span>
+                                            <span class="placeholder ms-1" style="width: 50px;"></span>
                                         </div>
                                         <div class="mx-2">
                                             •
                                         </div>
-                                        <div>
+                                        <div class="d-flex align-items-center">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tags" viewBox="0 0 16 16">
                                                 <path d="M3 2v4.586l7 7L14.586 9l-7-7H3zM2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586V2z"/>
                                                 <path d="M5.5 5a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1zm0 1a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM1 7.086a1 1 0 0 0 .293.707L8.75 15.25l-.043.043a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 0 7.586V3a1 1 0 0 1 1-1v5.086z"/>
                                             </svg>
-                                            <span class="placeholder" style="width: 50px;"></span>
+                                            <span class="placeholder ms-1" style="width: 50px;"></span>
                                         </div>
                                     </div>
                                 </div>

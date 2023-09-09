@@ -1,12 +1,11 @@
 <script lang="ts">
     import Navbar from "$lib/components/navbar.svelte";
-    import defaultPfp from "$lib/assets/default-pfp.webp"
     import { fly } from "svelte/transition";
     import Overview from "$lib/components/dashboard/provider/overview.svelte";
     import Services from "$lib/components/dashboard/services.svelte";
     import { onMount } from "svelte";
     import { PersonalInfo } from "./personal-info";
-    import type { Service } from "./service";
+    import { goto } from "$app/navigation";
 
     let menuButtons: HTMLButtonElement[] = new Array<HTMLButtonElement>(5);
     let menuSelection: number = 0;
@@ -15,10 +14,10 @@
     let personalInfo: PersonalInfo = new PersonalInfo();
     let personalInfoSet: boolean = false;
     let pfp = "";
+
     onMount((): void =>
     {
         FetchPersonalInfo();
-        // FetchServices();
     });
 
     function FetchPersonalInfo(): void
@@ -33,60 +32,34 @@
         }).then(async (response: Response): Promise<void> =>
         {
             let responseObject = await response.json();
-            console.log("pfp: ", responseObject.pfp);
-            personalInfo =
+
+            if(responseObject.errorcode)
             {
-                username: responseObject._pname,
-                email: responseObject._mail,
-                contact: responseObject._contactnumber,
-                nidNumber: responseObject._nidnumber,
-                region: responseObject._local_area,
-                fullAddress: responseObject._contactaddress
+                goto("/provider/login");
             }
-            pfp=responseObject.pfp;
-            console.log(pfp);
-
-            personalInfoSet = true;
-
-            if(!usernameSet)
+            else
             {
-                username = personalInfo.username;
-                usernameSet = true;
+                personalInfo =
+                {
+                    username: responseObject._pname,
+                    email: responseObject._mail,
+                    contact: responseObject._contactnumber,
+                    nidNumber: responseObject._nidnumber,
+                    region: responseObject._local_area,
+                    fullAddress: responseObject._contactaddress
+                }
+
+                personalInfoSet = true;
+
+                if(!usernameSet)
+                {
+                    username = personalInfo.username;
+                    pfp=responseObject.pfp;
+                    usernameSet = true;
+                }
             }
         });
     }
-
-    // function FetchServices(): void
-    // {
-    //     fetch("/api/provider/service/service_list",
-    //     {
-    //         method: "POST",
-    //         headers:
-    //         {
-    //             "Content-Type": "application/json"
-    //         }
-    //     }).then(async (response: Response): Promise<void> =>
-    //     {
-    //         let responseObject = await response.json();
-
-    //         if(responseObject.errorcode == null)
-    //         {
-    //             services = new Array<Service>(responseObject.length);
-
-    //             for(let i: number = 0; i < services.length; ++i)
-    //             {
-    //                 services[i] =
-    //                 {
-    //                     id: responseObject[i]._serviceid,
-    //                     title: responseObject[i]._title,
-    //                     description: responseObject[i]._description,
-    //                     price: responseObject[i]._basecost,
-    //                     discount: responseObject[i]._discount,
-    //                 }
-    //             }
-    //         }
-    //     });
-    // }
 
     function ResetSelection(): void
     {
@@ -148,7 +121,13 @@
         <div class="dashboard-container d-flex align-items-center shadow-lg rounded" in:fly={{duration: 500}}>
             <div class="side-menu d-flex flex-column align-items-center justify-content-between border-end">
                 <div class="d-flex flex-column align-items-center mt-3">
-                    <img class="profile-picture rounded mb-1" src={pfp} alt="pp"/>
+                    {#if usernameSet}
+                        <img class="profile-picture rounded mb-1" src={pfp} alt="pp"/>
+                    {:else}
+                        <div class="placeholder-glow mb-1">
+                            <span class="pfp-placeholder placeholder rounded"></span>
+                        </div>
+                    {/if}
                     <!-- svelte-ignore a11y-invalid-attribute -->
                     <a class="link-primary" href="#" title="Edit Profile Picture">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
@@ -226,8 +205,12 @@
     {
         height: 96px;
         width: 96px;
-        margin-left: auto;
-        margin-right: auto;
+    }
+
+    .pfp-placeholder
+    {
+        height: 96px;
+        width: 96px;
     }
 
     .menu-list-container
