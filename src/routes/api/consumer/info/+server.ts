@@ -31,7 +31,7 @@ export async function POST({
     let pfp: any = (await load_pfp(given_cname))[0].imagefile
 
     if (pfp === null) {
-      pfp = '/api/api-assets/no_pfp.png';
+      pfp = '/src/routes/api/api-assets/no_pfp.png';
     }
 
     console.log(pfp);

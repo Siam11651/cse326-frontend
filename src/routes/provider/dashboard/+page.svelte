@@ -148,7 +148,7 @@
         <div class="dashboard-container d-flex align-items-center shadow-lg rounded" in:fly={{duration: 500}}>
             <div class="side-menu d-flex flex-column align-items-center justify-content-between border-end">
                 <div class="d-flex flex-column align-items-center mt-3">
-                    <img class="profile-picture rounded mb-1" src={defaultPfp} alt="pp"/>
+                    <img class="profile-picture rounded mb-1" src={pfp} alt="pp"/>
                     <!-- svelte-ignore a11y-invalid-attribute -->
                     <a class="link-primary" href="#" title="Edit Profile Picture">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
