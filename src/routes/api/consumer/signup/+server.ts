@@ -68,8 +68,9 @@ export async function POST({
           errorcode: 0,
           //jwt_token:token
         };
-        let extension = "";
-        const formData = Object.fromEntries(await request.formData());
+        let extension = '';
+        // const formData = Object.fromEntries(await request.formData());
+        const formData: FormData = await request.body?.formData;
         if ((formData.pfp as File).name) {
           const { pfp } = formData as { pfp: File };
           extension = pfp.name.split(".")[1];
@@ -81,7 +82,7 @@ export async function POST({
 
         let given_consumerid = ret_user.id;
         let given_imagefile = `${ret_user.id}.${extension}`;
-
+        console.log(given_imagefile)
         let { data, error } = await supabase.rpc("add_consumer_pfp", {
           given_consumerid,
           given_imagefile,
