@@ -35,7 +35,6 @@
     let regionValue: string;
     let state: number = 0;
     let inputValidityStatus: InputValidityStatus = new InputValidityStatus();
-    let regions: string[] = ["Kallyanpur", "Uttara", "Mohammadpur"];
 
     $: stateContainerHeight = stateContainerElement?.offsetHeight ?? 0;
 
@@ -119,7 +118,7 @@
                     </div>
                 {:else if state == 3}
                     <div bind:this={stateContainerElement}>
-                        <Address regions={regions} bind:address={addressValue} bind:region={regionValue} />
+                        <Address bind:address={addressValue} bind:region={regionValue} />
                     </div>
                 {:else if state == StateManager.GetStateCount()}
                     <div bind:this={stateContainerElement}>

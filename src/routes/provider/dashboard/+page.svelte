@@ -46,7 +46,8 @@
                     contact: responseObject._contactnumber,
                     nidNumber: responseObject._nidnumber,
                     region: responseObject._local_area,
-                    fullAddress: responseObject._contactaddress
+                    fullAddress: responseObject._contactaddress,
+                    rate: responseObject._rating.toFixed(2).toString()
                 }
 
                 personalInfoSet = true;

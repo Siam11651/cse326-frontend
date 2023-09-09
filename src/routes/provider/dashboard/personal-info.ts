@@ -6,4 +6,5 @@ export class PersonalInfo
     public nidNumber: string = "";
     public region: string = "";
     public fullAddress: string = "";
+    public rate: string = "";
 }

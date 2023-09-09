@@ -52,7 +52,7 @@
                     <LabeledInfoTag placeholder={placeholder} label="Services Completed" info={"420"} />
                 </div>
                 <div class="col">
-                    <LabeledInfoTag placeholder={placeholder} label="Rate" info={"4.2"} />
+                    <LabeledInfoTag placeholder={placeholder} label="Rate" info={personalInfo.rate} />
                 </div>
             </div>
         </div>

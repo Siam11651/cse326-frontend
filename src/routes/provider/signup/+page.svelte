@@ -129,7 +129,7 @@
                     </div>
                 {:else if state === 4}
                     <div bind:this={stateContainerElement}>
-                        <Address regions={regions} bind:address={addressValue} bind:region={regionValue} />
+                        <Address bind:address={addressValue} bind:region={regionValue} />
                     </div>
                 {:else if state == StateManager.GetStateCount()}
                     <div bind:this={stateContainerElement}>
@@ -138,8 +138,14 @@
                 {/if}
             </div>
             <div class="d-flex justify-content-end p-3">
-                {#if state == 0}
-                    <button type="button" class="btn btn-primary" on:click={GoNext}>Login</button>
+                {#if 0 < state && state < StateManager.GetStateCount()}
+                    <button type="button" class="btn btn-secondary me-1" on:click={GoBack}>Back</button>
+                {/if}
+
+                {#if state < StateManager.GetStateCount() - 1}
+                    <button type="button" class="btn btn-primary" on:click={GoNext}>Next</button>
+                {:else if state == StateManager.GetStateCount() - 1}
+                    <button type="button" class="btn btn-primary" on:click={GoNext}>Sign Up</button>
                 {/if}
             </div>
         </div>

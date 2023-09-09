@@ -84,7 +84,13 @@
         <div class="dashboard-container d-flex align-items-center shadow-lg rounded" in:fly={{duration: 500}}>
             <div class="side-menu d-flex flex-column align-items-center justify-content-between border-end">
                 <div class="d-flex flex-column align-items-center mt-3">
-                    <img class="profile-picture rounded mb-1" src={pfp} alt="pp"/>
+                    {#if personalInfoSet}
+                        <img class="profile-picture rounded mb-1" src={pfp} alt="pp"/>
+                    {:else}
+                        <div class="placeholder-glow mb-1">
+                            <span class="profile-picture-placeholder rounded placeholder"></span>
+                        </div>
+                    {/if}
                     <!-- svelte-ignore a11y-invalid-attribute -->
                     <a class="link-primary" href="javascript:" title="Edit Profile Picture">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
@@ -92,13 +98,15 @@
                             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
                         </svg>
                     </a>
-                    <h5 class="placeholder-glow mb-5">
-                        {#if personalInfoSet}
+                    {#if personalInfoSet}
+                        <h5 class="mb-5">
                             {personalInfo.username}
-                        {:else}
+                        </h5>
+                    {:else}
+                        <h5 class="placeholder-glow mb-5">
                             <span class="placeholder col-4"></span>
-                        {/if}
-                    </h5>
+                        </h5>
+                    {/if}
                 </div>
                 <div class="menu-list-container ps-3 mb-3 mt-5">
                     <div class="list-group list-group-flush border border-end-0 rounded-start">
@@ -155,6 +163,12 @@
     }
 
     .profile-picture
+    {
+        height: 96px;
+        width: 96px;
+    }
+
+    .profile-picture-placeholder
     {
         height: 96px;
         width: 96px;
