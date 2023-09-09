@@ -36,7 +36,7 @@ export async function POST({
           errorcode: -1,
         };
       } else {
-        console.log(result._pid, " at 39 of s/r/a/p/l");
+        console.log(result[0]._pid, " at 39 of s/r/a/p/l");
         let ret_provider = {
           id: result[0]._pid,
           is_consumer: false,

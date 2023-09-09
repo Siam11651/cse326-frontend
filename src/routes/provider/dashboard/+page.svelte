@@ -14,7 +14,7 @@
     let usernameSet: boolean = false;
     let personalInfo: PersonalInfo = new PersonalInfo();
     let personalInfoSet: boolean = false;
-
+    let pfp = "";
     onMount((): void =>
     {
         FetchPersonalInfo();
@@ -43,6 +43,8 @@
                 region: responseObject._local_area,
                 fullAddress: responseObject._contactaddress
             }
+            pfp=responseObject.pfp;
+            console.log(pfp);
 
             personalInfoSet = true;
 

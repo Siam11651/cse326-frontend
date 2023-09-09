@@ -10,7 +10,7 @@
     let menuSelection: number = 0;
     let personalInfo: PersonalInfo = new PersonalInfo();
     let personalInfoSet: boolean = false;
-
+    let pfp = "";
     onMount((): void =>
     {
         fetch("/api/consumer/info",
@@ -31,6 +31,8 @@
                 email: responseObject._mail,
                 address: responseObject._billingaddress
             };
+            pfp=responseObject.pfp;
+            console.log(pfp);
             personalInfoSet = true;
         });
     });
