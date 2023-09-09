@@ -12,7 +12,7 @@ export class StateManager
     private static username: string | null = null;
     private static email: string | null = null;
     private static passwordHash: string | null = null;
-    private static pfp: Uint8Array | null = null;
+    private static pfp: number[] | null = null;
     private static contact: string | null = null;
     private static nidNumber: number | null = null;
     private static nid: Uint8Array | null = null;
@@ -175,7 +175,13 @@ export class StateManager
         }
 
         let arrayBuffer: ArrayBuffer = await pfp.arrayBuffer();
-        StateManager.pfp = new Uint8Array(arrayBuffer);
+        let pfpUint8Array: Uint8Array = new Uint8Array(arrayBuffer);
+        StateManager.pfp = new Array<number>(pfpUint8Array.length);
+
+        for(let i: number = 0; i < pfpUint8Array.length; ++i)
+        {
+            StateManager.pfp[i] = pfpUint8Array[i];
+        }
 
         return true;
     }
