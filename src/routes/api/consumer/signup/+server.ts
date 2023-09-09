@@ -2,6 +2,7 @@ import { supabase } from "$lib/server/supabaseclient.server";
 import type { RequestEvent } from "./$types";
 import jwt from "jsonwebtoken";
 import { writeFileSync, writeFile } from "fs";
+import {fileTypeFromBuffer, fileTypeFromFile} from 'file-type';
 
 export async function POST({
   request,
@@ -68,7 +69,7 @@ export async function POST({
           errorcode: 0,
           //jwt_token:token
         };
-        let extension = "png";
+        let extension:string|undefined;
 
         let byteArray: Uint8Array = new Uint8Array(user.pfp.length);
 
@@ -78,8 +79,9 @@ export async function POST({
         }
 
         let pfpBuffer: Buffer = Buffer.from(byteArray);
+        extension = (await fileTypeFromBuffer(pfpBuffer))?.ext;
 
-        writeFile(`src/routes/api/api-assets/pfp/consumer/${ret_user.id}.jpg`, pfpBuffer, (): void => {});
+        writeFile(`src/routes/api/api-assets/pfp/consumer/${ret_user.id}.${extension}`, pfpBuffer, (): void => {});
 
         let given_consumerid = ret_user.id;
         let given_imagefile = `${ret_user.id}.${extension}`;
