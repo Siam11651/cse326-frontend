@@ -30,8 +30,8 @@ export async function POST({
     });
     let pfp: any = load_pfp(given_cname);
 
-    if (!pfp) {
-      // TODO: conver ../../api-assets/no_pfp.png to bytearray, put in pfp var
+    if (pfp === null) {
+      pfp = '/api/api-assets/no_pfp.png';
     }
 
     console.log(pfp);
