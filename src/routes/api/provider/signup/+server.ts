@@ -1,7 +1,7 @@
 import { supabase } from "$lib/server/supabaseclient.server";
 import type { RequestEvent } from "./$types";
 import jwt from "jsonwebtoken";
-import { writeFileSync } from "fs";
+import { writeFile } from "fs";
 
 export async function POST({
   request,
@@ -32,10 +32,9 @@ export async function POST({
       let given_contactaddress = provider.address;
       let given_pname = provider.name;
       let given_contactnumber = provider.contact;
-      
+
       let given_local = provider.region;
-      
-      
+
       let given_mail = provider.email;
       let given_security_key = provider.password_hash;
       let given_nidnumber = "";
@@ -74,28 +73,33 @@ export async function POST({
           errorcode: 0,
           // jwt_token:token
         };
-        let extension = '';
-        const formData = Object.fromEntries(await request.formData());
-        if ((formData.pfp as File).name) {
-          const { pfp } = formData as { pfp: File };
+        let extension = "jpg";
 
-          extension = pfp.name.split('.')[1];
-          writeFileSync(
-            `/src/routes/api/api-assets/${ret_provider.id}.${extension}`,
-            Buffer.from(await pfp.arrayBuffer())
-          );
+        let byteArray: Uint8Array = new Uint8Array(provider.pfp.length);
+
+        for (let i: number = 0; i < provider.pfp.length; ++i) {
+          byteArray[i] = provider.pfp[i];
         }
+
+        let pfpBuffer: Buffer = Buffer.from(byteArray);
+
+        writeFile(
+          `src/routes/api/api-assets/${ret_provider.id}.jpg`,
+          pfpBuffer,
+          (err): void => {}
+        );
+
         let given_pid = ret_provider.id;
         let given_imagefile = `${ret_provider.id}.${extension}`;
+        console.log(given_imagefile);
         let { data, error } = await supabase.rpc("add_provider_pfp", {
-          given_imagefile,
           given_pid,
+          given_imagefile,
         });
 
         if (error) {
           console.log(error);
         }
-        
       }
     }
   }
