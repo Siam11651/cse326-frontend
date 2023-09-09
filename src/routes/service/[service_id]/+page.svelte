@@ -184,11 +184,14 @@
     <div class="title">
         <div class="mid-part d-flex flex-column justify-content-center">
             <div>
-                <h4 class="text-white opacity-75 mx-1">AC Repair Service</h4>
+                <!-- <h4 class="text-white opacity-75 mx-1">AC Repair Service</h4> -->
                 {#if serviceReady}
-                    <h1 class="fw-bold text-white">{service.title}</h1>
+                    <h1 class="fw-bold text-white" in:fade={{duration: 200}}>{service.title}</h1>
                 {:else}
-                    <h1 class="fw-bold text-white placeholder-glow"><span class="placeholder col-6"></span></h1>
+                    <h1 class="fw-bold text-white placeholder-glow">
+                        <span class="placeholder col-4"></span>
+                        <span class="placeholder col-2"></span>
+                    </h1>
                 {/if}
             </div>
         </div>
@@ -205,11 +208,11 @@
                 </li>
             </ul>
             {#if overviewMode}
-                <div class="m-5" in:fade={{duration: 500}}>
+                <div class="m-5" in:fade={{duration: 200}}>
                     <Overview serviceReady={serviceReady} service={service} />
                 </div>
             {:else}
-                <div class="m-5" in:fade={{duration: 500}}>
+                <div class="m-5" in:fade={{duration: 200}}>
                     <h2>Available Providers</h2>
                     <div class="d-flex flex-row-reverse align-items-center pb-3">
                         <div class="dropdown">

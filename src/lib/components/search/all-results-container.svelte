@@ -2,7 +2,7 @@
     import { fade } from "svelte/transition";
 </script>
 
-<div class="all-results-container" in:fade={{duration: 500}}>
+<div class="all-results-container" in:fade={{duration: 200}}>
     <ul class="list-group list-group-flush">
         <slot></slot>
     </ul>
