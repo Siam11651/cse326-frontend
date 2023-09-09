@@ -1,6 +1,7 @@
 <script lang="ts">
     import { Dropdown } from "bootstrap";
     import logo from "$lib/assets/logo.webp";
+    import pfp from "$lib/assets/default-pfp.webp"
     import { ConsumerFetchState, ConsumerLoginData } from "$lib/consumer/profile";
     import { onMount } from "svelte";
 
@@ -47,7 +48,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbar-toggler">
             <a class="navbar-brand align-items-center me-auto" href="/">
-                <img src={logo} alt="logo" height="24" class="d-inline-block align-text-top me-1">
+                <img src={logo} alt="logo" height="28" class="d-inline-block align-text-top">
                 Online Utility and Handyman
             </a>
             {#if showSignIn}
@@ -55,10 +56,17 @@
                     <div class="spinner-border text-primary" role="status" />
                 {:else if fetchState == ConsumerFetchState.LOGGED_IN}
                     <div class="dropdown">
-                        <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            {username}
-                        </button>
+                        <!-- svelte-ignore a11y-invalid-attribute -->
+                        <a class="" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src={pfp} alt="logo" class="pfp img-thumbnail">
+                        </a>
                         <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <h5 class="dropdown-item">
+                                    {username}
+                                </h5>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
                             <li>
                                 <a class="dropdown-item" href="/consumer/dashboard">Dashboard</a>
                             </li>
@@ -80,5 +88,10 @@
     .navbar
     {
         height: 6vh;
+    }
+
+    .pfp
+    {
+        height: 40px;
     }
 </style>
