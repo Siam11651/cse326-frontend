@@ -82,7 +82,7 @@
                     <div class="dropdown">
                         <!-- svelte-ignore a11y-invalid-attribute -->
                         <a class="" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src={pfpPath} alt="logo" class="pfp img-thumbnail">
+                            <img src={"/pfp/consumer/" + pfpPath} alt="logo" class="pfp img-thumbnail">
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li>
