@@ -1,9 +1,9 @@
 <script lang="ts">
     import { Dropdown } from "bootstrap";
     import logo from "$lib/assets/logo.webp";
-    import pfp from "$lib/assets/default-pfp.webp"
     import { ConsumerFetchState, ConsumerLoginData } from "$lib/consumer/profile";
     import { onMount } from "svelte";
+    import { goto } from "$app/navigation";
 
     export let showSignIn: boolean = true;
 
@@ -41,6 +41,28 @@
             }
         });
     });
+
+    function Logout(): void
+    {
+        fetch("/api/consumer/logout",
+        {
+            method: "POST",
+            headers:
+            {
+                "Content-Type": "application/json"
+            }
+        }).then(async (response: Response): Promise<void> =>
+        {
+            let responseObject = await response.json();
+
+            if(responseObject.logged_out)
+            {   
+                ConsumerLoginData.fetchState = ConsumerFetchState.FETCHING;
+
+                location.href = "/";
+            }
+        });
+    }
 </script>
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -74,7 +96,7 @@
                             </li>
                             <li>
                                 <!-- svelte-ignore a11y-invalid-attribute -->
-                                <a class="dropdown-item" href="#">Logout</a>
+                                <a class="dropdown-item" href="#" on:click={Logout}>Logout</a>
                             </li>
                         </ul>
                     </div>

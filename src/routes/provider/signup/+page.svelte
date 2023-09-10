@@ -39,7 +39,6 @@
     let regionValue: string;
     let state: number = 0;
     let inputValidityStatus: InputValidityStatus = new InputValidityStatus();
-    let regions: string[] = ["Abdullahpur", "Agargaon", "Badda"];
 
     $: stateContainerHeight = stateContainerElement?.offsetHeight ?? 0;
 
