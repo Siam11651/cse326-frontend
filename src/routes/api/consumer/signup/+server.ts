@@ -78,7 +78,7 @@ export async function POST({
           extension = (await fileTypeFromBuffer(pfpBuffer))?.ext;
 
           writeFile(
-            `src/routes/api/api-assets/pfp/consumer/${ret_user.id}.${extension}`,
+            `static/pfp/consumer/${ret_user.id}.${extension}`,
             pfpBuffer,
             (): void => {}
           );

@@ -19,9 +19,6 @@ export async function POST({
     return new Response();
   }
 
-  // if (jwt_token) {
-  //   cookies.delete("pjwt", { path: "/" });
-  // }
   let ret_text = {
     logged_out: true,
   };
@@ -32,13 +29,7 @@ export async function POST({
     },
   });
 
-  let date: Date = new Date();
-
-  date.setDate(date.getDate() - 7);
-
-  let cookie: string = "pjwt=; HttpOnly; Expires=" + date.toUTCString();
-
-  response.headers.append("Set-Cookie", cookie);
+  cookies.delete("pjwt", { path: "/" });
 
   return response;
 }
