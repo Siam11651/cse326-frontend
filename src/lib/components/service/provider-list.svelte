@@ -126,6 +126,13 @@
 
     function ApplyFilter()
     {
+        filter.minPrice = filter.minPrice ? filter.minPrice : 0;
+        filter.maxPrice = filter.maxPrice ? filter.maxPrice : Infinity;
+        filter.minDiscount = filter.minDiscount ? filter.minDiscount : 0;
+        filter.maxDiscount = filter.maxDiscount ? filter.maxDiscount : 100;
+        filter.minRate = filter.minRate ? filter.minRate : 0;
+        filter.maxRate = filter.maxRate ? filter.maxRate : 5;
+
         FetchProviderList(sortMethod, sortAsc);
     }
 </script>
@@ -192,26 +199,26 @@
             <label for="cost-range-input" class="form-label">Cost</label>
             <div id="cost-range-input" class="input-group mb-3">
                 <span class="input-group-text" id="price-from">From</span>
-                <input type="number" class="form-control" placeholder="From" aria-describedby="price-from" bind:value={filter.minPrice}>
+                <input type="number" class="form-control" placeholder="From" aria-describedby="price-from" bind:value={filter.minPrice} disabled={fetchingProviderList}>
                 <span class="input-group-text" id="price-to">To</span>
-                <input type="number" class="form-control" placeholder="To" aria-describedby="price-to" bind:value={filter.maxPrice}>
+                <input type="number" class="form-control" placeholder="To" aria-describedby="price-to" bind:value={filter.maxPrice} disabled={fetchingProviderList}>
             </div>
             <label for="rate-range-input" class="form-label">Rate</label>
             <div id="rate-range-input" class="input-group mb-3">
                 <span class="input-group-text" id="rate-from">From</span>
-                <input type="number" class="form-control" placeholder="From" aria-describedby="rate-from" min="0" max="5" bind:value={filter.minRate}>
+                <input type="number" class="form-control" placeholder="From" aria-describedby="rate-from" min="0" max="5" bind:value={filter.minRate} disabled={fetchingProviderList}>
                 <span class="input-group-text" id="rate-to">To</span>
-                <input type="number" class="form-control" placeholder="To" aria-describedby="rate-to" min="0" max="500" bind:value={filter.maxRate}>
+                <input type="number" class="form-control" placeholder="To" aria-describedby="rate-to" min="0" max="500" bind:value={filter.maxRate} disabled={fetchingProviderList}>
             </div>
             <label for="discount-range-input" class="form-label">Discount</label>
             <div id="discount-range-input" class="input-group mb-3">
                 <span class="input-group-text" id="discount-from">From</span>
-                <input type="number" class="form-control" placeholder="From" aria-describedby="discount-from" min="0" max="100" bind:value={filter.minDiscount}>
+                <input type="number" class="form-control" placeholder="From" aria-describedby="discount-from" min="0" max="100" bind:value={filter.minDiscount} disabled={fetchingProviderList}>
                 <span class="input-group-text" id="discount-to">To</span>
-                <input type="number" class="form-control" placeholder="To" aria-describedby="discount-to" min="0" max="100" bind:value={filter.maxDiscount}>
+                <input type="number" class="form-control" placeholder="To" aria-describedby="discount-to" min="0" max="100" bind:value={filter.maxDiscount} disabled={fetchingProviderList}>
             </div>
             <div class="d-flex flex-row-reverse">
-                <button type="button" class="btn btn-primary" on:click={ApplyFilter}>Apply</button>
+                <button type="button" class="btn btn-primary" on:click={ApplyFilter} disabled={fetchingProviderList}>Apply</button>
             </div>
         </div>
     </div>
