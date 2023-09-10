@@ -1,14 +1,17 @@
 <script lang="ts">
     import Navbar from "$lib/components/navbar.svelte";
     import { onMount } from "svelte";
-    import { scale } from "svelte/transition";
+    import { fade, scale } from "svelte/transition";
     import type { SearchResult } from "./search-result";
     import Result from "$lib/components/search/result.svelte";
     import { SorterImplementation, SorterType } from "./sorter";
     import AllResultsContainer from "$lib/components/search/all-results-container.svelte";
     import { page } from "$app/stores";
     import { goto } from "$app/navigation";
+    import ParentService from "$lib/components/search/parent-service.svelte";
 
+    let allParentServicesReady: boolean = false;
+    let allParentServices: {id: number, name: string}[] = [];
     let searchResults: SearchResult[] = []; 
     let searchResultsReady: boolean = false;
     let searchTerm: string;
@@ -99,6 +102,31 @@
     onMount((): void =>
     {
         LoadResult();
+
+        fetch("/api/primary_services/get_all_pservices",
+        {
+            method: "POST",
+            headers:
+            {
+                "Content-Type": "application/json"
+            }
+        }).then(async (response: Response): Promise<void> =>
+        {
+            let responseObject = await response.json();
+
+            allParentServices = new Array<{id: number, name: string}>(responseObject.length);
+
+            for(let i: number = 0; i < allParentServices.length; ++i)
+            {
+                allParentServices[i] =
+                {
+                    id: responseObject[i]._pserviceid,
+                    name: responseObject[i]._title
+                }
+            }
+
+            allParentServicesReady = true;
+        });
     });
 </script>
 
@@ -109,31 +137,23 @@
         <div class="partition-left p-5">
             <div class="all-services-container shadow-lg p-4 mb-5 bg-white rounded" in:scale={{duration: 500, start: 0.95}}>
                 <h5>All Services:</h5>
-                <div class="all-services-accordion-container">
-                    <div class="accordion accordion-flush p-1" id="all-services-accordion">
-                        {#each [...Array(5).keys()] as i}
-                            <div class="accordion-item">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#service-{i}" aria-expanded="false" aria-controls="service-{i}">
-                                        Service {i + 1}
-                                    </button>
-                                </h2>
-                                <div id="service-{i}" class="accordion-collapse collapse" data-bs-parent="#all-services-accordion">
-                                    <div class="accordion-body p-2">
-                                        <ul class="list-group">
-                                            <!-- svelte-ignore a11y-invalid-attribute -->
-                                            <a class="list-group-item list-group-item-action" href="#">Service {i + 1}-a</a>
-                                            <!-- svelte-ignore a11y-invalid-attribute -->
-                                            <a class="list-group-item list-group-item-action" href="#">Service {i + 1}-b</a>
-                                            <!-- svelte-ignore a11y-invalid-attribute -->
-                                            <a class="list-group-item list-group-item-action" href="#">Service {i + 1}-c</a>
-                                        </ul>
-                                    </div>
-                                </div>
+                {#if allParentServicesReady}
+                    <div class="all-services-accordion-container" in:fade={{duration: 200}}>
+                        {#each allParentServices as {id, name}}
+                            <div class="accordion accordion-flush p-1" id="all-services-accordion">
+                                <ParentService parentServiceId={id} name={name} />
                             </div>
                         {/each}
                     </div>
-                </div>
+                {:else}
+                    <div class="all-services-accordion-container">
+                        {#each [...Array(5).keys()] as i}
+                            <div class="accordion accordion-flush p-1" id="all-services-accordion">
+                                <ParentService placeholder={true} parentServiceId={i} name="" />
+                            </div>
+                        {/each}
+                    </div>
+                {/if}
             </div>
         </div>
         <div class="partition-right p-5">
