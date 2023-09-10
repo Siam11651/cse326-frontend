@@ -1,4 +1,11 @@
 <script lang="ts">
+    import intro1 from "$lib/assets/root/intro-1.jpg";
+    import intro2 from "$lib/assets/root/intro-2.jpg";
+    import intro3 from "$lib/assets/root/intro-3.jpg";
+    import stove from "$lib/assets/root/stove.webp";
+    import plumbing from "$lib/assets/root/plumbing.webp";
+    import painting from "$lib/assets/root/painting.webp";
+    import shifting from "$lib/assets/root/shifting.webp";
     import Navbar from "$lib/components/navbar.svelte";
     import { onMount } from 'svelte';
     import Footer from '$lib/components/footer.svelte';
@@ -10,17 +17,17 @@
     let chapas: {img: string, header: string, body: string}[] =
     [
         {
-            img: "intro-1",
+            img: intro1,
             header: "Stick to your budget",
             body: "Find the right service for every price point."
         },
         {
-            img: "intro-2",
+            img: intro2,
             header: "Get quality work done quickly",
             body: "Hand your job over to a talented service provider in minutes, get long-lasting results."
         },
         {
-            img: "intro-3",
+            img: intro3,
             header: "Count on 24/7 support",
             body: "Our round-the-clock service providers are available to help anytime, anywhere."
         }
@@ -130,7 +137,7 @@
         {#key chapaKey}
             <div class="intro d-flex shadow-lg p-3 mb-5 bg-white rounded">
                 <div class="d-flex flex-column align-items-start m-4" in:fade={{duration: 500}}>
-                    <img class="intro-image rounded" src="/root/{chapa.img}.jpg" alt="">
+                    <img class="intro-image rounded" src={chapa.img} alt="">
                 </div>
                 <div class="flex-fill d-flex flex-column justify-content-center align-items-start ps-5 ms-5" in:slide={{duration: 500}}>
                     <div class="intro-right">
@@ -161,10 +168,10 @@
     <h1 class="d-flex justify-content-center my-5" in:fade={{duration: 500}}>
         One-stop solution to all your services
     </h1>
-    <ServiceInfo imageLeft={false} image="stove" text="Best workmen ensure safe cooking environment." />
-    <ServiceInfo imageLeft={true} image="painting" text="We do not provide painters, we provide artists." />
-    <ServiceInfo imageLeft={false} image="plumbing" text="Skilled service providers for a stable plumbing facility." />
-    <ServiceInfo imageLeft={true} image="shifting" text="Shifting has never been easier." />
+    <ServiceInfo imageLeft={false} image={stove} text="Best workmen ensure safe cooking environment." />
+    <ServiceInfo imageLeft={true} image={painting} text="We do not provide painters, we provide artists." />
+    <ServiceInfo imageLeft={false} image={plumbing} text="Skilled service providers for a stable plumbing facility." />
+    <ServiceInfo imageLeft={true} image={shifting} text="Shifting has never been easier." />
     <Footer />
 </div>
 

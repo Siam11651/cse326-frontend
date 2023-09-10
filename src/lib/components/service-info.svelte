@@ -7,7 +7,7 @@
 <div class="service-info d-flex justify-content-between align-items-center mb-5">
     {#if imageLeft}
         <div>
-            <img class="service-image rounded flex-fill" height="350px" src="/root/{image}.webp" alt="">
+            <img class="service-image rounded flex-fill" height="350px" src={image} alt="">
         </div>
         <div class="flex-fill d-flex flex-row-reverse">
             <div class="service-info-text text-end fs-3 text-body-secondary m-0">
@@ -21,7 +21,7 @@
             </div>
         </div>
         <div>
-            <img class="service-image rounded flex-fill" height="350px" src="/root/{image}.webp" alt="">
+            <img class="service-image rounded flex-fill" height="350px" src={image} alt="">
         </div>
     {/if}
 </div>
