@@ -1,6 +1,5 @@
 <script lang="ts">
     import Navbar from "$lib/components/navbar.svelte";
-    import logo from "$lib/assets/default-pfp.webp";
     import { fade } from "svelte/transition";
     import Overview from "$lib/components/dashboard/consumer/overview.svelte";
     import { onMount } from "svelte";
@@ -86,7 +85,7 @@
             <div class="side-menu d-flex flex-column align-items-center justify-content-between border-end">
                 <div class="d-flex flex-column align-items-center mt-3">
                     {#if personalInfoSet}
-                        <img class="profile-picture rounded mb-1" src={logo} alt="pp" in:fade={{duration: 200}} />
+                        <img class="profile-picture rounded mb-1" src={pfp} alt="pp" in:fade={{duration: 200}} />
                     {:else}
                         <div class="placeholder-glow mb-1">
                             <span class="profile-picture-placeholder rounded placeholder"></span>
