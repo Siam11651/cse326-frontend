@@ -22,7 +22,7 @@
 
             if(responseObject.logged_out)
             {
-                // goto("/");
+                goto("/");
             }
         });
     }

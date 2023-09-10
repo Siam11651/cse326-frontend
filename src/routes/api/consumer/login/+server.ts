@@ -1,7 +1,6 @@
 import { supabase } from "$lib/server/supabaseclient.server";
 import type { RequestEvent } from "./$types";
 import jwt from "jsonwebtoken";
-import {writeFileSync} from 'fs';
 
 export async function POST({
   request,
