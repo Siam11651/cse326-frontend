@@ -32,6 +32,13 @@
     let searchTerm: string;
     let recommendations: Recommendation[] = [];
 
+    setInterval((): void =>
+    {
+        chapaIndex = (++chapaIndex) % 3;
+        chapa = chapas[chapaIndex];
+        chapaKey = {};
+    }, 5000);
+
     onMount((): void =>
     {
         let consumerAuth: string | null = window.localStorage.getItem("consumer_auth");
@@ -40,13 +47,6 @@
         {
             return;
         }
-
-        setInterval((): void =>
-        {
-            chapaIndex = (++chapaIndex) % 3;
-            chapa = chapas[chapaIndex];
-            chapaKey = {};
-        }, 5000);
     });
 
     function StartSearch(): void
@@ -161,10 +161,10 @@
     <h1 class="d-flex justify-content-center my-5" in:fade={{duration: 500}}>
         One-stop solution to all your services
     </h1>
-    <ServiceInfo imageLeft={false} image="stove" text="" />
-    <ServiceInfo imageLeft={true} image="painting" text="" />
-    <ServiceInfo imageLeft={false} image="plumbing" text="" />
-    <ServiceInfo imageLeft={true} image="shifting" text="" />
+    <ServiceInfo imageLeft={false} image="stove" text="Best workmen ensure safe cooking environment." />
+    <ServiceInfo imageLeft={true} image="painting" text="We do not provide painters, we provide artists." />
+    <ServiceInfo imageLeft={false} image="plumbing" text="Skilled service providers for a stable plumbing facility." />
+    <ServiceInfo imageLeft={true} image="shifting" text="Shifting has never been easier." />
     <Footer />
 </div>
 
