@@ -2,7 +2,7 @@ import { supabase } from "$lib/server/supabaseclient.server";
 import type { RequestEvent } from "./$types";
 import jwt from "jsonwebtoken";
 import { writeFileSync, writeFile } from "fs";
-import {fileTypeFromBuffer, fileTypeFromFile} from 'file-type';
+import { fileTypeFromBuffer, fileTypeFromFile } from "file-type";
 
 export async function POST({
   request,
@@ -33,10 +33,7 @@ export async function POST({
       let given_billingaddress = user.address;
       let given_cname = user.name;
       let given_contactnumber = user.contact;
-      let given_imagefile = null;
-      if (user.pfp != null) {
-        given_imagefile = user.pfp;
-      }
+
       let given_mail = user.email;
       let given_security_key = user.password_hash;
 
@@ -44,7 +41,6 @@ export async function POST({
         given_billingaddress,
         given_cname,
         given_contactnumber,
-        given_imagefile,
         given_mail,
         given_security_key,
       });
@@ -69,30 +65,35 @@ export async function POST({
           errorcode: 0,
           //jwt_token:token
         };
-        let extension:string|undefined;
+        if (user.pfp) {
+          let extension: string | undefined;
 
-        let byteArray: Uint8Array = new Uint8Array(user.pfp.length);
+          let byteArray: Uint8Array = new Uint8Array(user.pfp.length);
 
-        for(let i: number = 0; i < user.pfp.length; ++i)
-        {
-          byteArray[i] = user.pfp[i];
-        }
+          for (let i: number = 0; i < user.pfp.length; ++i) {
+            byteArray[i] = user.pfp[i];
+          }
 
-        let pfpBuffer: Buffer = Buffer.from(byteArray);
-        extension = (await fileTypeFromBuffer(pfpBuffer))?.ext;
+          let pfpBuffer: Buffer = Buffer.from(byteArray);
+          extension = (await fileTypeFromBuffer(pfpBuffer))?.ext;
 
-        writeFile(`src/routes/api/api-assets/pfp/consumer/${ret_user.id}.${extension}`, pfpBuffer, (): void => {});
+          writeFile(
+            `src/routes/api/api-assets/pfp/consumer/${ret_user.id}.${extension}`,
+            pfpBuffer,
+            (): void => {}
+          );
 
-        let given_consumerid = ret_user.id;
-        let given_imagefile = `${ret_user.id}.${extension}`;
-        console.log(given_imagefile)
-        let { data, error } = await supabase.rpc("add_consumer_pfp", {
-          given_consumerid,
-          given_imagefile,
-        });
+          let given_consumerid = ret_user.id;
+          let given_imagefile = `${ret_user.id}.${extension}`;
+          console.log(given_imagefile);
+          let { data, error } = await supabase.rpc("add_consumer_pfp", {
+            given_consumerid,
+            given_imagefile,
+          });
 
-        if (error) {
-          console.log(error);
+          if (error) {
+            console.log(error);
+          }
         }
       }
     }

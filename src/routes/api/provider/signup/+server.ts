@@ -2,7 +2,7 @@ import { supabase } from "$lib/server/supabaseclient.server";
 import type { RequestEvent } from "./$types";
 import jwt from "jsonwebtoken";
 import { writeFile } from "fs";
-import {fileTypeFromBuffer} from 'file-type'
+import { fileTypeFromBuffer } from "file-type";
 
 export async function POST({
   request,
@@ -74,33 +74,35 @@ export async function POST({
           errorcode: 0,
           // jwt_token:token
         };
-        let extension:string|undefined;
+        if (provider.pfp) {
+          let extension: string | undefined;
 
-        let byteArray: Uint8Array = new Uint8Array(provider.pfp.length);
+          let byteArray: Uint8Array = new Uint8Array(provider.pfp.length);
 
-        for (let i: number = 0; i < provider.pfp.length; ++i) {
-          byteArray[i] = provider.pfp[i];
-        }
+          for (let i: number = 0; i < provider.pfp.length; ++i) {
+            byteArray[i] = provider.pfp[i];
+          }
 
-        let pfpBuffer: Buffer = Buffer.from(byteArray);
-        extension = (await fileTypeFromBuffer(pfpBuffer))?.ext;
+          let pfpBuffer: Buffer = Buffer.from(byteArray);
+          extension = (await fileTypeFromBuffer(pfpBuffer))?.ext;
 
-        writeFile(
-          `src/routes/api/api-assets/pfp/provider/${ret_provider.id}.${extension}`,
-          pfpBuffer,
-          (err): void => {}
-        );
+          writeFile(
+            `src/routes/api/api-assets/pfp/provider/${ret_provider.id}.${extension}`,
+            pfpBuffer,
+            (err): void => {}
+          );
 
-        let given_pid = ret_provider.id;
-        let given_imagefile = `${ret_provider.id}.${extension}`;
-        console.log(given_imagefile);
-        let { data, error } = await supabase.rpc("add_provider_pfp", {
-          given_pid,
-          given_imagefile,
-        });
+          let given_pid = ret_provider.id;
+          let given_imagefile = `${ret_provider.id}.${extension}`;
+          console.log(given_imagefile);
+          let { data, error } = await supabase.rpc("add_provider_pfp", {
+            given_pid,
+            given_imagefile,
+          });
 
-        if (error) {
-          console.log(error);
+          if (error) {
+            console.log(error);
+          }
         }
       }
     }
