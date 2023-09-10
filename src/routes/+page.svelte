@@ -1,12 +1,5 @@
 <script lang="ts">
     import Navbar from "$lib/components/navbar.svelte";
-    import ServiceCard from "$lib/components/service-card.svelte";
-    import handyman from "$lib/assets/handyman.webp";
-    import stove from "$lib/assets/stove.webp"
-    import plumbing from "$lib/assets/plumbing.webp"
-    import painting from "$lib/assets/painting.webp"
-    import cleaning from "$lib/assets/cleaning.webp"
-    import shifting from "$lib/assets/shifting.webp"
     import { onMount } from 'svelte';
     import Footer from '$lib/components/footer.svelte';
     import { fade, slide } from 'svelte/transition';
@@ -14,6 +7,27 @@
     import { goto } from "$app/navigation";
     import ServiceInfo from "$lib/components/service-info.svelte";
 
+    let chapas: {img: string, header: string, body: string}[] =
+    [
+        {
+            img: "intro-1",
+            header: "Stick to your budget",
+            body: "Find the right service for every price point."
+        },
+        {
+            img: "intro-2",
+            header: "Get quality work done quickly",
+            body: "Hand your job over to a talented service provider in minutes, get long-lasting results."
+        },
+        {
+            img: "intro-3",
+            header: "Count on 24/7 support",
+            body: "Our round-the-clock service providers are available to help anytime, anywhere."
+        }
+    ];
+    let chapaKey = {};
+    let chapaIndex: number = 0;
+    let chapa: {img: string, header: string, body: string} = chapas[0];
     let searchDFlexElement: HTMLDivElement;
     let searchTerm: string;
     let recommendations: Recommendation[] = [];
@@ -26,6 +40,13 @@
         {
             return;
         }
+
+        setInterval((): void =>
+        {
+            chapaIndex = (++chapaIndex) % 3;
+            chapa = chapas[chapaIndex];
+            chapaKey = {};
+        }, 5000);
     });
 
     function StartSearch(): void
@@ -106,21 +127,23 @@
 
 <div class="home-root">
     <div class="intro-container">
-        <div class="intro d-flex shadow-lg p-3 mb-5 bg-white rounded">
-            <div class="d-flex flex-column align-items-start m-4">
-                <img class="intro-image rounded" src="/root/intro-2.jpg" alt="">
-            </div>
-            <div class="flex-fill d-flex flex-column justify-content-center align-items-start ms-5">
-                <div class="intro-right">
-                    <div class="fs-1">
-                        Get quality work done quickly
-                    </div>
-                    <div class="fs-5 text-body-secondary">
-                        Hand your project over to a talented freelancer in minutes, get long-lasting results.
+        {#key chapaKey}
+            <div class="intro d-flex shadow-lg p-3 mb-5 bg-white rounded">
+                <div class="d-flex flex-column align-items-start m-4" in:fade={{duration: 500}}>
+                    <img class="intro-image rounded" src="/root/{chapa.img}.jpg" alt="">
+                </div>
+                <div class="flex-fill d-flex flex-column justify-content-center align-items-start ps-5 ms-5" in:slide={{duration: 500}}>
+                    <div class="intro-right">
+                        <div class="fs-1">
+                            {chapa.header}
+                        </div>
+                        <div class="fs-5 text-body-secondary">
+                            {chapa.body}
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        {/key}
     </div>
     <div class="search-box mb-2" on:focus={OnSearchFocus} on:blur={OnSearchBlur}>
         <div class="d-flex pt-2" bind:this={searchDFlexElement}>
@@ -135,53 +158,15 @@
             {/each}
         </div>
     </div>
-    <h1 class="d-flex justify-content-center my-5">
+    <h1 class="d-flex justify-content-center my-5" in:fade={{duration: 500}}>
         One-stop solution to all your services
     </h1>
-    <ServiceInfo imageLeft={false} image="stove" />
-    <ServiceInfo imageLeft={true} image="painting" />
-    <ServiceInfo imageLeft={false} image="plumbing" />
-    <ServiceInfo imageLeft={true} image="shifting" />
+    <ServiceInfo imageLeft={false} image="stove" text="" />
+    <ServiceInfo imageLeft={true} image="painting" text="" />
+    <ServiceInfo imageLeft={false} image="plumbing" text="" />
+    <ServiceInfo imageLeft={true} image="shifting" text="" />
     <Footer />
 </div>
-
-<!-- <div class="home-root">
-    <div class="d-flex flex-column align-items-center">
-        <div class="home-image-container mt-5">
-            <img src={handyman} class="home-image rounded" alt="handyman" in:fade={{duration: 200}}>
-            <div class="home-image-content">
-                <p class="home-image-heading fw-semibold fs-1">One-stop solution to all your services</p>
-                <div class="d-flex align-items-center">
-                    <button type="button" class="btn btn-outline-light me-3">Checkout Services</button>
-                    <a class="link-light link-offset-1 link-underline-opacity-75 link-underline-opacity-100-hover" href="/">Learn More</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="ps-3 pe-3 mt-5" on:focus={OnSearchFocus} on:blur={OnSearchBlur}>
-        <div class="d-flex" bind:this={searchDFlexElement}>
-            <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Search Service" aria-label="Search Service" aria-describedby="search-service-button" bind:value={searchTerm} on:click={StartSearch} on:input={SearchInputUpdate}>
-                <button class="btn btn-secondary" type="button" on:click={Search}>Search</button>
-            </div>
-        </div>
-        <div class="list-group">
-            {#each recommendations as {title, href}}
-                <a type="button" class="list-group-item list-group-item-action" href={href} transition:slide={{duration: 500, axis: "y"}}>{title}</a>
-            {/each}
-        </div>
-    </div>
-    <div class="mt-1">
-        <p class="fs-3 mb-1">For your home</p>
-        <div class="home-services-list d-flex">
-            <ServiceCard imageSrc={stove} serviceText={"Stove Services"}/>
-            <ServiceCard imageSrc={plumbing} serviceText={"Plumbing Services"}/>
-            <ServiceCard imageSrc={painting} serviceText={"Painting Services"}/>
-            <ServiceCard imageSrc={cleaning} serviceText={"Cleaning Services"}/>
-            <ServiceCard imageSrc={shifting} serviceText={"Shifting Services"}/>
-        </div>
-    </div>
-</div> -->
 
 <style lang="scss">
     .home-root
