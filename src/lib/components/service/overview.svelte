@@ -23,7 +23,7 @@
     <div class="input-group mb-5">
         <span class="input-group-text">Quantity</span>
         <input type="number" class="form-control" placeholder="0" aria-label="Quantity" min="0">
-        <button class="btn btn-outline-secondary" type="button">Checkout</button>
+        <button class="btn btn-secondary" type="button">Checkout</button>
     </div>
     <h2>FAQ</h2>
     <div class="p-3">

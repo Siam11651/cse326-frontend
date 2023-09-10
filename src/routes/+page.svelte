@@ -102,7 +102,7 @@
 <div class="home-root">
     <div class="d-flex flex-column align-items-center">
         <div class="home-image-container mt-5">
-            <img src={handyman} class="home-image rounded" alt="handyman" in:fade={{duration: 500}}>
+            <img src={handyman} class="home-image rounded" alt="handyman" in:fade={{duration: 200}}>
             <div class="home-image-content">
                 <p class="home-image-heading fw-semibold fs-1">One-stop solution to all your services</p>
                 <div class="d-flex align-items-center">

@@ -1,7 +1,6 @@
 <script lang="ts">
     import Navbar from "$lib/components/navbar.svelte";
-    import defaultPfp from "$lib/assets/default-pfp.webp"
-    import { fly } from "svelte/transition";
+    import { fade } from "svelte/transition";
     import Overview from "$lib/components/dashboard/consumer/overview.svelte";
     import { onMount } from "svelte";
     import { PersonalInfo } from "./personal-info";
@@ -11,6 +10,7 @@
     let personalInfo: PersonalInfo = new PersonalInfo();
     let personalInfoSet: boolean = false;
     let pfp = "";
+
     onMount((): void =>
     {
         fetch("/api/consumer/info",
@@ -81,11 +81,11 @@
 <div class="dashboard-root d-flex flex-column">
     <Navbar />
     <div class="main-partition">
-        <div class="dashboard-container d-flex align-items-center shadow-lg rounded" in:fly={{duration: 500}}>
+        <div class="dashboard-container d-flex align-items-center shadow-lg rounded" in:fade={{duration: 200}}>
             <div class="side-menu d-flex flex-column align-items-center justify-content-between border-end">
                 <div class="d-flex flex-column align-items-center mt-3">
                     {#if personalInfoSet}
-                        <img class="profile-picture rounded mb-1" src={pfp} alt="pp"/>
+                        <img class="profile-picture rounded mb-1" src={pfp} alt="pp" in:fade={{duration: 200}} />
                     {:else}
                         <div class="placeholder-glow mb-1">
                             <span class="profile-picture-placeholder rounded placeholder"></span>
@@ -104,7 +104,7 @@
                         </h5>
                     {:else}
                         <h5 class="placeholder-glow mb-5">
-                            <span class="placeholder col-4"></span>
+                            <span class="placeholder" style="width: 100px;"></span>
                         </h5>
                     {/if}
                 </div>

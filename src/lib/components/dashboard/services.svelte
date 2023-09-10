@@ -86,14 +86,14 @@
                 {
                     id: responseObject[i]._serviceid,
                     title: responseObject[i]._title,
-                    handler: ()=>
+                    handler: async (): Promise<void> =>
                     {
                         let requestBody =
                         {
                             given_serviceid: responseObject[i]._serviceid
                         };
 
-                        fetch("/api/provider/add_service_to_provider",
+                        await fetch("/api/provider/add_service_to_provider",
                         {
                             method: "POST",
                             headers:
@@ -105,10 +105,11 @@
                         {
                             let responseObject = await response.json();
 
-                            if(responseObject.data)
+                            if(responseObject)
                             {
                                 servicesReady = false;
 
+                                showAddableServices = false;
                                 FetchServices();
                             }
                         });
@@ -136,7 +137,7 @@
                 {#if addableServicesReady}
                     <div class="addable-service-list list-group" in:fade={{duration: 200}}>
                         {#each addableServices as service}
-                            <button class="list-group-item list-group-item-action" data-bs-dismiss="modal" on:click={service.handler}>
+                            <button class="list-group-item list-group-item-action" on:click={service.handler}>
                                 {service.title}
                             </button>
                         {/each}
@@ -334,6 +335,6 @@
     .addable-service-list
     {
         height: 95%;
-        overflow-y: hidden;
+        overflow-y: auto;
     }
 </style>
