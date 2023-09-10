@@ -143,11 +143,10 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div class="menu-details d-flex flex-column align-items-stretch p-5"> -->
                 <div class="menu-details p-5" in:fade={{duration: 200}}>
-                    {#if menuSelection == 0}
+                    {#if menuSelection === 0}
                         <Overview placeholder={!personalInfoSet} personalInfo={personalInfo} />
-                    {:else if menuSelection == 1}
+                    {:else if menuSelection === 1}
                         <Services />
                     {/if}
                 </div>
