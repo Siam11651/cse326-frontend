@@ -31,6 +31,7 @@
 		"email-validator": "^2.0.4",
 		"env": "^0.0.2",
 		"file-type": "^18.5.0",
+		"geolib": "^3.3.4",
 		"jsonwebtoken": "^9.0.2",
 		"pg": "^8.11.3",
 		"phone": "^3.1.40",
