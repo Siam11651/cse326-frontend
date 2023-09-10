@@ -167,7 +167,7 @@
         <div class="dropdown">
             <div class="input-group">
                 <span class="input-group-text">Sort By:</span>
-                <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                     {sortName}
                 </button>
                 <ul class="dropdown-menu">
