@@ -26,13 +26,15 @@ export async function POST({
         lat: req.latitude,
         lon: req.longitude
     }
-    let provider_coords = {
-        lat: result.coordinates.split(',')[0],
-        lon: result.coordinates.split(',')[1]
+    
+    for (let i = 0; i < result.length; i++) {
+        let provider_coords = {
+            lat: result[i].coordinates.split(',')[0],
+            lon: result[i].coordinates.split(',')[1]
+        }
+        result[i].distance = getDistance(consumer_coords, provider_coords)
     }
-
-    let distance = getDistance(consumer_coords, provider_coords);
-    result.distance = distance;
+    
     ret_text = result;
   }
 
