@@ -21,7 +21,7 @@
         FetchProviderList(SortMethod.RATE, false);
     });
 
-    function FetchProviderList(_sortMethod: SortMethod, _sortAsc: boolean): void
+    async function FetchProviderList(_sortMethod: SortMethod, _sortAsc: boolean): Promise<void>
     {
         if(fetchingProviderList)
         {
@@ -36,8 +36,22 @@
 
         let requestObject =
         {
-            service_id: serviceId
+            service_id: serviceId,
+            longitude: 0,
+            latitude: 0
         };
+
+        if(sortMethod === SortMethod.DIST)
+        {
+            function GetPosition(): Promise<GeolocationPosition>
+            {
+                return new Promise((resolve: (position: GeolocationPosition) => void) => navigator.geolocation.getCurrentPosition(resolve));
+            }
+
+            let position: GeolocationPosition = await GetPosition();
+            requestObject.longitude = position.coords.longitude;
+            requestObject.latitude = position.coords.latitude;
+        }
 
         let requestBodyString: string = JSON.stringify(requestObject);
 
@@ -114,6 +128,16 @@
         FetchProviderList(SortMethod.DISC, false);
     }
 
+    function SortDistAsc(): void
+    {
+        FetchProviderList(SortMethod.DIST, true);
+    }
+
+    function SortDistDesc(): void
+    {
+        FetchProviderList(SortMethod.DIST, false);
+    }
+
     function SortRateAsc(): void
     {
         FetchProviderList(SortMethod.RATE, true);
@@ -169,6 +193,18 @@
                     <li>
                         <button class="dropdown-item" on:click={SortDiscDesc}>
                             {"Discount (Desc)"}
+                        </button>
+                    </li>
+                    <!-- distance ascending -->
+                    <li>
+                        <button class="dropdown-item" on:click={SortDistAsc}>
+                            {"Distance (Asc)"}
+                        </button>
+                    </li>
+                    <!-- distance descending -->
+                    <li>
+                        <button class="dropdown-item" on:click={SortDistDesc}>
+                            {"Distance (Desc)"}
                         </button>
                     </li>
                     <!-- rate ascending -->

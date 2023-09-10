@@ -29,7 +29,13 @@ export async function POST({
     },
   });
 
-  cookies.delete("pjwt", { path: "/" });
+  // cookies.delete("pjwt", { path: "/" });
+
+  let date: Date = new Date();
+
+  date.setTime(date.getTime() - 7);
+
+  response.headers.set("Set-Cookie", "pjwt=; HttpOnly; Expires=" + date.toUTCString());
 
   return response;
 }
