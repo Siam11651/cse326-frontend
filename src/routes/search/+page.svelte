@@ -160,7 +160,7 @@
             <div class="accessories-container p-3">
                 <div class="input-group input-group-sm">
                     <input type="text" class="form-control" placeholder="Search Service" aria-label="Search Service" aria-describedby="search-service-button" bind:value={searchTerm}>
-                    <button class="btn btn-secondary" type="button" id="search-service-button">Search</button>
+                    <button class="btn btn-dark" type="button" id="search-service-button">Search</button>
                 </div>
             </div>
             <div class="search-result-container shadow-lg p-4 mb-5 bg-white rounded" in:scale={{duration: 500, start: 0.95}}>

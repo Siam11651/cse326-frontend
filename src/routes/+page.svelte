@@ -156,7 +156,7 @@
         <div class="d-flex pt-2" bind:this={searchDFlexElement}>
             <div class="input-group mb-3">
                 <input type="text" class="form-control" placeholder="Search Service" aria-label="Search Service" aria-describedby="search-service-button" bind:value={searchTerm} on:click={StartSearch} on:input={SearchInputUpdate}>
-                <button class="btn btn-secondary" type="button" on:click={Search}>Search</button>
+                <button class="btn btn-dark" type="button" on:click={Search}>Search</button>
             </div>
         </div>
         <div class="list-group">

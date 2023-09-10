@@ -101,7 +101,7 @@
                         </ul>
                     </div>
                 {:else}
-                    <a type="button" class="btn btn-primary" href="/consumer/login">Sign In</a>
+                    <a type="button" class="btn btn-dark" href="/consumer/login">Sign In</a>
                 {/if}
             {/if}
         </div>
