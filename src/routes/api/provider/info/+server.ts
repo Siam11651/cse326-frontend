@@ -47,7 +47,7 @@ export async function POST({
       ret_text = singleResult;
     }
     
-    console.log(pfp);
+    // console.log(pfp);
     return new Response(JSON.stringify(ret_text), {
       headers: {
         "Content-Type": "application/json",

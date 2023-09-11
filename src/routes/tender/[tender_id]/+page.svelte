@@ -1,6 +1,5 @@
 <script lang="ts">
     import Navbar from "$lib/components/navbar.svelte";
-    import acRepairman from "$lib/assets/ac-repairman.webp";
     import { fade } from "svelte/transition";
     import { onMount } from "svelte";
     import { _tenderId } from "./+page";
@@ -61,7 +60,7 @@
 <div class="tender-root">
     <Navbar />
     <div class="title">
-        <div class="mid-part d-flex flex-column justify-content-center">
+        <div class="mid-part d-flex flex-column align-items-center justify-content-center">
             <div>
                 {#if tenderReady}
                     <h1 class="fw-bold" in:fade={{duration: 200}}>{tender.title}</h1>
@@ -97,7 +96,7 @@
 <style lang="scss">    
     .mid-part
     {
-        width: 70%;
+        width: 100%;
         height: 100%;
         padding-left: 5%;
         padding-right: 5%;

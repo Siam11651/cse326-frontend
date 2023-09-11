@@ -43,7 +43,7 @@
                 {
                     id: responseObject[i].bidid,
                     bidTitle: responseObject[i].title,
-                    tenderTitle: responseObject[i].tenderid,
+                    tenderTitle: "",
                     service: "",
                     description: responseObject[i].description,
                     cost: responseObject[i].estimated_cost,
@@ -58,7 +58,7 @@
 </script>
 
 <div class="m-5" in:fade={{duration: 200}}>
-    <h2>Available Providers</h2>
+    <h2>Available Bids</h2>
     {#if bidListReady}
         <div class="list-group list-group pt-3" in:fade={{duration: 200}}>
             {#each bidList as bid}

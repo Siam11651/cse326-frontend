@@ -13,11 +13,6 @@
                 <span class="placeholder col-4"></span>
                 <span class="placeholder col-2"></span>
             </h5>
-            <h6 class="text-body-secondary">
-                Tender:
-                <span class="placeholder col-1"></span>
-                <span class="placeholder col-2"></span>
-            </h6>
             <p class="tender-details text-body-secondary mb-1">
                 <span class="placeholder col-7"></span>
                 <span class="placeholder col-4"></span>
@@ -49,9 +44,6 @@
             <h5>
                 {bid.bidTitle}
             </h5>
-            <h6 class="text-body-secondary">
-                Tender: {bid.tenderTitleTitle}
-            </h6>
             <p class="tender-details text-body-secondary mb-1">
                 {bid.description}
             </p>

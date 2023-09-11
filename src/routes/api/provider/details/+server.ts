@@ -18,10 +18,6 @@ export async function POST({
   request,
   cookies,
 }: RequestEvent): Promise<Response> {
-  
-
-  
-    
     let requestBody = await request.json();
     let ret_text;
     let given_pid = requestBody.pid;
@@ -30,7 +26,7 @@ export async function POST({
       given_pid,
     });
 
-    let singleResult = result[0];
+    let singleResult = result;
     
     let pfp: any = (await load_pfp(singleResult.pname))[0].imagefile;
 

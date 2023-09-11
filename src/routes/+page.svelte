@@ -1,4 +1,5 @@
 <script lang="ts">
+    import green from "$lib/assets/root/bitmap.webp";
     import intro1 from "$lib/assets/root/intro-1.jpg";
     import intro2 from "$lib/assets/root/intro-2.jpg";
     import intro3 from "$lib/assets/root/intro-3.jpg";
@@ -132,6 +133,10 @@
 
 <Navbar />
 
+<!-- <div class="dhong">
+    <img src={green} alt="">
+</div> -->
+
 <div class="home-root">
     <div class="intro-container">
         {#key chapaKey}
@@ -180,6 +185,13 @@
 </div>
 
 <style lang="scss">
+    .dhong
+    {
+        position: absolute;
+        top: 6vh;
+        right: 0;
+    }
+
     .home-root
     {
         position: absolute;
