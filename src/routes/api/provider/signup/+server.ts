@@ -38,7 +38,7 @@ export async function POST({
 
       let given_mail = provider.email;
       let given_security_key = provider.password_hash;
-      let given_nidnumber = "";
+      let given_nidnumber = provider.nidnumber;
       let given_nidcopy = null;
       if (provider.nid_copy != null) {
         given_nidcopy = provider.nid_copy;
