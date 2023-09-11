@@ -71,28 +71,17 @@
         }).then(async (response: Response): Promise<void> =>
         {
             let responseObject = await response.json();
-            let tempSearchResults: SearchResult[] = new Array<SearchResult>(responseObject.length);
+            searchResults = new Array<SearchResult>(responseObject.length);
 
-            for(let i: number = 0; i < tempSearchResults.length; ++i)
+            for(let i: number = 0; i < searchResults.length; ++i)
             {
-                tempSearchResults[i] =
+                searchResults[i] =
                 {
                     id: responseObject[i].s_serviceid,
                     title: responseObject[i].s_title,
                     description: responseObject[i].s_description,
                     price: responseObject[i].s_basecost
                 };
-            }
-
-            tempSearchResults = SorterImplementation.ApplySort(tempSearchResults, sortType);
-            searchResults = [];
-
-            for(let i: number = 0; i < tempSearchResults.length; ++i)
-            {
-                if(minPrice <= tempSearchResults[i].price && tempSearchResults[i].price <= maxPrice)
-                {
-                    searchResults.push(tempSearchResults[i]);
-                }
             }
 
             searchResultsReady = true;

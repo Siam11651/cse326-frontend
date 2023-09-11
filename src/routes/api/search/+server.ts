@@ -38,11 +38,12 @@ export async function POST({
       };
       console.log(error);
     } else {
+
+      console.log("s/r/a/s/search.svelte:45 ", result);
       ret_text = result;
     }
   }
 
-  //console.log(result);
 
   return new Response(JSON.stringify(ret_text), {
     headers: {
