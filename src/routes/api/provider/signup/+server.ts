@@ -87,9 +87,12 @@ export async function POST({
           extension = (await fileTypeFromBuffer(pfpBuffer))?.ext;
 
           writeFile(
-            `/static/pfp/provider/${ret_provider.id}.${extension}`,
+            `static/pfp/provider/${ret_provider.id}.${extension}`,
             pfpBuffer,
-            (err): void => {}
+            (err): void =>
+            {
+              console.log(err);
+            }
           );
 
           let given_pid = ret_provider.id;
