@@ -113,7 +113,7 @@
                     <div class="all-tenders-list list-group" in:fade={{duration: 200}}>
                         {#each allTenders as tender}
                             <!-- svelte-ignore a11y-invalid-attribute -->
-                            <a role="button" class="list-group-item list-group-item-action" href="#">
+                            <a role="button" class="list-group-item list-group-item-action" href="/tender/{tender.id}">
                                 <div class="m-1">
                                     <h5>
                                         {tender.title}
