@@ -29,8 +29,8 @@
 <style lang="scss">
     .service-info
     {
-        padding-left: 15%;
-        padding-right: 15%;
+        padding-left: 20%;
+        padding-right: 20%;
     }
 
     .service-info-text
