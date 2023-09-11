@@ -17,10 +17,10 @@
         <label for="nid-number-input">NID Number</label>
     </div>
 
-    <div class="mb-3">
+    <!-- <div class="mb-3">
         <label for="nid-selector" class="form-label">NID</label>
         <input type="file" class="form-control {nidInvalid ? "is-invalid" : ""}" id="nid-selector" bind:files={nidValues}>
-    </div>
+    </div> -->
 
     <span class="p-2"></span>
 </div>

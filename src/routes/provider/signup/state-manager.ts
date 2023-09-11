@@ -217,13 +217,13 @@ export class StateManager
 
     private static async SetNid(nid: File | null): Promise<boolean>
     {
-        if(nid == null)
-        {
-            return false;
-        }
+        // if(nid == null)
+        // {
+        //     return false;
+        // }
 
-        let arrayBuffer: ArrayBuffer = await nid.arrayBuffer();
-        StateManager.nid = new Uint8Array(arrayBuffer);
+        // let arrayBuffer: ArrayBuffer = await nid.arrayBuffer();
+        // StateManager.nid = new Uint8Array(arrayBuffer);
 
         return true;
     }
@@ -261,7 +261,7 @@ export class StateManager
 
     public static async SignUp(): Promise<void>
     {
-        let requestBodyObject =
+        let requestBody =
         {
             name: StateManager.username,
             email: StateManager.email,
@@ -274,8 +274,6 @@ export class StateManager
             region: StateManager.region
         };
 
-        let requestBodyString = JSON.stringify(requestBodyObject);
-
         fetch("/api/provider/signup", 
         {
             method: "POST",
@@ -283,7 +281,7 @@ export class StateManager
             {
                 "Content-Type": "application/json"
             },
-            body: requestBodyString
+            body: JSON.stringify(requestBody)
         }).then(async (response: Response): Promise<void> =>
         {
             let responseObject = await response.json();
