@@ -3,11 +3,11 @@
     import type { Provider } from "../../../routes/service/[service_id]/provider";
 
     export let placeholder: boolean = false;
-    export let serviceId: number;
     export let provider: Provider;
 </script>
 
-<a class="list-group-item list-group-item-action" href="/provider/{provider.id}/{serviceId}">
+<!-- svelte-ignore a11y-invalid-attribute -->
+<a class="list-group-item list-group-item-action" href="#">
     {#if placeholder}
         <h5 class="mb-3 placeholder-glow">
             <span class="placeholder col-2"></span>

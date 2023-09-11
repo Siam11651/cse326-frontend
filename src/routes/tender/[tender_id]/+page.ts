@@ -1,9 +1,9 @@
 export const ssr = false;
 
-export let _serviceId: number;
+export let _tenderId: number;
 
 /** @type {import('./$types').PageLoad} */
 export function load({ params }): void
 {
-    _serviceId = parseInt(params.service_id);
+    _tenderId = parseInt(params.tender_id);
 }

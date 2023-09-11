@@ -8,10 +8,6 @@ export async function POST({
   let ret_text;
 
   let requestBody = await request.json();
-  
-  let serviceid= requestBody.serviceid;
-
-
   let given_tenderid = requestBody.tender_id;
 
   let { data:result, error } = await supabase

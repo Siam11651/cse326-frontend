@@ -72,6 +72,7 @@
                 {
                     id: responseObject[i]._tenderid,
                     title: responseObject[i]._title,
+                    service: responseObject[i]._servicetitle,
                     description: responseObject[i]._description,
                     created: responseObject[i]._created_at,
                     ends: responseObject[i]._ends_at

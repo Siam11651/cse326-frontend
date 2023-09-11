@@ -8,30 +8,26 @@ export async function POST({
   let ret_text;
 
   let requestBody = await request.json();
-  
-  
-
-
   let given_tenderid = requestBody.tender_id;
-  let { data: result,error} = await supabase
+  let { data: result, error } = await supabase
     .from("bids")
     .select()
-    .eq("tendereid", given_tenderid);
-    
-    if(error)
+    .eq("tenderid", given_tenderid);
+
+  if (error) {
+    console.log(error);
+
+    ret_text =
     {
-        ret_text = 
-        {
-            errorcode:-1,
-        };
-    }
-    else
-    {
-        ret_text = result;
-    }
-    
-    
-  
+      errorcode: -1,
+    };
+  }
+  else {
+    ret_text = result;
+  }
+
+
+
 
   return new Response(JSON.stringify(ret_text), {
     headers: {

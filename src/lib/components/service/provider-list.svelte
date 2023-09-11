@@ -261,13 +261,13 @@
     {#if providerListReady}
         <div class="list-group list-group pt-3" in:fade={{duration: 200}}>
             {#each providersList as provider}
-                <ProviderComponent serviceId={serviceId} provider={provider} />
+                <ProviderComponent provider={provider} />
             {/each}
         </div>
     {:else}
         <div class="list-group list-group pt-3">
             {#each [...Array(5).keys()] as i}
-                <ProviderComponent placeholder={true} serviceId={-1} provider={new Provider()} />
+                <ProviderComponent placeholder={true} provider={new Provider()} />
             {/each}
         </div>
     {/if}
