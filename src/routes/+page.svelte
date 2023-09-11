@@ -44,7 +44,7 @@
         chapaIndex = (++chapaIndex) % 3;
         chapa = chapas[chapaIndex];
         chapaKey = {};
-    }, 5000);
+    }, 3000);
 
     onMount((): void =>
     {

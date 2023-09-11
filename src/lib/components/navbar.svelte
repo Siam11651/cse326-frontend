@@ -86,7 +86,7 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li>
-                                <h5 class="dropdown-item">
+                                <h5 class="mx-3">
                                     {username}
                                 </h5>
                             </li>

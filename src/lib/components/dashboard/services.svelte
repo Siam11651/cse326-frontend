@@ -165,7 +165,7 @@
                             <div class="list-group-item">
                                 <div class="d-flex align-items-center">
                                     <div class="flex-grow-1 m-1">
-                                        <a href="/" class="link-primary link-offset-1 link-underline-opacity-0">
+                                        <a href="/service/{service.id}" class="link-primary link-offset-1 link-underline-opacity-0">
                                             <h5>
                                                 {service.title}
                                             </h5>

@@ -32,5 +32,5 @@
 <label for="new-discount-input" class="form-label">New Discount</label>
 <div class="input-group">
     <input type="number" id="new-discount-input" class="form-control" placeholder="Discount Value" bind:value={discountValue}>
-    <button class="btn btn-secondary" type="button" on:click={SetDiscount}>Confirm</button>
+    <button class="btn btn-secondary" data-bs-dismiss="modal" type="button" on:click={SetDiscount}>Confirm</button>
 </div>
