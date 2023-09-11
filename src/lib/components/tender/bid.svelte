@@ -50,7 +50,7 @@
                 {bid.bidTitle}
             </h5>
             <h6 class="text-body-secondary">
-                Tender: {bid.bidTitle}
+                Tender: {bid.tenderTitleTitle}
             </h6>
             <p class="tender-details text-body-secondary mb-1">
                 {bid.description}
