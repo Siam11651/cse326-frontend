@@ -4,6 +4,7 @@
     import Overview from "$lib/components/dashboard/consumer/overview.svelte";
     import { onMount } from "svelte";
     import { PersonalInfo } from "./personal-info";
+    import Tenders from "$lib/components/dashboard/consumer/tenders.svelte";
 
     let menuButtons: HTMLButtonElement[] = new Array<HTMLButtonElement>(5);
     let menuSelection: number = 0;
@@ -69,12 +70,20 @@
         menuSelection = 2;
     }
 
-    function OnReviewsClick(): void
+    function OnTendersClick(): void
     {
         ResetSelection();
 
         menuButtons[3].classList.add("active");
         menuSelection = 3;
+    }
+
+    function OnReviewsClick(): void
+    {
+        ResetSelection();
+
+        menuButtons[4].classList.add("active");
+        menuSelection = 4;
     }
 </script>
 
@@ -113,13 +122,16 @@
                         <button type="button" class="menu-button list-group-item list-group-item-action fs-5 active" bind:this={menuButtons[0]} on:click={OnOverviewMenuClick}>Overview</button>
                         <button type="button" class="menu-button list-group-item list-group-item-action fs-5" bind:this={menuButtons[1]} on:click={OnServicesMenuClick}>Orders</button>
                         <button type="button" class="menu-button list-group-item list-group-item-action fs-5" bind:this={menuButtons[2]} on:click={OnHistoryClick}>History</button>
-                        <button type="button" class="menu-button list-group-item list-group-item-action fs-5" bind:this={menuButtons[3]} on:click={OnReviewsClick}>Reviews</button>
+                        <button type="button" class="menu-button list-group-item list-group-item-action fs-5" bind:this={menuButtons[3]} on:click={OnTendersClick}>Tenders</button>
+                        <button type="button" class="menu-button list-group-item list-group-item-action fs-5" bind:this={menuButtons[4]} on:click={OnReviewsClick}>Reviews</button>
                     </div>
                 </div>
             </div>
             <div class="menu-details d-flex flex-column align-items-stretch p-5">
                 {#if menuSelection == 0}
                     <Overview placeholder={!personalInfoSet} personalInfo={personalInfo} />
+                {:else if menuSelection === 3}
+                    <Tenders />
                 {/if}
             </div>
         </div>

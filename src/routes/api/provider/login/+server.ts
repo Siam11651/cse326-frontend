@@ -65,7 +65,7 @@ export async function POST({
   });
 
   if (token) {
-    let cookie: string = "pjwt=" + token + "; HttpOnly; Expires="; // pjwt mane provider er
+    let cookie: string = "pjwt=" + token + "; HttpOnly; Path=/; Expires="; // pjwt mane provider er
     let date: Date = new Date();
 
     date.setDate(date.getDate() + 7);

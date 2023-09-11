@@ -6,8 +6,9 @@
     import { onMount } from "svelte";
     import { PersonalInfo } from "./personal-info";
     import { goto } from "$app/navigation";
+    import Tenders from "$lib/components/dashboard/provider/tenders.svelte";
 
-    let menuButtons: HTMLButtonElement[] = new Array<HTMLButtonElement>(5);
+    let menuButtons: HTMLButtonElement[] = new Array<HTMLButtonElement>(6);
     let menuSelection: number = 0;
     let username: string = "";
     let usernameSet: boolean = false;
@@ -105,12 +106,20 @@
         menuSelection = 3;
     }
 
-    function OnReviewsClick(): void
+    function OnTenderClick(): void
     {
         ResetSelection();
 
         menuButtons[4].classList.add("active");
         menuSelection = 4;
+    }
+
+    function OnReviewsClick(): void
+    {
+        ResetSelection();
+
+        menuButtons[5].classList.add("active");
+        menuSelection = 5;
     }
 </script>
 
@@ -139,7 +148,8 @@
                             <button type="button" class="menu-button list-group-item list-group-item-action fs-5" bind:this={menuButtons[1]} on:click={OnServicesMenuClick}>Services</button>
                             <button type="button" class="menu-button list-group-item list-group-item-action fs-5" bind:this={menuButtons[2]} on:click={OnTasksMenuClick}>Tasks</button>
                             <button type="button" class="menu-button list-group-item list-group-item-action fs-5" bind:this={menuButtons[3]} on:click={OnHistoryClick}>History</button>
-                            <button type="button" class="menu-button list-group-item list-group-item-action fs-5" bind:this={menuButtons[4]} on:click={OnReviewsClick}>Reviews</button>
+                            <button type="button" class="menu-button list-group-item list-group-item-action fs-5" bind:this={menuButtons[4]} on:click={OnTenderClick}>Tenders</button>
+                            <button type="button" class="menu-button list-group-item list-group-item-action fs-5" bind:this={menuButtons[5]} on:click={OnReviewsClick}>Reviews</button>
                         </div>
                     </div>
                 </div>
@@ -148,6 +158,8 @@
                         <Overview placeholder={!personalInfoSet} personalInfo={personalInfo} />
                     {:else if menuSelection === 1}
                         <Services />
+                    {:else if menuSelection === 4}
+                        <Tenders />
                     {/if}
                 </div>
             </div>

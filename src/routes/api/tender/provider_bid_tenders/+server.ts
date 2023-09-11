@@ -10,14 +10,16 @@ export async function POST({
   let token: string | undefined = cookies.get("pjwt");
 
   if (token) {
-     // any defeats point of type setting, temporary for now
+    // any defeats point of type setting, temporary for now
     let decodedToken: any = jwt.verify(token, import.meta.env.VITE_JWT_KEY);
     let given_pid = decodedToken.id;
 
     let { data: result, error } = await supabase.rpc("get_providers_all_tender_details", {
-        given_pid,
+      given_pid,
     });
     if (error) {
+      console.log(error);
+
       ret_text = {
         errorcode: -1,
       };
