@@ -25,6 +25,7 @@ export async function POST({
       };
     } else {
       ret_text = result;
+      console.log(result);
     }
   } else {
     ret_text = {

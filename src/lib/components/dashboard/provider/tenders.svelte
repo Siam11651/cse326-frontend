@@ -29,6 +29,7 @@
         }).then(async (response: Response): Promise<void> =>
         {
             let responseObject = await response.json();
+            console.log(responseObject);
 
             bids = new Array<Bid>(responseObject.length);
 
@@ -46,7 +47,7 @@
                     cost: responseObject[i]._estimated_cost
                 }
             }
-
+            console.log(bids);
             bidsReady = true;
         });
     }
@@ -205,7 +206,7 @@
                                         {bid.bidTitle}
                                     </h5>
                                     <h6 class="text-body-secondary">
-                                        Tender: {bid.bidTitle}
+                                        Tender: {bid.tenderTitle}
                                     </h6>
                                     <p class="tender-details text-body-secondary mb-1">
                                         {bid.description}
