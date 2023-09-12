@@ -159,6 +159,18 @@
 
         FetchProviderList(sortMethod, sortAsc);
     }
+
+    function ResetFilter()
+    {
+        filter.minPrice = 0;
+        filter.maxPrice = Infinity;
+        filter.minDiscount = 0;
+        filter.maxDiscount = 100;
+        filter.minRate = 0;
+        filter.maxRate = 5;
+
+        FetchProviderList(sortMethod, sortAsc);
+    }
 </script>
 
 <div class="m-5" in:fade={{duration: 200}}>
@@ -255,6 +267,7 @@
             </div>
             <div class="d-flex flex-row-reverse">
                 <button type="button" class="btn btn-primary" on:click={ApplyFilter} disabled={fetchingProviderList}>Apply</button>
+                <button type="button" class="btn btn-secondary me-2" on:click={ResetFilter} disabled={fetchingProviderList}>Reset</button>
             </div>
         </div>
     </div>
