@@ -9,6 +9,7 @@ export async function POST({
   let { data: result, error } = await supabase.rpc("get_all_tenders");
 
   if (error) {
+    console.log(error);
     ret_text = {
       errorcode: -1,
     };
