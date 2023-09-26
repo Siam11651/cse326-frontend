@@ -137,6 +137,10 @@
     <img src={green} alt="">
 </div> -->
 
+<div class="home-background-container">
+    <img class="home-background" src="/home-background.webp" alt="">
+</div>
+
 <div class="home-root">
     <div class="intro-container">
         {#key chapaKey}
@@ -200,6 +204,24 @@
         left: 0;
         right: 0;
         overflow-y: auto;
+    }
+
+    .home-background-container
+    {
+        position: absolute;
+        top: 6vh;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+
+    .home-background
+    {
+        min-height: 100%;
+        min-width: 100%;
+        max-height: 100%;
+        max-width: 100%;
+        object-fit: fill;
     }
 
     .intro-container
